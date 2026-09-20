@@ -1,0 +1,24 @@
+# Node.js
+node_modules/
+npm-debug.log*
+
+# Okoljske spremenljivke
+.env
+.env.*
+
+!.env.example
+
+# Log datoteke
+logs/
+*.log
+
+# Urejevalniki
+.vscode/
+.idea/
+
+# Operacijski sistem
+.DS_Store
+Thumbs.db
+
+# Varnostne kopije baze
+backup/*.sql
