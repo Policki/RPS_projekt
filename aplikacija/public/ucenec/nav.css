@@ -35,7 +35,8 @@
      text-decoration: none;
  }
 
- .sidebar .icon:hover {
+ .sidebar .icon:hover,
+ .sidebar .icon.active {
      background: #c96f4a;
      color: #f3efeff6;
  }

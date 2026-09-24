@@ -9,7 +9,9 @@
     <link rel="stylesheet" href="nav.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Alegreya:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <style></style>
 </head>
@@ -19,14 +21,14 @@
     <div class="all-content">
 
         <nav class="sidebar" aria-label="Glavna navigacija">
-            <div class="icon" title="Nadzorna plošča">
-                <a href="ucenec-dasboard.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                    <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                    <rect x="3" y="14" width="7" height="7" rx="1.5" />
-                    <rect x="14" y="14" width="7" height="7" rx="1.5" />
-                </svg>
+            <div class="icon active" title="Nadzorna plošča">
+                <a href="ucenec-dasboard.html" aria-current="page">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                        <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                        <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                        <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                    </svg>
                 </a>
             </div>
             <div class="icon" title="Predmeti">
@@ -79,54 +81,36 @@
                 </a>
             </div>
         </nav>
-        <div class="main-container">
+        <main class="main-container">
             <div class="header">
-                <h2>Dobro jutro, Enej</h2>
+                <h2 class="header-title">Dobro jutro, </h2>
+                <h2 class="header-name"> Enej!</h2>
             </div>
-            <div class="crta"></div>
-            <div class="main-content">
-                <div class="upper-content">
-                    <div class="left_content">
-                        <h2>Današnji pregled</h2>
-                        <div class="bars">
-                            <div class="bar1">
-                                <p>Tole je bar 1</p>
-                            </div>
-                            <div>
-                                <p>Tole je bar 2</p>
-                            </div>
-                            <div>
-                                <p>Tole je bar 3</p>
-                            </div>
-                        </div>
+            <p class="header-text">Danes imaš 2 nalogi za oddajo in za predelati 3 nove snovi.</p>
+            <hr>
+            <div class="dnevni-pregled">
+                <h2 class="dnevni-pregled-naslov">Današnji pregled</h2>
+                <div class="oddaja">
+                    <div class="check-box-image">
+                      <img src="slike/chechkbox.png" alt="Check Box">
                     </div>
-                    <div class="right_content">
-                        <div class="opomnik">
-                            Tole je opomnik
-                        </div>
-                        <div class="obveznosti">
-                            Tukaj se nahajajo obveznisti
-                        </div>
-                    </div>
+                    <p>Rok za oddajo 2 nalog</p>
                 </div>
-
-                <div class="lower-content">
-
+                <div class="nova-gradiva">
+                    <div class="folder-image">
+                       <img src="slike/folder.png" alt="Folder">
+                    </div>
+                    <p>V pogled so podana 3 nova gradiva</p>
+                </div>
+                <div class="prihajajoci-roki">
+                    <div class="clock-image">
+                        <img src="slike/clock.png" alt="Clock">
+                    </div>
+                    <p>Imaš 1 prihajajoči rok za oddajo</p>
                 </div>
             </div>
-
-        </div>
-
-
+        </main>
     </div>
-
-
-
-
-
-
-
-
 </body>
 
 </html>

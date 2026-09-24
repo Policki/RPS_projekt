@@ -1,77 +1,161 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Alegreya', serif;
+}
 
-        * {
-            margin: 0;
-            box-sizing: border-box;
-            font-family: 'Alegreya', serif;
-        }
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+    background-color: #f7f3ec;
+}
 
-        html, body {
-            height: 100%;
-            width: 100%;
-            background-color: #f7f3ec;
-        }
+.all-content {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
 
-        body {
-            min-height: 100vh;
-        }
+.main-container {
+    flex: 1;
+    min-width: 0;
+    margin: 30px;
+}
 
-       
+.header {
+    padding-bottom: 2px;
+    display: flex;
+    margin-bottom: 5px;
+}
 
-        .all-content {
-            height: 100%;
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-        }
+.header-title {
+    font-size: 50px;
+    font-weight: 500;
+}
 
-        .main-container {
-            width: 100%;
-            min-height: 100vh;
-            margin: 30px;
-        }
-        .crta{
-            border: 1px solid black;
-        }
-        .main-content{
-         display:flex;
-         width:100%;
-         min-height: 90.5%;
-        }
-        .upper-content{
-            display:flex;
-            width:100%;
-            height:100%;
-            padding:80px;
-        }
-        .left_content{
-         display:flex;
-         position: relative;
-         height:100%;
-         width:100%;
-         padding:40px;
-         right:80px;
-        }
-        .bars{
-            display:flex;
-            height:30%;
-            width:100%;
-            padding:40px;
-        }
-        .bar1{
-            display:flex;
-            width:100%;
-            margin:10px;
-        }
-        .bar2{
-            display:flex;
-            width:100%;
-            margin:10px;
-        }
-        .bar3{
-            display:flex;
-            width:100%;
-            margin:10px;
-        }
-        .right_content{
-            margin:30px;
-        }
+.header-name {
+    font-size: 50px;
+    font-weight: 700;
+    color: #c96f4a;
+    padding-left: 10px;
+}
+
+.header-text {
+
+    font-size: 20px;
+    font-weight: 400;
+    color: #B3ADA5;
+    padding-top: 5px;
+}
+
+.dnevni-pregled {
+    width: 583px;
+    height: 321px;
+    background-color: white;
+    border-radius: 29px;
+    margin-top: 15px;
+    align-items: center;
+}
+
+.dnevni-pregled-naslov {
+    font-family: 'Albert Sans', sans-serif;
+    font-size: 23px;
+    padding-left: 43px;
+    padding-top: 20px;
+}
+
+.oddaja {
+    background-color: #F5E8E1;
+    height: 55px;
+    width: 500px;
+    margin-top: 20px;
+    margin-left: 40px;
+    border-radius: 19px;
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
+}
+
+.nova-gradiva {
+    background-color: #E8EDE0;
+    height: 55px;
+    width: 500px;
+    margin-top: 35px;
+    margin-left: 40px;
+    border-radius: 19px;
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
+}
+
+.prihajajoci-roki {
+    background-color: #F5EDD8;
+    height: 55px;
+    width: 500px;
+    margin-top: 35px;
+    margin-left: 40px;
+    border-radius: 19px;
+    display: flex;
+    align-items: center;
+    padding-left: 5px;
+}
+.check-box-image {
+  background-color: #FBE3D5;
+  height: 45px;
+  width: 45px;
+  border-radius: 15px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+.folder-image {
+  background-color: #ECF5DC;
+  height: 45px;
+  width: 45px;
+  border-radius: 15px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+.clock-image {
+ height: 45px;
+ width: 45px;
+ background-color: #F7EFD5;
+ border-radius: 15px;
+ padding: 5px;
+ display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+.oddaja > p,
+.nova-gradiva > p,
+.prihajajoci-roki > p {
+  flex: 1;
+  min-width: 0;
+  margin-left: 14px;
+  padding-right: 14px;
+  font-family: 'Albert Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1.25;
+}
+.check-box-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.folder-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.clock-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
