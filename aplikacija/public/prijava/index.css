@@ -1,4 +1,4 @@
-body{
+html,body{
     margin: 0;
     width: 100%;
     height: 100%;
@@ -15,15 +15,20 @@ a:hover{
    align-items: center;
    display: flex;
    flex-direction: column;
-   position: absolute;
-   top: 180px;
-   right: 182px;
+   position: fixed;
+   top: 50%;
+   right: 8%; 
+   transform: translateY(-50%);
+   width: min(386px, 40vw); 
+   max-width: 90vw;
+   z-index: 1;
 }
 .h2{
     color:#000000;
-    font-size: 64px;
+    font-size: clamp(32px, 5vw, 64px);
     font-family: 'Alegreya', serif;
     margin-bottom: 0px;
+    text-align: center;
 }
 .login-label{
     color:#232821;
@@ -46,24 +51,59 @@ a:hover{
     border-radius: 29px;
     align-items: center;
     margin-top: 10px;
-    margin-left: 130px;
     height: 50px;
     width: 130px;
+    align-self: center;
 }
-.zelen-box{
-    position:absolute;
-    right: 430px;
-    height: 130%;
-    width: 130%;
-    transform: rotate(-55deg);
+.bg-shape {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-color: #232821;
+    clip-path: polygon(0 0, 68% 0, 22% 100%, 0 100%);
+    z-index: 0;
+}
+.icon-grid {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(24px, 5vw, 70px);
+    position: absolute;
+    top: 5%;
+    left: 4%;
+    width: min(64vw, 760px);
+}
+.icon-set {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(18px, 3vw, 48px) clamp(18px, 3vw, 48px);
+}
+.icon {
+    display: block;
+    height: clamp(54px, 8vw, 95px);
+    justify-self: center;
+    width: auto;
+}
+.icon-kapa {
+    transform: translate(-10%, 4%);
+}
+.icon-knjiga {
+    transform: translate(8%, -8%);
+}
+.icon-strela {
+    transform: translate(18%, 10%);
+}
+.icon-epruveta {
+    transform: translate(28%, 2%);
 }
 .login-input{
-    width:386px;
+    width: 100%;
     height: 50px;
     font-family: 'Alegreya', serif;
-    font-size: 23px;
+    font-size: clamp(16px, 2vw, 23px);
     padding-left: 20px;
+    box-sizing: border-box;
 }
 .pozabljeno{
     color:#C96F4A;
@@ -83,4 +123,5 @@ a:hover{
     background-color: #D9D9D9;
     border: none;
 }
+
 
