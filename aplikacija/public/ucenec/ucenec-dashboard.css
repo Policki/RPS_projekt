@@ -11,6 +11,10 @@
             background-color: #f7f3ec;
         }
 
+        body {
+            min-height: 100vh;
+        }
+
        
 
         .all-content {
@@ -20,13 +24,9 @@
             flex-direction: row;
         }
 
-        div {
-            border: 1px solid red;
-        }
-
         .main-container {
             width: 100%;
-            height: 90,5%;
+            min-height: 100vh;
             margin: 30px;
         }
         .crta{
@@ -35,7 +35,7 @@
         .main-content{
          display:flex;
          width:100%;
-         height:90,5%;
+         min-height: 90.5%;
         }
         .upper-content{
             display:flex;

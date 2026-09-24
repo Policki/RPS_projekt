@@ -1,0 +1,16 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    min-height: 100%;
+    margin: 0;
+    background: #f7f3ec;
+    font-family: 'Alegreya', serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+}
