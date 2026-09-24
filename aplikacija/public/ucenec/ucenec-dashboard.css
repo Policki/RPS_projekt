@@ -11,43 +11,7 @@
             background-color: #f7f3ec;
         }
 
-        .sidebar {
-            width: 70px;
-            height: 100%;
-            background-color: #232821;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 30px 0;
-            gap: 12px;
-            flex-shrink: 0;
-        }
-
-        .sidebar .icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #b3b0b0;
-            cursor: pointer;
-            transition: background .15s ease, color .15s ease;
-        }
-
-        .sidebar .icon:hover {
-            background: #c96f4a;
-            color: #f3efeff6;
-        }
-
-        .sidebar svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .sidebar .spacer {
-            flex: 1;
-        }
+       
 
         .all-content {
             height: 100%;
