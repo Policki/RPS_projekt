@@ -1,32 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+    <title>Prijava</title>
 </head>
 
 <body>
-    <div class="bg-shape" aria-hidden="true">
-        <div class="icon-grid">
-            <div class="icon-set"><img class="icon icon-kapa" src="Ikone/Vector_kapa.svg" alt=""><img class="icon icon-knjiga" src="Ikone/Vector_knjiga.svg" alt=""><img class="icon icon-strela" src="Ikone/Vector_strela.svg" alt=""></div>
-            <div class="icon-set"><img class="icon icon-kapa" src="Ikone/Vector_kapa.svg" alt=""><img class="icon icon-knjiga" src="Ikone/Vector_knjiga.svg" alt=""><img class="icon icon-strela" src="Ikone/Vector_strela.svg" alt=""></div>
-            <div class="icon-set"><img class="icon icon-kapa" src="Ikone/Vector_kapa.svg" alt=""><img class="icon icon-knjiga" src="Ikone/Vector_knjiga.svg" alt=""><img class="icon icon-strela" src="Ikone/Vector_strela.svg" alt=""></div>
-            <div class="icon-set"><img class="icon icon-kapa" src="Ikone/Vector_kapa.svg" alt=""><img class="icon icon-knjiga" src="Ikone/Vector_knjiga.svg" alt=""><img class="icon icon-strela" src="Ikone/Vector_strela.svg" alt=""></div>
-            <div class="icon-set"><img class="icon icon-kapa" src="Ikone/Vector_kapa.svg" alt=""><img class="icon icon-knjiga" src="Ikone/Vector_knjiga.svg" alt=""><img class="icon icon-strela" src="Ikone/Vector_strela.svg" alt=""></div>
-            <div class="icon-set"><img class="icon icon-kapa" src="Ikone/Vector_kapa.svg" alt=""><img class="icon icon-knjiga" src="Ikone/Vector_knjiga.svg" alt=""><img class="icon icon-strela" src="Ikone/Vector_strela.svg" alt=""></div>
-            <div class="icon-set"><img class="icon icon-kapa" src="Ikone/Vector_kapa.svg" alt=""><img class="icon icon-knjiga" src="Ikone/Vector_knjiga.svg" alt=""><img class="icon icon-strela" src="Ikone/Vector_strela.svg" alt=""></div>
-            <div class="icon-set"><img class="icon icon-kapa" src="Ikone/Vector_kapa.svg" alt=""><img class="icon icon-knjiga" src="Ikone/Vector_knjiga.svg" alt=""><img class="icon icon-strela" src="Ikone/Vector_strela.svg" alt=""></div>
-        </div>
-    </div>
+    <div class="background-shape"></div>
+
     <div class="login-container">
         <h2 class="h2">Dobrodošli</h2>
         <p class="login-p">Prijavite se v svoj račun</p>
+
         <form action="/login" method="post">
             <label for="username" class="login-label">Uporabniško ime:</label> <br>
             <input type="text" id="username" class="login-input" name="username" required>
@@ -36,6 +27,7 @@
             <br>
             <button type="submit" class="submit">VPIS</button>
         </form>
+
         <p class="pozabljeno"><a href="/forgot-password">Pozabljeno geslo?</a></p>
     </div>
 </body>

@@ -1,50 +1,83 @@
-html,body{
+html, body {
     margin: 0;
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background-color: #F6F1EA;
 }
-a{
+
+a {
     text-decoration: none;
     color: #C96F4A;
 }
-a:hover{
+
+a:hover {
     text-decoration: underline;
 }
-.login-container {
-   align-items: center;
-   display: flex;
-   flex-direction: column;
-   position: fixed;
-   top: 50%;
-   right: 8%; 
-   transform: translateY(-50%);
-   width: min(386px, 40vw); 
-   max-width: 90vw;
-   z-index: 1;
+
+/* Temno ozadje z diagonalnim rezom pod natanko 45° */
+.background-shape {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    background-color: #232821;
+
+    /* zgornji x = spodnji x + 100vh, zato je rez vedno 45°.
+       16vw določa, kje se rez konča na dnu zaslona. */
+    clip-path: polygon(0 0, calc(16vw + 100vh) 0, 16vw 100vh, 0 100vh);
 }
-.h2{
-    color:#000000;
+
+/* Ena sama slika, zavrtena za 45° in dovolj velika, da pokrije cel okvir */
+.background-shape::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc((100vw + 100vh) * 0.72);
+    height: calc((100vw + 100vh) * 0.72);
+    transform: translate(-50%, -50%) rotate(45deg);
+    background: url("Ikone/Ikone.png") center / 700px auto repeat;
+}
+
+.login-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50%;
+    right: 8%;
+    transform: translateY(-50%);
+    width: min(386px, 40vw);
+    max-width: 90vw;
+    z-index: 1;
+}
+
+.h2 {
+    color: #000000;
     font-size: clamp(32px, 5vw, 64px);
     font-family: 'Alegreya', serif;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     text-align: center;
 }
-.login-label{
-    color:#232821;
+
+.login-label {
+    color: #232821;
     font-size: 16px;
     font-family: 'Alegreya', serif;
-    margin-left:20px
+    margin-left: 20px;
 }
-.login-p{
-    color:#C96F4A;
+
+.login-p {
+    color: #C96F4A;
     font-size: 24px;
     font-family: 'Alegreya', serif;
-    margin-top: 0px;
+    margin-top: 0;
 }
-.submit{
-    background-color:#C96F4A;
-    color:white;
+
+.submit {
+    background-color: #C96F4A;
+    color: white;
     font-size: 24px;
     font-family: 'Alegreya', serif;
     border: none;
@@ -54,50 +87,10 @@ a:hover{
     height: 50px;
     width: 130px;
     align-self: center;
+    cursor: pointer;
 }
-.bg-shape {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #232821;
-    clip-path: polygon(0 0, 68% 0, 22% 100%, 0 100%);
-    z-index: 0;
-}
-.icon-grid {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(24px, 5vw, 70px);
-    position: absolute;
-    top: 5%;
-    left: 4%;
-    width: min(64vw, 760px);
-}
-.icon-set {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(18px, 3vw, 48px) clamp(18px, 3vw, 48px);
-}
-.icon {
-    display: block;
-    height: clamp(54px, 8vw, 95px);
-    justify-self: center;
-    width: auto;
-}
-.icon-kapa {
-    transform: translate(-10%, 4%);
-}
-.icon-knjiga {
-    transform: translate(8%, -8%);
-}
-.icon-strela {
-    transform: translate(18%, 10%);
-}
-.icon-epruveta {
-    transform: translate(28%, 2%);
-}
-.login-input{
+
+.login-input {
     width: 100%;
     height: 50px;
     font-family: 'Alegreya', serif;
@@ -105,23 +98,19 @@ a:hover{
     padding-left: 20px;
     box-sizing: border-box;
 }
-.pozabljeno{
-    color:#C96F4A;
+
+.pozabljeno {
+    color: #C96F4A;
     font-size: 16px;
     font-family: 'Alegreya', serif;
     margin-top: 30px;
     margin-left: -10px;
     text-decoration: none;
 }
-#username{
+
+#username,
+#password {
     border-radius: 29px;
     background-color: #D9D9D9;
     border: none;
 }
-#password{
-    border-radius: 29px;
-    background-color: #D9D9D9;
-    border: none;
-}
-
-
