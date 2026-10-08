@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="ucenec-koledar.css">
     <link rel="stylesheet" href="nav.css">
+    <script src="koledar.js" defer></script>
     <title>Document</title>
 </head>
 
@@ -71,6 +72,33 @@
             </a>
         </div>
     </nav>
+    <div class="calendar">
+
+    <div class="calendar-top">
+        <div>
+            <span class="calendar-label">KOLEDAR</span>
+            <h2 id="month-year">Oktober 2026</h2>
+        </div>
+
+        <div class="calendar-navigation">
+            <button id="prev-month">←</button>
+            <button id="next-month">→</button>
+        </div>
+    </div>
+
+    <div class="weekdays">
+        <span>PO</span>
+        <span>TO</span>
+        <span>SR</span>
+        <span>ČE</span>
+        <span>PE</span>
+        <span>SO</span>
+        <span>NE</span>
+    </div>
+
+    <div id="calendar-days" class="calendar-days"></div>
+
+</div>
 </body>
 
 </html>
