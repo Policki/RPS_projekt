@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moj profil</title>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===== Osnova ===== */
+:root {
+    --bg: #f6f2eb;
+    --card: #fcfaf6;
+    --ink: #1b1b18;
+    --muted: #6e6a60;
+    --line: #ece6da;
+    --accent: #c96f4a;
+    --accent-dark: #b0502b;
+    --dark: #232821;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    display: flex;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Figtree, system-ui, sans-serif;
+}
+button, input, select { font-family: inherit; }
+
+/* ===== Stranska vrstica (tvoj CSS) ===== */
+.sidebar {
+    width: 70px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    background-color: #232821;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 0;
+    gap: 12px;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+.sidebar .icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b3b0b0;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+    text-decoration: none;
+}
+.sidebar .icon:hover { background: #c96f4a; color: #f3efeff6; }
+.sidebar .icon.active { background: #c96f4a; }
+.sidebar svg { width: 20px; height: 20px; }
+.sidebar .spacer { flex: 1; }
+.icon { display: flex; align-items: center; justify-content: center; text-decoration: none; color: inherit; }
+.icon, .icon:visited, .icon:hover, .icon:active { color: white; text-decoration: none; }
+.icon svg { stroke: white; }
+
+/* ===== Vsebina ===== */
+.content {
+    flex: 1;
+    min-width: 0;
+    padding: 48px clamp(20px, 4vw, 56px);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+.page-header { padding-bottom: 28px; border-bottom: 1px solid #d9d1c2; }
+.page-header h1 {
+    margin: 0;
+    font-family: Alegreya, Georgia, serif;
+    font-weight: 500;
+    font-size: 56px;
+    line-height: 1.05;
+}
+.page-header h1 span { color: var(--accent); font-weight: 700; }
+.page-header p {
+    margin: 10px 0 0;
+    font-family: Alegreya, Georgia, serif;
+    font-size: 19px;
+    color: var(--muted);
+}
+.layout { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 24px; }
+.btn {
+    min-height: 44px;
+    padding: 0 20px;
+    border-radius: 14px;
+    border: 1px solid #cfc6b4;
+    background: var(--card);
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn:hover { background: #f1ece1; }
+.btn-primary { background: var(--accent-dark); border-color: var(--accent-dark); color: #fff; }
+.btn-primary:hover { background: #9a4423; }
+.btn-danger { width: 100%; background: #f5e6df; border-color: #e3c3b3; color: #8a3f1f; }
+.btn-danger:hover { background: #efd8cc; }
+
+/* ===== Kartica profila ===== */
+.aside {
+    flex: 1 1 320px;
+    max-width: 400px;
+    background: var(--card);
+    border-radius: 28px;
+    overflow: hidden;
+}
+.aside .top-bar { height: 6px; background: var(--accent); }
+.aside .who {
+    padding: 32px 28px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 14px;
+}
+.big-avatar {
+    width: 112px;
+    height: 112px;
+    border-radius: 36px;
+    background: var(--accent-dark);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Alegreya, Georgia, serif;
+    font-size: 56px;
+    font-weight: 700;
+}
+.who .name { font-family: Alegreya, Georgia, serif; font-size: 36px; font-weight: 700; line-height: 1.1; }
+.who .mail { font-size: 15px; color: var(--muted); margin-top: 4px; word-break: break-all; }
+.pill {
+    padding: 4px 14px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    background: #f5e6df;
+    color: #8a3f1f;
+}
+.facts { border-top: 1px solid var(--line); padding: 20px 28px; display: flex; flex-direction: column; gap: 14px; }
+.fact { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+.fact .k { color: var(--muted); }
+.fact .v { font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.dot { width: 8px; height: 8px; border-radius: 4px; background: #6f8a3c; display: inline-block; }
+.aside .logout { border-top: 1px solid var(--line); padding: 20px 28px 28px; }
+
+/* ===== Kartice z nastavitvami ===== */
+.stack { flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+.card {
+    background: var(--card);
+    border-radius: 28px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+.card h2 { margin: 0; font-family: Alegreya, Georgia, serif; font-size: 28px; font-weight: 700; }
+.card .sub { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
+
+.fields { display: flex; flex-wrap: wrap; gap: 20px; }
+.field { flex: 1 1 240px; display: flex; flex-direction: column; gap: 8px; }
+.field label { font-size: 13px; font-weight: 700; color: var(--muted); }
+.field input, .field select {
+    width: 100%;
+    height: 48px;
+    border-radius: 14px;
+    border: 1px solid #d9d1c2;
+    background: var(--bg);
+    padding: 0 16px;
+    font-size: 15px;
+    color: var(--ink);
+}
+.field input:focus, .field select:focus { outline: 2px solid var(--accent-dark); outline-offset: 1px; }
+.form-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+}
+.save-status { margin-right: auto; font-size: 14px; font-weight: 600; color: #44561f; min-height: 20px; }
+
+.setting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+}
+.setting .t { font-size: 15px; font-weight: 600; }
+.setting .d { font-size: 14px; color: var(--muted); margin-top: 2px; }
+
+/* Stikalo */
+.switch {
+    flex: 0 0 56px;
+    width: 56px;
+    height: 44px;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.switch .track {
+    width: 52px;
+    height: 30px;
+    border-radius: 15px;
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: #cfc6b4;
+    transition: background .15s ease;
+}
+.switch .knob { width: 24px; height: 24px; border-radius: 12px; background: #fff; }
+.switch[aria-checked="true"] .track { background: var(--accent-dark); justify-content: flex-end; }
+.switch:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 15px; }
+
+@media (max-width: 640px) {
+    .page-header h1 { font-size: 40px; }
+    .sidebar { width: 56px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Stranska vrstica ===== -->
+<nav class="sidebar" aria-label="Glavni meni">
+    <a class="icon" href="index.html" aria-label="Nadzorna plošča" title="Nadzorna plošča">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    </a>
+    <a class="icon" href="uporabniki.html" aria-label="Uporabniki" title="Uporabniki">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2c2.6.3 4.5 2.2 4.5 5.3"/></svg>
+    </a>
+    <a class="icon" href="predmeti.html" aria-label="Predmeti" title="Predmeti">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/></svg>
+    </a>
+    <a class="icon" href="statistika.html" aria-label="Statistika" title="Statistika">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 20v-7"/><path d="M12 20V5"/><path d="M17 20v-10"/></svg>
+    </a>
+    <a class="icon" href="#" aria-label="Koledar" title="Koledar">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg>
+    </a>
+    <div class="spacer"></div>
+    <a class="icon" href="#" aria-label="Nastavitve" title="Nastavitve">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10"/><path d="M18 7h2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+    </a>
+    <a class="icon active" href="profil.html" aria-label="Moj profil" aria-current="page" title="Moj profil">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.2 18.2c1.2-2.2 3.2-3.2 5.8-3.2s4.6 1 5.8 3.2"/></svg>
+    </a>
+</nav>
+
+<!-- ===== Vsebina ===== -->
+<main class="content">
+
+    <header class="page-header">
+        <h1>Moj <span>profil.</span></h1>
+        <p>Uredi osebne podatke, varnost in obvestila.</p>
+    </header>
+
+    <div class="layout">
+
+        <!-- Kartica profila -->
+        <aside class="aside">
+            <div class="top-bar"></div>
+            <div class="who">
+                <div class="big-avatar" id="avatar">A</div>
+                <div>
+                    <div class="name" id="asideName">Admin</div>
+                    <div class="mail" id="asideMail">admin@sola.example</div>
+                </div>
+                <span class="pill">Skrbnik sistema</span>
+                <button class="btn" type="button" style="margin-top:6px">Zamenjaj sliko</button>
+            </div>
+            <div class="facts">
+                <div class="fact"><span class="k">Vloga</span><span class="v">Skrbnik sistema</span></div>
+                <div class="fact"><span class="k">Jezik</span><span class="v" id="asideLang">Slovenščina</span></div>
+                <div class="fact"><span class="k">Seja</span><span class="v"><span class="dot"></span>Prijavljen</span></div>
+            </div>
+            <div class="logout">
+                <!-- Odjava: tukaj poveži svojo odjavo, npr. window.location = '/odjava' -->
+                <button class="btn btn-danger" type="button" id="logout">Odjava</button>
+            </div>
+        </aside>
+
+        <div class="stack">
+
+            <!-- Osebni podatki -->
+            <section class="card" aria-labelledby="osebni">
+                <div>
+                    <h2 id="osebni">Osebni podatki</h2>
+                    <p class="sub">Ti podatki so vidni drugim skrbnikom.</p>
+                </div>
+                <form id="profileForm">
+                    <div class="fields">
+                        <div class="field">
+                            <label for="ime">Ime</label>
+                            <input id="ime" name="ime" type="text" value="Admin" autocomplete="given-name">
+                        </div>
+                        <div class="field">
+                            <label for="priimek">Priimek</label>
+                            <input id="priimek" name="priimek" type="text" placeholder="Priimek" autocomplete="family-name">
+                        </div>
+                        <div class="field">
+                            <label for="eposta">E-pošta</label>
+                            <input id="eposta" name="eposta" type="email" value="admin@sola.example" autocomplete="email">
+                        </div>
+                        <div class="field">
+                            <label for="telefon">Telefon</label>
+                            <input id="telefon" name="telefon" type="tel" placeholder="Telefonska številka" autocomplete="tel">
+                        </div>
+                        <div class="field">
+                            <label for="jezik">Jezik vmesnika</label>
+                            <select id="jezik" name="jezik">
+                                <option value="sl">Slovenščina</option>
+                                <option value="en">English</option>
+                            </select>
+                        </div>
+                        <div class="field" style="visibility:hidden" aria-hidden="true"></div>
+                    </div>
+                    <div class="form-actions" style="margin-top:22px">
+                        <span class="save-status" id="saveStatus" role="status"></span>
+                        <button class="btn" type="button" id="cancel">Prekliči</button>
+                        <button class="btn btn-primary" type="submit">Shrani spremembe</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Varnost -->
+            <section class="card" aria-labelledby="varnost">
+                <div>
+                    <h2 id="varnost">Varnost</h2>
+                    <p class="sub">Zaščiti dostop do skrbniškega računa.</p>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Geslo</div>
+                        <div class="d">Uporabi dolgo, edinstveno geslo.</div>
+                    </div>
+                    <button class="btn" type="button">Zamenjaj geslo</button>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Dvostopenjsko preverjanje</div>
+                        <div class="d">Dodatna zaščita ob vsaki prijavi.</div>
+                    </div>
+                    <button class="switch" type="button" role="switch" aria-checked="true" aria-label="Dvostopenjsko preverjanje" data-key="twofa">
+                        <span class="track"><span class="knob"></span></span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Obvestila -->
+            <section class="card" aria-labelledby="obvestila">
+                <div>
+                    <h2 id="obvestila">Obvestila</h2>
+                    <p class="sub">Izberi, o čem želiš prejemati obvestila.</p>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Novi vpisi</div>
+                        <div class="d">Obvestilo, ko nov dijak čaka na potrditev.</div>
+                    </div>
+                    <button class="switch" type="button" role="switch" aria-checked="true" aria-label="Novi vpisi" data-key="novi_vpisi">
+                        <span class="track"><span class="knob"></span></span>
+                    </button>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Sistemska obvestila</div>
+                        <div class="d">Opozorila o strežniku in varnostnih kopijah.</div>
+                    </div>
+                    <button class="switch" type="button" role="switch" aria-checked="true" aria-label="Sistemska obvestila" data-key="sistemska">
+                        <span class="track"><span class="knob"></span></span>
+                    </button>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Tedenski povzetek</div>
+                        <div class="d">Pregled uporabnikov in poročil enkrat na teden.</div>
+                    </div>
+                    <button class="switch" type="button" role="switch" aria-checked="false" aria-label="Tedenski povzetek" data-key="povzetek">
+                        <span class="track"><span class="knob"></span></span>
+                    </button>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+<script>
+/* ===== Pomožne funkcije ===== */
+const $ = (id) => document.getElementById(id);
+const form = $('profileForm');
+
+/* Začetne vrednosti (zamenjaj s podatki s strežnika,
+   npr.: const profile = await (await fetch('/api/profil')).json();) */
+const initial = {
+    ime: 'Admin',
+    priimek: '',
+    eposta: 'admin@sola.example',
+    telefon: '',
+    jezik: 'sl'
+};
+const switches = { twofa: true, novi_vpisi: true, sistemska: true, povzetek: false };
+
+/* Posodobi levo kartico glede na vnos v obrazcu */
+function syncAside() {
+    const ime = form.ime.value.trim();
+    const priimek = form.priimek.value.trim();
+    const full = [ime, priimek].filter(Boolean).join(' ') || 'Admin';
+    $('asideName').textContent = full;
+    $('asideMail').textContent = form.eposta.value.trim() || '—';
+    $('avatar').textContent = (full[0] || 'A').toUpperCase();
+    $('asideLang').textContent = form.jezik.options[form.jezik.selectedIndex].text;
+}
+form.addEventListener('input', syncAside);
+form.addEventListener('change', syncAside);
+
+/* Shrani */
+let statusTimer;
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    console.log('Shrani profil:', data, switches);
+    /* Tukaj pošlji na strežnik, npr.:
+       await fetch('/api/profil', {
+           method: 'PUT',
+           headers: { 'Content-Type': 'application/json' },
+           body: JSON.stringify({ ...data, nastavitve: switches })
+       });
+    */
+    Object.assign(initial, data);
+    $('saveStatus').textContent = 'Spremembe so shranjene.';
+    clearTimeout(statusTimer);
+    statusTimer = setTimeout(() => { $('saveStatus').textContent = ''; }, 3000);
+});
+
+/* Prekliči: povrni začetne vrednosti */
+$('cancel').addEventListener('click', () => {
+    Object.entries(initial).forEach(([k, v]) => { form[k].value = v; });
+    syncAside();
+});
+
+/* Stikala */
+document.querySelectorAll('.switch').forEach((btn) => {
+    btn.addEventListener('click', () => {
+        const key = btn.dataset.key;
+        switches[key] = !switches[key];
+        btn.setAttribute('aria-checked', String(switches[key]));
+    });
+});
+
+syncAside();
+</script>
+</body>
+</html>
