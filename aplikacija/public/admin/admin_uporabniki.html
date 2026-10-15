@@ -4,279 +4,36 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Uporabniki</title>
+<link rel="stylesheet" href="admin-uporabniki.css">
 <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root {
-    --bg: #f6f2eb;
-    --card: #fcfaf6;
-    --ink: #1b1b18;
-    --muted: #6e6a60;
-    --line: #ece6da;
-    --accent: #c96f4a;
-    --accent-dark: #b0502b;
-    --dark: #232821;
-}
-* { box-sizing: border-box; }
-body {
-    margin: 0;
-    display: flex;
-    min-height: 100vh;
-    background: var(--bg);
-    color: var(--ink);
-    font-family: Figtree, system-ui, sans-serif;
-}
-button { font-family: inherit; }
-
-/* ===== Stranska vrstica (tvoj CSS) ===== */
-.sidebar {
-    width: 70px;
-    height: 100vh;
-    position: sticky;
-    top: 0;
-    background-color: #232821;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px 0;
-    gap: 12px;
-    flex-shrink: 0;
-    text-decoration: none;
-}
-.sidebar .icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #b3b0b0;
-    cursor: pointer;
-    transition: background .15s ease, color .15s ease;
-    text-decoration: none;
-}
-.sidebar .icon:hover { background: #c96f4a; color: #f3efeff6; }
-.sidebar .icon.active { background: #c96f4a; }
-.sidebar svg { width: 20px; height: 20px; }
-.sidebar .spacer { flex: 1; }
-.icon { display: flex; align-items: center; justify-content: center; text-decoration: none; color: inherit; }
-.icon, .icon:visited, .icon:hover, .icon:active { color: white; text-decoration: none; }
-.icon svg { stroke: white; }
-
-/* ===== Vsebina ===== */
-.content {
-    flex: 1;
-    min-width: 0;
-    padding: 48px clamp(20px, 4vw, 56px);
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-}
-.page-header {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 24px;
-    padding-bottom: 28px;
-    border-bottom: 1px solid #d9d1c2;
-}
-.page-header h1 {
-    margin: 0;
-    font-family: Alegreya, Georgia, serif;
-    font-weight: 500;
-    font-size: 56px;
-    line-height: 1.05;
-}
-.page-header h1 span { color: var(--accent); font-weight: 700; }
-.page-header p {
-    margin: 10px 0 0;
-    font-family: Alegreya, Georgia, serif;
-    font-size: 19px;
-    color: var(--muted);
-}
-.actions { display: flex; flex-wrap: wrap; gap: 12px; }
-.btn {
-    min-height: 44px;
-    padding: 0 20px;
-    border-radius: 14px;
-    border: 1px solid #cfc6b4;
-    background: var(--card);
-    color: var(--ink);
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-.btn:hover { background: #f1ece1; }
-.btn-primary { background: var(--accent-dark); border-color: var(--accent-dark); color: #fff; }
-.btn-primary:hover { background: #9a4423; }
-.btn svg { width: 18px; height: 18px; }
-
-/* ===== Statistične kartice ===== */
-.stats { display: flex; flex-wrap: wrap; gap: 20px; }
-.stat { flex: 1 1 220px; background: var(--card); border-radius: 24px; overflow: hidden; }
-.stat .bar { height: 6px; }
-.stat .body { padding: 18px 22px 22px; }
-.stat .label { font-size: 14px; font-weight: 600; color: var(--muted); }
-.stat .num {
-    font-family: Alegreya, Georgia, serif;
-    font-size: 44px;
-    font-weight: 700;
-    line-height: 1.1;
-    margin-top: 6px;
-}
-.stat .hint { font-size: 14px; color: var(--muted); margin-top: 4px; }
-
-/* ===== Tabela ===== */
-.panel { background: var(--card); border-radius: 28px; overflow: hidden; }
-.toolbar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 24px;
-}
-.tabs { display: flex; flex-wrap: wrap; gap: 8px; }
-.tab {
-    min-height: 44px;
-    padding: 0 18px;
-    border-radius: 22px;
-    border: 1px solid #d9d1c2;
-    background: transparent;
-    color: #3b3a33;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-}
-.tab span { opacity: .75; font-weight: 500; }
-.tab.active { background: var(--dark); border-color: var(--dark); color: var(--card); }
-.search {
-    flex: 1 1 240px;
-    max-width: 360px;
-    height: 44px;
-    border-radius: 14px;
-    border: 1px solid #d9d1c2;
-    background: var(--bg);
-    padding: 0 16px;
-    font: inherit;
-    font-size: 15px;
-    color: var(--ink);
-}
-.table-wrap { overflow-x: auto; }
-.table { min-width: 820px; }
-.row {
-    display: grid;
-    grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1.3fr) minmax(0, 1.4fr) 44px;
-    gap: 16px;
-    align-items: center;
-    padding: 14px 24px;
-    border-top: 1px solid var(--line);
-}
-.row.head {
-    border-top: 0;
-    padding: 12px 24px;
-    background: #f1ece1;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    color: var(--muted);
-}
-.user { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.avatar {
-    flex: 0 0 40px;
-    width: 40px;
-    height: 40px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 700;
-}
-.user .name { font-size: 15px; font-weight: 600; }
-.user .email { font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; }
-.pill {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: 600;
-}
-.status { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; }
-.status i { width: 8px; height: 8px; border-radius: 4px; display: block; }
-.more {
-    width: 44px;
-    height: 44px;
-    border: 0;
-    border-radius: 14px;
-    background: transparent;
-    color: var(--muted);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.more:hover { background: #f1ece1; }
-.empty { padding: 40px 24px; text-align: center; color: var(--muted); border-top: 1px solid var(--line); }
-.footer {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 18px 24px;
-    border-top: 1px solid var(--line);
-    font-size: 14px;
-    color: var(--muted);
-}
-.pager { display: flex; gap: 8px; }
-.pager .btn { font-size: 14px; padding: 0 18px; }
-.pager .btn:disabled { color: #8a857a; border-color: #ddd5c6; background: transparent; cursor: default; }
-
-/* Vloge in statusi */
-.r-dijak   { background: #e4ebd6; color: #44561f; }
-.r-ucitelj { background: #f3e7c6; color: #6e5410; }
-.r-stars   { background: #e6e0ec; color: #4f4463; }
-.a-dijak   { background: #d4debf; color: #44561f; }
-.a-ucitelj { background: #ebddb0; color: #6e5410; }
-.a-stars   { background: #d9d1e2; color: #4f4463; }
-
-@media (max-width: 640px) {
-    .page-header h1 { font-size: 40px; }
-    .sidebar { width: 56px; }
-}
-</style>
 </head>
 <body>
 
-<!-- ===== Stranska vrstica ===== -->
 <nav class="sidebar" aria-label="Glavni meni">
-    <a class="icon" href="index.html" aria-label="Nadzorna plošča" title="Nadzorna plošča">
+    <a class="icon" href="admin_dashboard.html" aria-label="Nadzorna plošča" title="Nadzorna plošča">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
     </a>
-    <a class="icon active" href="uporabniki.html" aria-label="Uporabniki" aria-current="page" title="Uporabniki">
+    <a class="icon active" href="admin_uporabniki.html" aria-label="Uporabniki" aria-current="page" title="Uporabniki">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2c2.6.3 4.5 2.2 4.5 5.3"/></svg>
     </a>
-    <a class="icon" href="predmeti.html" aria-label="Predmeti" title="Predmeti">
+    <a class="icon" href="admin-predmeti.html" aria-label="Predmeti" title="Predmeti">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/></svg>
     </a>
-    <a class="icon" href="#" aria-label="Poročila" title="Poročila">
+    <a class="icon" href="admin_poročila.html" aria-label="Poročila" title="Poročila">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 20v-7"/><path d="M12 20V5"/><path d="M17 20v-10"/></svg>
     </a>
-    <a class="icon" href="#" aria-label="Koledar" title="Koledar">
+    <a class="icon" href="admin_koledar.html" aria-label="Koledar" title="Koledar">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg>
     </a>
     <div class="spacer"></div>
-    <a class="icon" href="#" aria-label="Nastavitve" title="Nastavitve">
+    <a class="icon" href="admin_obvestila.html" aria-label="Obvestila" title="Obvestila">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    </a>
+    <a class="icon" href="admin_nastavitve.html" aria-label="Nastavitve" title="Nastavitve">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10"/><path d="M18 7h2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
     </a>
 </nav>
 
-<!-- ===== Vsebina ===== -->
 <main class="content">
 
     <header class="page-header">
