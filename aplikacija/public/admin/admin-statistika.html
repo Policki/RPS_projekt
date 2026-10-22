@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Statistika</title>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #f6f2eb;
+    --card: #fcfaf6;
+    --ink: #1b1b18;
+    --muted: #6e6a60;
+    --line: #ece6da;
+    --accent: #c96f4a;
+    --accent-dark: #b0502b;
+    --dark: #232821;
+    --bar: #5e8a3a; 
+    --track: #ece6da;
+}
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    display: flex;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Figtree, system-ui, sans-serif;
+}
+button { font-family: inherit; }
+
+.sidebar {
+    width: 70px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    background-color: #232821;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 0;
+    gap: 12px;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+.sidebar .icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b3b0b0;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+    text-decoration: none;
+}
+.sidebar .icon:hover { background: #c96f4a; color: #f3efeff6; }
+.sidebar .icon.active { background: #c96f4a; }
+.sidebar svg { width: 20px; height: 20px; }
+.sidebar .spacer { flex: 1; }
+.icon { display: flex; align-items: center; justify-content: center; text-decoration: none; color: inherit; }
+.icon, .icon:visited, .icon:hover, .icon:active { color: white; text-decoration: none; }
+.icon svg { stroke: white; }
+
+.content {
+    flex: 1;
+    min-width: 0;
+    padding: 48px clamp(20px, 4vw, 56px);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+.page-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid #d9d1c2;
+}
+.page-header h1 {
+    margin: 0;
+    font-family: Alegreya, Georgia, serif;
+    font-weight: 500;
+    font-size: 56px;
+    line-height: 1.05;
+}
+.page-header h1 span { color: var(--accent); font-weight: 700; }
+.page-header p {
+    margin: 10px 0 0;
+    font-family: Alegreya, Georgia, serif;
+    font-size: 19px;
+    color: var(--muted);
+}
+
+.segmented { display: flex; gap: 4px; padding: 4px; border-radius: 20px; background: var(--track); }
+.segmented button {
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 16px;
+    border: 0;
+    background: transparent;
+    color: #3b3a33;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.segmented button[aria-pressed="true"] { background: var(--dark); color: var(--card); }
+
+.stats { display: flex; flex-wrap: wrap; gap: 20px; }
+.stat { flex: 1 1 220px; background: var(--card); border-radius: 24px; overflow: hidden; }
+.stat .bar { height: 6px; }
+.stat .body { padding: 18px 22px 22px; }
+.stat .label { font-size: 14px; font-weight: 600; color: var(--muted); }
+.stat .num {
+    font-family: Alegreya, Georgia, serif;
+    font-size: 44px;
+    font-weight: 700;
+    line-height: 1.1;
+    margin-top: 6px;
+}
+.stat .hint { font-size: 14px; color: var(--muted); margin-top: 4px; }
+
+.row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 24px; }
+.card {
+    background: var(--card);
+    border-radius: 28px;
+    padding: 28px;
+}
+.card.wide { flex: 999 1 560px; min-width: 0; }
+.card.side { flex: 1 1 340px; max-width: 460px; display: flex; flex-direction: column; gap: 20px; }
+.card h2 { margin: 0; font-family: Alegreya, Georgia, serif; font-size: 28px; font-weight: 700; }
+.card .sub { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
+
+.plot-wrap { display: flex; gap: 10px; padding-top: 44px; }
+.yaxis {
+    flex: 0 0 44px;
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 12px;
+    line-height: 1;
+    color: var(--muted);
+}
+.plot-main { flex: 1 1 auto; min-width: 0; }
+.plot { position: relative; height: 220px; }
+.gridline { position: absolute; left: 0; right: 0; height: 1px; background: var(--line); }
+.gridline.base { background: #d9d1c2; }
+.bars { position: absolute; inset: 0; display: flex; align-items: flex-end; gap: 12px; }
+.col {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 220px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    cursor: default;
+}
+.col .bar-fill {
+    display: block;
+    width: 100%;
+    max-width: 48px;
+    background: var(--bar);
+    border-radius: 10px 10px 4px 4px;
+}
+.col .peak { font-size: 12px; font-weight: 700; margin-bottom: 6px; }
+.col .tip {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    white-space: nowrap;
+    padding: 6px 10px;
+    border-radius: 10px;
+    background: var(--dark);
+    color: var(--card);
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .12s ease;
+}
+.col:hover .tip, .col:focus-visible .tip { opacity: 1; }
+.col:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 8px; }
+.xaxis { display: flex; gap: 12px; margin-top: 10px; }
+.xaxis div { flex: 1 1 0; min-width: 0; text-align: center; font-size: 13px; color: var(--muted); }
+
+.hbar-head { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+.hbar-head .l { font-weight: 600; }
+.hbar-head .r { color: #3b3a33; }
+.hbar-track { height: 12px; border-radius: 6px; background: var(--track); margin-top: 8px; overflow: hidden; }
+.hbar-fill { height: 100%; background: var(--bar); border-radius: 6px; }
+.attend { display: flex; flex-direction: column; gap: 20px; }
+.attend-row { display: flex; align-items: center; gap: 16px; }
+.attend-row .l { flex: 0 0 90px; font-size: 14px; font-weight: 600; }
+.attend-row .track { flex: 1 1 auto; min-width: 0; height: 16px; border-radius: 8px; background: var(--track); overflow: hidden; }
+.attend-row .fill { height: 100%; background: var(--bar); border-radius: 8px; }
+.attend-row .v { flex: 0 0 52px; text-align: right; font-size: 14px; font-weight: 600; }
+
+.ring-row { display: flex; align-items: center; gap: 20px; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.ring-row .big { font-size: 20px; font-weight: 700; margin-top: 2px; }
+.sys-block { padding-top: 20px; border-top: 1px solid var(--line); }
+.sys-block .note { font-size: 14px; color: var(--muted); margin-top: 12px; }
+
+@media (max-width: 640px) {
+    .page-header h1 { font-size: 40px; }
+    .sidebar { width: 56px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="sidebar" aria-label="Glavni meni">
+    <a class="icon" href="admin-dashboard.html" aria-label="Nadzorna plošča" title="Nadzorna plošča">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    </a>
+    <a class="icon" href="admin-uporabniki.html" aria-label="Uporabniki" title="Uporabniki">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2c2.6.3 4.5 2.2 4.5 5.3"/></svg>
+    </a>
+    <a class="icon" href="admin-predmeti.html" aria-label="Predmeti" title="Predmeti">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/></svg>
+    </a>
+    <a class="icon active" href="admin-statistika.html" aria-label="Statistika" aria-current="page" title="Statistika">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 20v-7"/><path d="M12 20V5"/><path d="M17 20v-10"/></svg>
+    </a>
+    <a class="icon" href="admin-koledar.html" aria-label="Koledar" title="Koledar">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg>
+    </a>
+    </a>
+    <div class="spacer"></div>
+    <a class="icon" href="admin-nastavitve.html" aria-label="Nastavitve" title="Nastavitve">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10"/><path d="M18 7h2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+    </a>
+    <a class="icon" href="admin-profil.html" aria-label="Moj profil" title="Moj profil">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.2 18.2c1.2-2.2 3.2-3.2 5.8-3.2s4.6 1 5.8 3.2"/></svg>
+    </a>
+</nav>
+
+<main class="content">
+
+    <header class="page-header">
+        <div>
+            <h1>Pregled <span>statistike.</span></h1>
+            <p>Prijave, uporabniki, prisotnost in stanje sistema.</p>
+        </div>
+        <div class="segmented" id="periods" role="group" aria-label="Obdobje"></div>
+    </header>
+
+    <section class="stats" aria-label="Ključne številke">
+        <div class="stat"><div class="bar" style="background:#c96f4a"></div><div class="body">
+            <div class="label">Prijave</div><div class="num" id="kpiLogins">0</div><div class="hint" data-note></div>
+        </div></div>
+        <div class="stat"><div class="bar" style="background:#7c8f55"></div><div class="body">
+            <div class="label">Novi računi</div><div class="num" id="kpiNew">0</div><div class="hint" data-note></div>
+        </div></div>
+        <div class="stat"><div class="bar" style="background:#b8912a"></div><div class="body">
+            <div class="label">Aktivni računi</div><div class="num">624</div><div class="hint">Trenutno stanje</div>
+        </div></div>
+        <div class="stat"><div class="bar" style="background:#8e849e"></div><div class="body">
+            <div class="label">Povprečna prisotnost</div><div class="num" id="kpiAttend">0 %</div><div class="hint" data-note></div>
+        </div></div>
+    </section>
+
+    <div class="row">
+        <section class="card wide" aria-labelledby="prijave">
+            <h2 id="prijave">Prijave uporabnikov</h2>
+            <p class="sub" id="chartSub"></p>
+            <div class="plot-wrap">
+                <div class="yaxis" id="yaxis"></div>
+                <div class="plot-main">
+                    <div class="plot">
+                        <div class="gridline" style="top:0"></div>
+                        <div class="gridline" style="top:110px"></div>
+                        <div class="gridline base" style="bottom:0"></div>
+                        <div class="bars" id="bars"></div>
+                    </div>
+                    <div class="xaxis" id="xaxis"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card side" aria-labelledby="vloge">
+            <div>
+                <h2 id="vloge">Uporabniki po vlogah</h2>
+                <p class="sub">Skupaj 624 aktivnih računov</p>
+            </div>
+            <div id="roles" style="display:flex; flex-direction:column; gap:20px"></div>
+        </section>
+    </div>
+
+    <div class="row">
+        <section class="card wide" aria-labelledby="prisotnost" style="display:flex; flex-direction:column; gap:20px">
+            <div>
+                <h2 id="prisotnost">Prisotnost po letnikih</h2>
+                <p class="sub">Delež prisotnih dijakov</p>
+            </div>
+            <div class="attend" id="attendance"></div>
+        </section>
+
+        <section class="card side" aria-labelledby="sistem" style="gap:24px">
+            <h2 id="sistem">Stanje sistema</h2>
+            <div class="ring-row">
+                <svg width="96" height="96" viewBox="0 0 100 100" role="img" aria-label="Razpoložljivost 99.9 odstotka" style="flex:0 0 96px">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#ece6da" stroke-width="12"/>
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#b0502b" stroke-width="12" stroke-linecap="round" stroke-dasharray="250.8 251.3" transform="rotate(-90 50 50)"/>
+                </svg>
+                <div>
+                    <div class="eyebrow">Ta mesec</div>
+                    <div class="big">99.9% razpoložljivost</div>
+                </div>
+            </div>
+            <div class="sys-block">
+                <div class="hbar-head"><span class="l">Zasedenost strežnika</span><span class="r">34 % prostora</span></div>
+                <div class="hbar-track"><div class="hbar-fill" style="width:34%; background:#b0502b"></div></div>
+                <div class="note">Zadnja varnostna kopija: danes, 7:10</div>
+            </div>
+        </section>
+    </div>
+
+</main>
+
+<script>
+const SETS = {
+    teden: {
+        label: 'Teden',
+        labels: ['Pon', 'Tor', 'Sre', 'Čet', 'Pet', 'Sob', 'Ned'],
+        values: [212, 248, 231, 265, 240, 96, 58],
+        novi: 9, pris: 94,
+        note: 'V zadnjih 7 dneh',
+        chartSub: 'Število prijav po dnevih'
+    },
+    mesec: {
+        label: 'Mesec',
+        labels: ['T1', 'T2', 'T3', 'T4'],
+        values: [1280, 1410, 1355, 1390],
+        novi: 31, pris: 93,
+        note: 'V zadnjih 4 tednih',
+        chartSub: 'Število prijav po tednih'
+    },
+    pol: {
+        label: '6 mesecev',
+        labels: ['Maj', 'Jun', 'Jul', 'Avg', 'Sep', 'Okt'],
+        values: [5300, 4900, 800, 600, 5100, 2900],
+        novi: 118, pris: 92,
+        note: 'V zadnjih 6 mesecih',
+        chartSub: 'Število prijav po mesecih'
+    }
+};
+const ROLES = [
+    { label: 'Dijaki',   v: 342 },
+    { label: 'Učitelji', v: 24 },
+    { label: 'Starši',   v: 258 }
+];
+const ROLE_TOTAL = 624;
+const ATTENDANCE = [
+    { label: '1. letnik', pct: 96 },
+    { label: '2. letnik', pct: 94 },
+    { label: '3. letnik', pct: 91 },
+    { label: '4. letnik', pct: 93 }
+];
+const PLOT_H = 220;
+
+const $ = (id) => document.getElementById(id);
+const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+let period = 'teden';
+
+function renderPeriods() {
+    $('periods').innerHTML = Object.entries(SETS).map(([id, s]) =>
+        `<button type="button" data-period="${id}" aria-pressed="${id === period}">${esc(s.label)}</button>`
+    ).join('');
+}
+
+function renderPeriodData() {
+    const d = SETS[period];
+    const max = Math.max(...d.values);
+    const step = max > 2000 ? 500 : max > 500 ? 100 : 50;
+    const top = Math.ceil(max / step) * step;
+
+    $('kpiLogins').textContent = fmt(d.values.reduce((a, b) => a + b, 0));
+    $('kpiNew').textContent = d.novi;
+    $('kpiAttend').textContent = d.pris + ' %';
+    document.querySelectorAll('[data-note]').forEach((el) => { el.textContent = d.note; });
+
+    $('chartSub').textContent = d.chartSub;
+    $('yaxis').innerHTML = [fmt(top), fmt(top / 2), '0'].map((t) => `<span>${t}</span>`).join('');
+    $('bars').innerHTML = d.values.map((v, i) => {
+        const h = Math.max(2, Math.round((v / top) * PLOT_H));
+        const peak = v === max;
+        const tipBottom = h + (peak ? 30 : 8);
+        return `
+        <button type="button" class="col" aria-label="${esc(d.labels[i])}: ${fmt(v)} prijav">
+            <span class="tip" style="bottom:${tipBottom}px">${esc(d.labels[i])}: ${fmt(v)}</span>
+            ${peak ? `<span class="peak">${fmt(v)}</span>` : ''}
+            <span class="bar-fill" style="height:${h}px"></span>
+        </button>`;
+    }).join('');
+    $('xaxis').innerHTML = d.labels.map((l) => `<div>${esc(l)}</div>`).join('');
+}
+
+function renderRoles() {
+    const max = Math.max(...ROLES.map((r) => r.v));
+    $('roles').innerHTML = ROLES.map((r) => `
+        <div>
+            <div class="hbar-head">
+                <span class="l">${esc(r.label)}</span>
+                <span class="r">${r.v} · ${Math.round((r.v / ROLE_TOTAL) * 100)} %</span>
+            </div>
+            <div class="hbar-track"><div class="hbar-fill" style="width:${Math.max(2, Math.round((r.v / max) * 100))}%"></div></div>
+        </div>`).join('');
+}
+
+function renderAttendance() {
+    $('attendance').innerHTML = ATTENDANCE.map((a) => `
+        <div class="attend-row">
+            <div class="l">${esc(a.label)}</div>
+            <div class="track"><div class="fill" style="width:${a.pct}%"></div></div>
+            <div class="v">${a.pct} %</div>
+        </div>`).join('');
+}
+
+$('periods').addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-period]');
+    if (!btn) return;
+    period = btn.dataset.period;
+    renderPeriods();
+    renderPeriodData();
+});
+
+renderPeriods();
+renderPeriodData();
+renderRoles();
+renderAttendance();
+</script>
+</body>
+</html>

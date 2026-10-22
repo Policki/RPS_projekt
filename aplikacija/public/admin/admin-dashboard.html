@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nadzorna plošča</title>
+<link href="admin-dashboard.css" rel="stylesheet">
+</head>
+
+<nav class="sidebar" aria-label="Glavni meni">
+    <a class="icon" href="admin-dashboard.html" aria-label="Nadzorna plošča" title="Nadzorna plošča">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    </a>
+    <a class="icon" href="admin_uporabniki.html" aria-label="Uporabniki" title="Uporabniki">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2c2.6.3 4.5 2.2 4.5 5.3"/></svg>
+    </a>
+    <a class="icon active" href="admin-predmeti.html" aria-label="Predmeti" aria-current="page" title="Predmeti">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/></svg>
+    </a>
+    <a class="icon" href="admin-statistika.html" aria-label="Statistika" title="Statistika">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 20v-7"/><path d="M12 20V5"/><path d="M17 20v-10"/></svg>
+    </a>
+    <a class="icon" href="admin-koledar.html" aria-label="Koledar" title="Koledar">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg>
+    </a>
+    <div class="spacer"></div>
+    <a class="icon" href="admin_nastavitve.html" aria-label="Nastavitve" title="Nastavitve">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10"/><path d="M18 7h2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+    </a>
+    <a class="icon" href="admin-profil.html" aria-label="Moj profil" title="Moj profil">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.2 18.2c1.2-2.2 3.2-3.2 5.8-3.2s4.6 1 5.8 3.2"/></svg>
+    </a>
+</nav>
+
+
+<body>
+
+<main class="content">
+
+    <header class="page-header">
+        <h1><span id="greeting">Dobro jutro</span>, <span>Admin.</span></h1>
+        <p id="subtitle"></p>
+    </header>
+
+    <div class="top">
+
+        <section class="overview" aria-labelledby="pregled">
+            <h2 id="pregled">Pregled sistema</h2>
+
+            <a class="line l-rose" href="uporabniki.html">
+                <div>
+                    <div class="t">Vpisi za potrditev</div>
+                    <div class="d">Novi dijaki tekočega tedna</div>
+                </div>
+                <span class="badge" id="pendingBadge"></span>
+            </a>
+
+            <a class="line l-green" href="uporabniki.html">
+                <div>
+                    <div class="t">Aktivni dijaki</div>
+                    <div class="d">Vseh razredov</div>
+                </div>
+                <span class="badge" id="studentsBadge"></span>
+            </a>
+
+            <a class="line l-sand" href="uporabniki.html">
+                <div>
+                    <div class="t">Aktivni učitelji</div>
+                    <div class="d">V tem trenutku</div>
+                </div>
+                <span class="badge" id="teachersBadge"></span>
+            </a>
+        </section>
+
+        <div class="right">
+            <section class="side-card" aria-labelledby="streznik">
+                <h2 id="streznik">Zasedenost strežnika</h2>
+                <div class="meter"><div id="diskBar"></div></div>
+                <div class="big" id="diskText"></div>
+                <div class="note" id="backupText"></div>
+            </section>
+
+            <section class="side-card uptime" aria-label="Razpoložljivost">
+                <svg viewBox="0 0 100 100" role="img" id="uptimeRing">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#ece6da" stroke-width="12"/>
+                    <circle id="uptimeArc" cx="50" cy="50" r="40" fill="none" stroke="#b0502b" stroke-width="12" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+                </svg>
+                <div>
+                    <div class="eyebrow">Ta mesec</div>
+                    <div class="val" id="uptimeText"></div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <section class="shortcuts" aria-label="Bližnjice">
+
+        <a class="shortcut s-users" href="uporabniki.html">
+            <div class="bar"></div>
+            <div class="body">
+                <div class="head">
+                    <div class="ico">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2c2.6.3 4.5 2.2 4.5 5.3"/></svg>
+                    </div>
+                    <div>
+                        <div class="name">Uporabniki</div>
+                        <div class="desc">Dijaki, učitelji, starši</div>
+                    </div>
+                </div>
+                <div class="main" id="usersMain"></div>
+                <div class="extra">Novi ta teden: <span id="usersNew"></span></div>
+                <div class="track"><div style="width:55%"></div></div>
+            </div>
+        </a>
+
+        <a class="shortcut s-subj" href="predmeti.html">
+            <div class="bar"></div>
+            <div class="body">
+                <div class="head">
+                    <div class="ico">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/></svg>
+                    </div>
+                    <div>
+                        <div class="name">Predmeti</div>
+                        <div class="desc">Učni načrti in razredi</div>
+                    </div>
+                </div>
+                <div class="main" id="classesMain"></div>
+                <div class="extra">Brez učitelja: <span id="noTeacher"></span></div>
+                <div class="track"><div style="width:55%"></div></div>
+            </div>
+        </a>
+
+        <a class="shortcut s-rep" href="statistika.html">
+            <div class="bar"></div>
+            <div class="body">
+                <div class="head">
+                    <div class="ico">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 20v-7"/><path d="M12 20V5"/><path d="M17 20v-10"/></svg>
+                    </div>
+                    <div>
+                        <div class="name">Poročila</div>
+                        <div class="desc">Ocene in prisotnost</div>
+                    </div>
+                </div>
+                <div class="main" id="reportsMain"></div>
+                <div class="extra">Zadnje: <span id="reportsLast"></span></div>
+                <div class="track"><div style="width:55%"></div></div>
+            </div>
+        </a>
+
+    </section>
+</main>
+
+<script>
+const data = {
+    admin: 'Admin',
+    pendingEnrollments: 5,
+    systemNotices: 1,
+    students: 342,
+    teachers: 24,
+    accounts: 624,
+    newThisWeek: 9,
+    classes: 16,
+    classesWithoutTeacher: 1,
+    newReports: 3,
+    lastReport: 'Včeraj',
+    diskUsedPct: 34,
+    lastBackup: 'danes, 7:10',
+    uptimePct: 99.9
+};
+
+const $ = (id) => document.getElementById(id);
+
+function plural(n, f1, f2, f34, f5) {
+    const m = n % 100;
+    if (m === 1) return f1;
+    if (m === 2) return f2;
+    if (m === 3 || m === 4) return f34;
+    return f5;
+}
+
+const hour = new Date().getHours();
+$('greeting').textContent = hour < 10 ? 'Dobro jutro' : hour < 18 ? 'Dober dan' : 'Dober večer';
+
+const parts = [];
+if (data.pendingEnrollments) {
+    parts.push(`Potrdi ${data.pendingEnrollments} ${plural(data.pendingEnrollments, 'vpis', 'vpisa', 'vpise', 'vpisov')}`);
+}
+if (data.systemNotices) {
+    parts.push(`${parts.length ? 'preveri' : 'Preveri'} ${data.systemNotices} ${plural(data.systemNotices, 'sistemsko obvestilo', 'sistemski obvestili', 'sistemska obvestila', 'sistemskih obvestil')}`);
+}
+$('subtitle').textContent = parts.length ? parts.join(' in ') + '.' : 'Vse je urejeno.';
+
+$('pendingBadge').textContent = `${data.pendingEnrollments} čaka`;
+$('studentsBadge').textContent = data.students;
+$('teachersBadge').textContent = data.teachers;
+
+$('diskBar').style.width = data.diskUsedPct + '%';
+$('diskText').textContent = `${data.diskUsedPct} % prostora`;
+$('backupText').textContent = `Zadnja varnostna kopija: ${data.lastBackup}`;
+
+const R = 40;
+const C = 2 * Math.PI * R;
+const arc = $('uptimeArc');
+arc.setAttribute('stroke-dasharray', `${(C * data.uptimePct) / 100} ${C}`);
+const uptimeLabel = String(data.uptimePct).replace('.', ',');
+$('uptimeRing').setAttribute('aria-label', `Razpoložljivost ${uptimeLabel} odstotka`);
+$('uptimeText').textContent = `${data.uptimePct}% razpoložljivost`;
+
+$('usersMain').textContent = `${data.accounts} aktivnih računov`;
+$('usersNew').textContent = data.newThisWeek;
+$('classesMain').textContent = `${data.classes} aktivnih razredov`;
+$('noTeacher').textContent = data.classesWithoutTeacher;
+$('reportsMain').textContent = `${data.newReports} ${plural(data.newReports, 'novo poročilo', 'novi poročili', 'nova poročila', 'novih poročil')}`;
+$('reportsLast').textContent = data.lastReport;
+</script>
+</body>
+</html>

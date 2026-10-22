@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moj profil</title>
+<link href="admin-profil.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav class="sidebar" aria-label="Glavni meni">
+    <a class="icon" href="admin_dashboard.html" aria-label="Nadzorna plošča" title="Nadzorna plošča">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    </a>
+    <a class="icon" href="admin_uporabniki.html" aria-label="Uporabniki" title="Uporabniki">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2c2.6.3 4.5 2.2 4.5 5.3"/></svg>
+    </a>
+    <a class="icon" href="admin-predmeti.html" aria-label="Predmeti" title="Predmeti">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/></svg>
+    </a>
+    <a class="icon" href="admin-statistika.html" aria-label="Statistika" title="Statistika">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 20v-7"/><path d="M12 20V5"/><path d="M17 20v-10"/></svg>
+    </a>
+    <a class="icon" href="admin-koledar.html" aria-label="Koledar" title="Koledar">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg>
+    </a>
+    <div class="spacer"></div>
+    <a class="icon" href="admin-nastavitve.html" aria-label="Nastavitve" title="Nastavitve">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10"/><path d="M18 7h2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+    </a>
+    <a class="icon active" href="admin-profil.html" aria-label="Moj profil" aria-current="page" title="Moj profil">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.2 18.2c1.2-2.2 3.2-3.2 5.8-3.2s4.6 1 5.8 3.2"/></svg>
+    </a>
+</nav>
+
+<main class="content">
+
+    <header class="page-header">
+        <h1>Moj <span>profil.</span></h1>
+        <p>Uredi osebne podatke, varnost in obvestila.</p>
+    </header>
+
+    <div class="layout">
+
+        <!-- Kartica profila -->
+        <aside class="aside">
+            <div class="top-bar"></div>
+            <div class="who">
+                <div class="big-avatar" id="avatar">A</div>
+                <div>
+                    <div class="name" id="asideName">Admin</div>
+                    <div class="mail" id="asideMail">admin@sola.example</div>
+                </div>
+                <span class="pill">Skrbnik sistema</span>
+                <button class="btn" type="button" style="margin-top:6px">Zamenjaj sliko</button>
+            </div>
+            <div class="facts">
+                <div class="fact"><span class="k">Vloga</span><span class="v">Skrbnik sistema</span></div>
+                <div class="fact"><span class="k">Jezik</span><span class="v" id="asideLang">Slovenščina</span></div>
+                <div class="fact"><span class="k">Seja</span><span class="v"><span class="dot"></span>Prijavljen</span></div>
+            </div>
+            <div class="logout">
+                <!-- Odjava: tukaj poveži svojo odjavo, npr. window.location = '/odjava' -->
+                <button class="btn btn-danger" type="button" id="logout">Odjava</button>
+            </div>
+        </aside>
+
+        <div class="stack">
+
+            <!-- Osebni podatki -->
+            <section class="card" aria-labelledby="osebni">
+                <div>
+                    <h2 id="osebni">Osebni podatki</h2>
+                    <p class="sub">Ti podatki so vidni drugim skrbnikom.</p>
+                </div>
+                <form id="profileForm">
+                    <div class="fields">
+                        <div class="field">
+                            <label for="ime">Ime</label>
+                            <input id="ime" name="ime" type="text" value="Admin" autocomplete="given-name">
+                        </div>
+                        <div class="field">
+                            <label for="priimek">Priimek</label>
+                            <input id="priimek" name="priimek" type="text" placeholder="Priimek" autocomplete="family-name">
+                        </div>
+                        <div class="field">
+                            <label for="eposta">E-pošta</label>
+                            <input id="eposta" name="eposta" type="email" value="admin@sola.example" autocomplete="email">
+                        </div>
+                        <div class="field">
+                            <label for="telefon">Telefon</label>
+                            <input id="telefon" name="telefon" type="tel" placeholder="Telefonska številka" autocomplete="tel">
+                        </div>
+                        <div class="field">
+                            <label for="jezik">Jezik vmesnika</label>
+                            <select id="jezik" name="jezik">
+                                <option value="sl">Slovenščina</option>
+                                <option value="en">English</option>
+                            </select>
+                        </div>
+                        <div class="field" style="visibility:hidden" aria-hidden="true"></div>
+                    </div>
+                    <div class="form-actions" style="margin-top:22px">
+                        <span class="save-status" id="saveStatus" role="status"></span>
+                        <button class="btn" type="button" id="cancel">Prekliči</button>
+                        <button class="btn btn-primary" type="submit">Shrani spremembe</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Varnost -->
+            <section class="card" aria-labelledby="varnost">
+                <div>
+                    <h2 id="varnost">Varnost</h2>
+                    <p class="sub">Zaščiti dostop do skrbniškega računa.</p>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Geslo</div>
+                        <div class="d">Uporabi dolgo, edinstveno geslo.</div>
+                    </div>
+                    <button class="btn" type="button">Zamenjaj geslo</button>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Dvostopenjsko preverjanje</div>
+                        <div class="d">Dodatna zaščita ob vsaki prijavi.</div>
+                    </div>
+                    <button class="switch" type="button" role="switch" aria-checked="true" aria-label="Dvostopenjsko preverjanje" data-key="twofa">
+                        <span class="track"><span class="knob"></span></span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Obvestila -->
+            <section class="card" aria-labelledby="obvestila">
+                <div>
+                    <h2 id="obvestila">Obvestila</h2>
+                    <p class="sub">Izberi, o čem želiš prejemati obvestila.</p>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Novi vpisi</div>
+                        <div class="d">Obvestilo, ko nov dijak čaka na potrditev.</div>
+                    </div>
+                    <button class="switch" type="button" role="switch" aria-checked="true" aria-label="Novi vpisi" data-key="novi_vpisi">
+                        <span class="track"><span class="knob"></span></span>
+                    </button>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Sistemska obvestila</div>
+                        <div class="d">Opozorila o strežniku in varnostnih kopijah.</div>
+                    </div>
+                    <button class="switch" type="button" role="switch" aria-checked="true" aria-label="Sistemska obvestila" data-key="sistemska">
+                        <span class="track"><span class="knob"></span></span>
+                    </button>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Tedenski povzetek</div>
+                        <div class="d">Pregled uporabnikov in poročil enkrat na teden.</div>
+                    </div>
+                    <button class="switch" type="button" role="switch" aria-checked="false" aria-label="Tedenski povzetek" data-key="povzetek">
+                        <span class="track"><span class="knob"></span></span>
+                    </button>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+<script>
+/* ===== Pomožne funkcije ===== */
+const $ = (id) => document.getElementById(id);
+const form = $('profileForm');
+
+/* Začetne vrednosti (zamenjaj s podatki s strežnika,
+   npr.: const profile = await (await fetch('/api/profil')).json();) */
+const initial = {
+    ime: 'Admin',
+    priimek: '',
+    eposta: 'admin@sola.example',
+    telefon: '',
+    jezik: 'sl'
+};
+const switches = { twofa: true, novi_vpisi: true, sistemska: true, povzetek: false };
+
+/* Posodobi levo kartico glede na vnos v obrazcu */
+function syncAside() {
+    const ime = form.ime.value.trim();
+    const priimek = form.priimek.value.trim();
+    const full = [ime, priimek].filter(Boolean).join(' ') || 'Admin';
+    $('asideName').textContent = full;
+    $('asideMail').textContent = form.eposta.value.trim() || '—';
+    $('avatar').textContent = (full[0] || 'A').toUpperCase();
+    $('asideLang').textContent = form.jezik.options[form.jezik.selectedIndex].text;
+}
+form.addEventListener('input', syncAside);
+form.addEventListener('change', syncAside);
+
+/* Shrani */
+let statusTimer;
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    console.log('Shrani profil:', data, switches);
+    /* Tukaj pošlji na strežnik, npr.:
+       await fetch('/api/profil', {
+           method: 'PUT',
+           headers: { 'Content-Type': 'application/json' },
+           body: JSON.stringify({ ...data, nastavitve: switches })
+       });
+    */
+    Object.assign(initial, data);
+    $('saveStatus').textContent = 'Spremembe so shranjene.';
+    clearTimeout(statusTimer);
+    statusTimer = setTimeout(() => { $('saveStatus').textContent = ''; }, 3000);
+});
+
+/* Prekliči: povrni začetne vrednosti */
+$('cancel').addEventListener('click', () => {
+    Object.entries(initial).forEach(([k, v]) => { form[k].value = v; });
+    syncAside();
+});
+
+/* Stikala */
+document.querySelectorAll('.switch').forEach((btn) => {
+    btn.addEventListener('click', () => {
+        const key = btn.dataset.key;
+        switches[key] = !switches[key];
+        btn.setAttribute('aria-checked', String(switches[key]));
+    });
+});
+
+syncAside();
+</script>
+</body>
+</html>
