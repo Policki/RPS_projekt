@@ -6,7 +6,6 @@
 <title>Moj profil</title>
 <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ===== Osnova ===== */
 :root {
     --bg: #f6f2eb;
     --card: #fcfaf6;
@@ -28,7 +27,6 @@ body {
 }
 button, input, select { font-family: inherit; }
 
-/* ===== Stranska vrstica (tvoj CSS) ===== */
 .sidebar {
     width: 70px;
     height: 100vh;
@@ -63,7 +61,6 @@ button, input, select { font-family: inherit; }
 .icon, .icon:visited, .icon:hover, .icon:active { color: white; text-decoration: none; }
 .icon svg { stroke: white; }
 
-/* ===== Vsebina ===== */
 .content {
     flex: 1;
     min-width: 0;
@@ -105,7 +102,6 @@ button, input, select { font-family: inherit; }
 .btn-danger { width: 100%; background: #f5e6df; border-color: #e3c3b3; color: #8a3f1f; }
 .btn-danger:hover { background: #efd8cc; }
 
-/* ===== Kartica profila ===== */
 .aside {
     flex: 1 1 320px;
     max-width: 400px;
@@ -152,7 +148,6 @@ button, input, select { font-family: inherit; }
 .dot { width: 8px; height: 8px; border-radius: 4px; background: #6f8a3c; display: inline-block; }
 .aside .logout { border-top: 1px solid var(--line); padding: 20px 28px 28px; }
 
-/* ===== Kartice z nastavitvami ===== */
 .stack { flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
 .card {
     background: var(--card);
@@ -202,7 +197,6 @@ button, input, select { font-family: inherit; }
 .setting .t { font-size: 15px; font-weight: 600; }
 .setting .d { font-size: 14px; color: var(--muted); margin-top: 2px; }
 
-/* Stikalo */
 .switch {
     flex: 0 0 56px;
     width: 56px;
@@ -237,7 +231,6 @@ button, input, select { font-family: inherit; }
 </head>
 <body>
 
-<!-- ===== Stranska vrstica ===== -->
 <nav class="sidebar" aria-label="Glavni meni">
     <a class="icon" href="index.html" aria-label="Nadzorna plošča" title="Nadzorna plošča">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
@@ -263,7 +256,6 @@ button, input, select { font-family: inherit; }
     </a>
 </nav>
 
-<!-- ===== Vsebina ===== -->
 <main class="content">
 
     <header class="page-header">
@@ -273,7 +265,6 @@ button, input, select { font-family: inherit; }
 
     <div class="layout">
 
-        <!-- Kartica profila -->
         <aside class="aside">
             <div class="top-bar"></div>
             <div class="who">
@@ -291,14 +282,12 @@ button, input, select { font-family: inherit; }
                 <div class="fact"><span class="k">Seja</span><span class="v"><span class="dot"></span>Prijavljen</span></div>
             </div>
             <div class="logout">
-                <!-- Odjava: tukaj poveži svojo odjavo, npr. window.location = '/odjava' -->
                 <button class="btn btn-danger" type="button" id="logout">Odjava</button>
             </div>
         </aside>
 
         <div class="stack">
 
-            <!-- Osebni podatki -->
             <section class="card" aria-labelledby="osebni">
                 <div>
                     <h2 id="osebni">Osebni podatki</h2>
@@ -339,7 +328,6 @@ button, input, select { font-family: inherit; }
                 </form>
             </section>
 
-            <!-- Varnost -->
             <section class="card" aria-labelledby="varnost">
                 <div>
                     <h2 id="varnost">Varnost</h2>
@@ -363,7 +351,6 @@ button, input, select { font-family: inherit; }
                 </div>
             </section>
 
-            <!-- Obvestila -->
             <section class="card" aria-labelledby="obvestila">
                 <div>
                     <h2 id="obvestila">Obvestila</h2>
@@ -403,12 +390,9 @@ button, input, select { font-family: inherit; }
 </main>
 
 <script>
-/* ===== Pomožne funkcije ===== */
 const $ = (id) => document.getElementById(id);
 const form = $('profileForm');
 
-/* Začetne vrednosti (zamenjaj s podatki s strežnika,
-   npr.: const profile = await (await fetch('/api/profil')).json();) */
 const initial = {
     ime: 'Admin',
     priimek: '',
@@ -418,7 +402,6 @@ const initial = {
 };
 const switches = { twofa: true, novi_vpisi: true, sistemska: true, povzetek: false };
 
-/* Posodobi levo kartico glede na vnos v obrazcu */
 function syncAside() {
     const ime = form.ime.value.trim();
     const priimek = form.priimek.value.trim();
@@ -431,32 +414,22 @@ function syncAside() {
 form.addEventListener('input', syncAside);
 form.addEventListener('change', syncAside);
 
-/* Shrani */
 let statusTimer;
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
     console.log('Shrani profil:', data, switches);
-    /* Tukaj pošlji na strežnik, npr.:
-       await fetch('/api/profil', {
-           method: 'PUT',
-           headers: { 'Content-Type': 'application/json' },
-           body: JSON.stringify({ ...data, nastavitve: switches })
-       });
-    */
     Object.assign(initial, data);
     $('saveStatus').textContent = 'Spremembe so shranjene.';
     clearTimeout(statusTimer);
     statusTimer = setTimeout(() => { $('saveStatus').textContent = ''; }, 3000);
 });
 
-/* Prekliči: povrni začetne vrednosti */
 $('cancel').addEventListener('click', () => {
     Object.entries(initial).forEach(([k, v]) => { form[k].value = v; });
     syncAside();
 });
 
-/* Stikala */
 document.querySelectorAll('.switch').forEach((btn) => {
     btn.addEventListener('click', () => {
         const key = btn.dataset.key;

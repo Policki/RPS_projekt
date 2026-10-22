@@ -6,7 +6,6 @@
 <title>Statistika</title>
 <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ===== Osnova ===== */
 :root {
     --bg: #f6f2eb;
     --card: #fcfaf6;
@@ -16,7 +15,7 @@
     --accent: #c96f4a;
     --accent-dark: #b0502b;
     --dark: #232821;
-    --bar: #5e8a3a;       /* ena barva za vse stolpce */
+    --bar: #5e8a3a; 
     --track: #ece6da;
 }
 * { box-sizing: border-box; }
@@ -30,7 +29,6 @@ body {
 }
 button { font-family: inherit; }
 
-/* ===== Stranska vrstica (tvoj CSS) ===== */
 .sidebar {
     width: 70px;
     height: 100vh;
@@ -65,7 +63,6 @@ button { font-family: inherit; }
 .icon, .icon:visited, .icon:hover, .icon:active { color: white; text-decoration: none; }
 .icon svg { stroke: white; }
 
-/* ===== Vsebina ===== */
 .content {
     flex: 1;
     min-width: 0;
@@ -98,7 +95,6 @@ button { font-family: inherit; }
     color: var(--muted);
 }
 
-/* Preklop obdobja */
 .segmented { display: flex; gap: 4px; padding: 4px; border-radius: 20px; background: var(--track); }
 .segmented button {
     min-height: 44px;
@@ -113,7 +109,6 @@ button { font-family: inherit; }
 }
 .segmented button[aria-pressed="true"] { background: var(--dark); color: var(--card); }
 
-/* ===== Kartice s števili ===== */
 .stats { display: flex; flex-wrap: wrap; gap: 20px; }
 .stat { flex: 1 1 220px; background: var(--card); border-radius: 24px; overflow: hidden; }
 .stat .bar { height: 6px; }
@@ -128,7 +123,6 @@ button { font-family: inherit; }
 }
 .stat .hint { font-size: 14px; color: var(--muted); margin-top: 4px; }
 
-/* ===== Vrstice kartic ===== */
 .row { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 24px; }
 .card {
     background: var(--card);
@@ -140,7 +134,6 @@ button { font-family: inherit; }
 .card h2 { margin: 0; font-family: Alegreya, Georgia, serif; font-size: 28px; font-weight: 700; }
 .card .sub { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
 
-/* ===== Stolpčni graf ===== */
 .plot-wrap { display: flex; gap: 10px; padding-top: 44px; }
 .yaxis {
     flex: 0 0 44px;
@@ -201,7 +194,6 @@ button { font-family: inherit; }
 .xaxis { display: flex; gap: 12px; margin-top: 10px; }
 .xaxis div { flex: 1 1 0; min-width: 0; text-align: center; font-size: 13px; color: var(--muted); }
 
-/* ===== Vodoravni stolpci ===== */
 .hbar-head { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
 .hbar-head .l { font-weight: 600; }
 .hbar-head .r { color: #3b3a33; }
@@ -214,7 +206,6 @@ button { font-family: inherit; }
 .attend-row .fill { height: 100%; background: var(--bar); border-radius: 8px; }
 .attend-row .v { flex: 0 0 52px; text-align: right; font-size: 14px; font-weight: 600; }
 
-/* ===== Stanje sistema ===== */
 .ring-row { display: flex; align-items: center; gap: 20px; }
 .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .ring-row .big { font-size: 20px; font-weight: 700; margin-top: 2px; }
@@ -229,33 +220,31 @@ button { font-family: inherit; }
 </head>
 <body>
 
-<!-- ===== Stranska vrstica ===== -->
 <nav class="sidebar" aria-label="Glavni meni">
-    <a class="icon" href="index.html" aria-label="Nadzorna plošča" title="Nadzorna plošča">
+    <a class="icon" href="admin-dashboard.html" aria-label="Nadzorna plošča" title="Nadzorna plošča">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
     </a>
-    <a class="icon" href="uporabniki.html" aria-label="Uporabniki" title="Uporabniki">
+    <a class="icon" href="admin-uporabniki.html" aria-label="Uporabniki" title="Uporabniki">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2c2.6.3 4.5 2.2 4.5 5.3"/></svg>
     </a>
-    <a class="icon" href="predmeti.html" aria-label="Predmeti" title="Predmeti">
+    <a class="icon" href="admin-predmeti.html" aria-label="Predmeti" title="Predmeti">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/></svg>
     </a>
-    <a class="icon active" href="statistika.html" aria-label="Statistika" aria-current="page" title="Statistika">
+    <a class="icon active" href="admin-statistika.html" aria-label="Statistika" aria-current="page" title="Statistika">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 20v-7"/><path d="M12 20V5"/><path d="M17 20v-10"/></svg>
     </a>
-    <a class="icon" href="#" aria-label="Koledar" title="Koledar">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg>
+    <a class="icon" href="admin-koledar.html" aria-label="Koledar" title="Koledar">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d("M3 10h18"/><path d("M8 3v4"/><path d("M16 3v4"/></svg>
     </a>
     <div class="spacer"></div>
-    <a class="icon" href="#" aria-label="Nastavitve" title="Nastavitve">
+    <a class="icon" href="admin-nastavitve.html" aria-label="Nastavitve" title="Nastavitve">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10"/><path d="M18 7h2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
     </a>
-    <a class="icon" href="profil.html" aria-label="Moj profil" title="Moj profil">
+    <a class="icon" href="admin-profil.html" aria-label="Moj profil" title="Moj profil">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.2 18.2c1.2-2.2 3.2-3.2 5.8-3.2s4.6 1 5.8 3.2"/></svg>
     </a>
 </nav>
 
-<!-- ===== Vsebina ===== -->
 <main class="content">
 
     <header class="page-header">
@@ -282,7 +271,6 @@ button { font-family: inherit; }
     </section>
 
     <div class="row">
-        <!-- Prijave -->
         <section class="card wide" aria-labelledby="prijave">
             <h2 id="prijave">Prijave uporabnikov</h2>
             <p class="sub" id="chartSub"></p>
@@ -300,7 +288,6 @@ button { font-family: inherit; }
             </div>
         </section>
 
-        <!-- Uporabniki po vlogah -->
         <section class="card side" aria-labelledby="vloge">
             <div>
                 <h2 id="vloge">Uporabniki po vlogah</h2>
@@ -311,7 +298,6 @@ button { font-family: inherit; }
     </div>
 
     <div class="row">
-        <!-- Prisotnost -->
         <section class="card wide" aria-labelledby="prisotnost" style="display:flex; flex-direction:column; gap:20px">
             <div>
                 <h2 id="prisotnost">Prisotnost po letnikih</h2>
@@ -320,7 +306,6 @@ button { font-family: inherit; }
             <div class="attend" id="attendance"></div>
         </section>
 
-        <!-- Stanje sistema -->
         <section class="card side" aria-labelledby="sistem" style="gap:24px">
             <h2 id="sistem">Stanje sistema</h2>
             <div class="ring-row">
@@ -344,11 +329,6 @@ button { font-family: inherit; }
 </main>
 
 <script>
-/* ===== Podatki =====
-   Primeri. Zamenjaj s podatki s strežnika, npr.:
-   const sets = await (await fetch('/api/statistika')).json();
-   Oblika: { teden: { labels, values, novi, pris, note, chartSub }, ... }
-*/
 const SETS = {
     teden: {
         label: 'Teden',
@@ -389,14 +369,12 @@ const ATTENDANCE = [
 ];
 const PLOT_H = 220;
 
-/* ===== Pomožne funkcije ===== */
 const $ = (id) => document.getElementById(id);
 const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 let period = 'teden';
 
-/* ===== Izris ===== */
 function renderPeriods() {
     $('periods').innerHTML = Object.entries(SETS).map(([id, s]) =>
         `<button type="button" data-period="${id}" aria-pressed="${id === period}">${esc(s.label)}</button>`
@@ -409,13 +387,11 @@ function renderPeriodData() {
     const step = max > 2000 ? 500 : max > 500 ? 100 : 50;
     const top = Math.ceil(max / step) * step;
 
-    /* KPI */
     $('kpiLogins').textContent = fmt(d.values.reduce((a, b) => a + b, 0));
     $('kpiNew').textContent = d.novi;
     $('kpiAttend').textContent = d.pris + ' %';
     document.querySelectorAll('[data-note]').forEach((el) => { el.textContent = d.note; });
 
-    /* Graf */
     $('chartSub').textContent = d.chartSub;
     $('yaxis').innerHTML = [fmt(top), fmt(top / 2), '0'].map((t) => `<span>${t}</span>`).join('');
     $('bars').innerHTML = d.values.map((v, i) => {
@@ -453,7 +429,6 @@ function renderAttendance() {
         </div>`).join('');
 }
 
-/* ===== Dogodki ===== */
 $('periods').addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-period]');
     if (!btn) return;

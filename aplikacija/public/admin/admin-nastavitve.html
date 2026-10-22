@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nastavitve</title>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #f6f2eb;
+    --card: #fcfaf6;
+    --ink: #1b1b18;
+    --muted: #6e6a60;
+    --line: #ece6da;
+    --accent: #c96f4a;
+    --accent-dark: #b0502b;
+    --dark: #232821;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    margin: 0;
+    display: flex;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Figtree, system-ui, sans-serif;
+}
+a { color: inherit; text-decoration: none; }
+button, input, select { font-family: inherit; }
+
+/* ===== Stranska vrstica (tvoj CSS) ===== */
+.sidebar {
+    width: 70px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    background-color: #232821;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 0;
+    gap: 12px;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+.sidebar .icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b3b0b0;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+    text-decoration: none;
+}
+.sidebar .icon:hover { background: #c96f4a; color: #f3efeff6; }
+.sidebar .icon.active { background: #c96f4a; }
+.sidebar svg { width: 20px; height: 20px; }
+.sidebar .spacer { flex: 1; }
+.icon { display: flex; align-items: center; justify-content: center; text-decoration: none; color: inherit; }
+.icon, .icon:visited, .icon:hover, .icon:active { color: white; text-decoration: none; }
+.icon svg { stroke: white; }
+
+/* ===== Vsebina ===== */
+.content {
+    flex: 1;
+    min-width: 0;
+    padding: 48px clamp(20px, 4vw, 56px);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+.page-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid #d9d1c2;
+}
+.page-header h1 {
+    margin: 0;
+    font-family: Alegreya, Georgia, serif;
+    font-weight: 500;
+    font-size: 56px;
+    line-height: 1.05;
+}
+.page-header h1 span { color: var(--accent); font-weight: 700; }
+.page-header p {
+    margin: 10px 0 0;
+    font-family: Alegreya, Georgia, serif;
+    font-size: 19px;
+    color: var(--muted);
+}
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.save-status { font-size: 14px; font-weight: 600; color: #44561f; }
+.btn {
+    min-height: 44px;
+    padding: 0 20px;
+    border-radius: 14px;
+    border: 1px solid #cfc6b4;
+    background: var(--card);
+    color: var(--ink);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn:hover { background: #f1ece1; }
+.btn-primary { background: var(--accent-dark); border-color: var(--accent-dark); color: #fff; }
+.btn-primary:hover { background: #9a4423; }
+.btn-danger { border-color: #e3c3b3; color: #8a3f1f; }
+
+.layout { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 24px; }
+
+/* ===== Navigacija razdelkov ===== */
+.subnav {
+    flex: 1 1 220px;
+    max-width: 260px;
+    position: sticky;
+    top: 24px;
+    background: var(--card);
+    border-radius: 24px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.subnav a {
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    color: #3b3a33;
+    font-size: 15px;
+    font-weight: 600;
+}
+.subnav a:hover { background: #f1ece1; }
+.subnav a.active { background: var(--dark); color: var(--card); }
+
+/* ===== Kartice ===== */
+.stack { flex: 999 1 520px; min-width: 0; display: flex; flex-direction: column; gap: 24px; }
+.card {
+    background: var(--card);
+    border-radius: 28px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    scroll-margin-top: 24px;
+}
+.card h2 { margin: 0; font-family: Alegreya, Georgia, serif; font-size: 28px; font-weight: 700; }
+.card .sub { margin: 4px 0 0; font-size: 14px; color: var(--muted); }
+
+.fields { display: flex; flex-wrap: wrap; gap: 20px; }
+.field { flex: 1 1 240px; display: flex; flex-direction: column; gap: 8px; }
+.field label { font-size: 13px; font-weight: 700; color: var(--muted); }
+.field input, .field select, .inline-select {
+    width: 100%;
+    height: 48px;
+    border-radius: 14px;
+    border: 1px solid #d9d1c2;
+    background: var(--bg);
+    padding: 0 16px;
+    font-size: 15px;
+    color: var(--ink);
+}
+.inline-select { width: 180px; }
+.field input:focus, .field select:focus, .inline-select:focus { outline: 2px solid var(--accent-dark); outline-offset: 1px; }
+
+.setting {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+}
+.setting .t { font-size: 15px; font-weight: 600; }
+.setting .d { font-size: 14px; color: var(--muted); margin-top: 2px; }
+
+/* Stikalo */
+.switch {
+    flex: 0 0 56px;
+    width: 56px;
+    height: 44px;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.switch .track {
+    width: 52px;
+    height: 30px;
+    border-radius: 15px;
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background: #cfc6b4;
+    transition: background .15s ease;
+}
+.switch .knob { width: 24px; height: 24px; border-radius: 12px; background: #fff; }
+.switch[aria-checked="true"] .track { background: var(--accent-dark); justify-content: flex-end; }
+.switch:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-radius: 15px; }
+
+/* Preklop */
+.segmented { display: flex; gap: 4px; padding: 4px; border-radius: 20px; background: #ece6da; }
+.segmented button {
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 16px;
+    border: 0;
+    background: transparent;
+    color: #3b3a33;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.segmented button[aria-pressed="true"] { background: var(--dark); color: var(--card); }
+
+/* Varnostne kopije */
+.backup-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 20px;
+    border-radius: 18px;
+    background: #f6e8e0;
+}
+.backup-box .cell { flex: 1 1 200px; min-width: 0; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.backup-box .when { font-size: 18px; font-weight: 700; margin-top: 4px; }
+.meter { height: 8px; border-radius: 4px; background: #fff; margin-top: 10px; overflow: hidden; }
+.meter > div { height: 100%; background: var(--accent-dark); border-radius: 4px; }
+.backup-box .pct { font-size: 14px; font-weight: 600; margin-top: 6px; }
+
+/* Nevarno */
+.danger-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 16px;
+    padding: 18px 20px;
+    border-radius: 18px;
+    background: #f5e6df;
+}
+.danger-box .t { font-size: 15px; font-weight: 600; color: #8a3f1f; }
+.danger-box .d { font-size: 14px; color: var(--muted); margin-top: 2px; }
+
+@media (max-width: 640px) {
+    .page-header h1 { font-size: 40px; }
+    .sidebar { width: 56px; }
+    .subnav { position: static; max-width: none; }
+}
+</style>
+</head>
+<body>
+
+<nav class="sidebar" aria-label="Glavni meni">
+    <a class="icon" href="admin-dashboard.html" aria-label="Nadzorna plošča" title="Nadzorna plošča">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+    </a>
+    <a class="icon" href="admin_uporabniki.html" aria-label="Uporabniki" title="Uporabniki">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2c2.6.3 4.5 2.2 4.5 5.3"/></svg>
+    </a>
+    <a class="icon" href="admin-predmeti.html" aria-label="Predmeti" title="Predmeti">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/></svg>
+    </a>
+    <a class="icon" href="admin-statistika.html" aria-label="Statistika" title="Statistika">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 20v-7"/><path d="M12 20V5"/><path d="M17 20v-10"/></svg>
+    </a>
+    <a class="icon" href="#" aria-label="Koledar" title="Koledar">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg>
+    </a>
+    <div class="spacer"></div>
+    <a class="icon active" href="admin-nastavitve.html" aria-label="Nastavitve" aria-current="page" title="Nastavitve">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10"/><path d="M18 7h2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
+    </a>
+    <a class="icon" href="admin-profil.html" aria-label="Moj profil" title="Moj profil">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.2 18.2c1.2-2.2 3.2-3.2 5.8-3.2s4.6 1 5.8 3.2"/></svg>
+    </a>
+</nav>
+
+<main class="content">
+
+    <header class="page-header">
+        <div>
+            <h1>Nastavitve <span>sistema.</span></h1>
+            <p>Šola, varnostne kopije, dostop in podatki.</p>
+        </div>
+        <div class="actions">
+            <span class="save-status" id="saveStatus" role="status"></span>
+            <button class="btn" type="button" id="reset">Razveljavi</button>
+            <button class="btn btn-primary" type="button" id="save">Shrani nastavitve</button>
+        </div>
+    </header>
+
+    <div class="layout">
+
+        <nav class="subnav" id="subnav" aria-label="Razdelki nastavitev">
+            <a href="#sola" class="active">Šola</a>
+            <a href="#kopije">Varnostne kopije</a>
+            <a href="#dostop">Dostop in vpisi</a>
+            <a href="#podatki">Podatki</a>
+        </nav>
+
+        <div class="stack">
+
+            <section class="card" id="sola" aria-labelledby="h-sola">
+                <div>
+                    <h2 id="h-sola">Šola</h2>
+                    <p class="sub">Osnovni podatki, ki se prikažejo v sistemu in na poročilih.</p>
+                </div>
+                <div class="fields">
+                    <div class="field">
+                        <label for="sola-ime">Ime šole</label>
+                        <input id="sola-ime" data-setting="ime" type="text" placeholder="Ime šole">
+                    </div>
+                    <div class="field">
+                        <label for="sola-mail">E-pošta šole</label>
+                        <input id="sola-mail" data-setting="mail" type="email" placeholder="tajnistvo@sola.si">
+                    </div>
+                    <div class="field">
+                        <label for="leto">Šolsko leto</label>
+                        <select id="leto" data-setting="leto">
+                            <option>2026/2027</option>
+                            <option>2025/2026</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="cas">Časovni pas</label>
+                        <select id="cas" data-setting="cas">
+                            <option>Europe/Ljubljana</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card" id="kopije" aria-labelledby="h-kopije">
+                <div>
+                    <h2 id="h-kopije">Varnostne kopije</h2>
+                    <p class="sub">Samodejno shranjevanje podatkov šole.</p>
+                </div>
+
+                <div class="backup-box">
+                    <div class="cell">
+                        <div class="eyebrow">Zadnja kopija</div>
+                        <div class="when" id="lastBackup">Danes, 7:10</div>
+                    </div>
+                    <div class="cell">
+                        <div class="eyebrow">Zasedenost strežnika</div>
+                        <div class="meter"><div id="diskBar" style="width:34%"></div></div>
+                        <div class="pct" id="diskText">34 % prostora</div>
+                    </div>
+                    <button class="btn" type="button" id="backupNow">Naredi kopijo zdaj</button>
+                </div>
+
+                <div class="setting">
+                    <div>
+                        <div class="t">Samodejne kopije</div>
+                        <div class="d">Sistem sam shrani podatke po urniku.</div>
+                    </div>
+                    <button class="switch" type="button" role="switch" aria-checked="true" aria-label="Samodejne kopije" data-key="auto">
+                        <span class="track"><span class="knob"></span></span>
+                    </button>
+                </div>
+
+                <div class="setting">
+                    <div>
+                        <div class="t">Pogostost</div>
+                        <div class="d" id="freqHint"></div>
+                    </div>
+                    <div class="segmented" id="freq" role="group" aria-label="Pogostost kopij">
+                        <button type="button" data-freq="dnevno">Dnevno</button>
+                        <button type="button" data-freq="tedensko">Tedensko</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card" id="dostop" aria-labelledby="h-dostop">
+                <div>
+                    <h2 id="h-dostop">Dostop in vpisi</h2>
+                    <p class="sub">Kdo lahko dostopa do sistema in kako se vpisujejo novi dijaki.</p>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Ročna potrditev vpisov</div>
+                        <div class="d">Novi dijaki čakajo, da jih skrbnik potrdi.</div>
+                    </div>
+                    <button class="switch" type="button" role="switch" aria-checked="true" aria-label="Ročna potrditev vpisov" data-key="rocnaPotrditev">
+                        <span class="track"><span class="knob"></span></span>
+                    </button>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Starševski računi</div>
+                        <div class="d">Starši lahko spremljajo ocene in prisotnost otroka.</div>
+                    </div>
+                    <button class="switch" type="button" role="switch" aria-checked="true" aria-label="Starševski računi" data-key="starsi">
+                        <span class="track"><span class="knob"></span></span>
+                    </button>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Obvestilo o novi prijavi</div>
+                        <div class="d">E-pošta skrbniku ob prijavi z nove naprave.</div>
+                    </div>
+                    <button class="switch" type="button" role="switch" aria-checked="false" aria-label="Obvestilo o novi prijavi" data-key="novaPrijava">
+                        <span class="track"><span class="knob"></span></span>
+                    </button>
+                </div>
+                <div class="setting">
+                    <div>
+                        <label class="t" for="seja">Potek seje</label>
+                        <div class="d">Samodejna odjava ob nedejavnosti.</div>
+                    </div>
+                    <select class="inline-select" id="seja" data-setting="seja">
+                        <option>30 minut</option>
+                        <option>1 ura</option>
+                        <option>4 ure</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="card" id="podatki" aria-labelledby="h-podatki">
+                <div>
+                    <h2 id="h-podatki">Podatki</h2>
+                    <p class="sub">Izvoz in arhiviranje. Ta dejanja vplivajo na vse uporabnike.</p>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Izvozi vse podatke</div>
+                        <div class="d">Uporabniki, predmeti in poročila v datoteki.</div>
+                    </div>
+                    <button class="btn" type="button" id="export">Izvozi</button>
+                </div>
+                <div class="danger-box">
+                    <div>
+                        <div class="t">Arhiviraj šolsko leto</div>
+                        <div class="d">Razredi se zaprejo, računi dijakov ostanejo. Dejanja ni mogoče preklicati.</div>
+                    </div>
+                    <button class="btn btn-danger" type="button" id="archive">Arhiviraj</button>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+<script>
+const DEFAULTS = {
+    ime: '',
+    mail: '',
+    leto: '2026/2027',
+    cas: 'Europe/Ljubljana',
+    seja: '30 minut',
+    freq: 'dnevno',
+    auto: true,
+    rocnaPotrditev: true,
+    starsi: true,
+    novaPrijava: false
+};
+let saved = { ...DEFAULTS };
+let state = { ...DEFAULTS };
+
+const $ = (id) => document.getElementById(id);
+const FREQ_HINT = {
+    dnevno: 'Kopija vsak dan ob 7:00.',
+    tedensko: 'Kopija vsak ponedeljek ob 7:00.'
+};
+
+function render() {
+    document.querySelectorAll('[data-setting]').forEach((el) => {
+        el.value = state[el.dataset.setting];
+    });
+    document.querySelectorAll('.switch').forEach((el) => {
+        el.setAttribute('aria-checked', String(state[el.dataset.key]));
+    });
+    document.querySelectorAll('#freq button').forEach((el) => {
+        el.setAttribute('aria-pressed', String(el.dataset.freq === state.freq));
+    });
+    $('freqHint').textContent = FREQ_HINT[state.freq];
+}
+
+let statusTimer;
+function flash(text) {
+    $('saveStatus').textContent = text;
+    clearTimeout(statusTimer);
+    statusTimer = setTimeout(() => { $('saveStatus').textContent = ''; }, 3000);
+}
+
+document.querySelectorAll('[data-setting]').forEach((el) => {
+    el.addEventListener('input', () => { state[el.dataset.setting] = el.value; });
+});
+document.querySelectorAll('.switch').forEach((el) => {
+    el.addEventListener('click', () => {
+        state[el.dataset.key] = !state[el.dataset.key];
+        render();
+    });
+});
+$('freq').addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-freq]');
+    if (!btn) return;
+    state.freq = btn.dataset.freq;
+    render();
+});
+
+$('save').addEventListener('click', () => {
+    saved = { ...state };
+    console.log('Shrani nastavitve:', saved);
+    /* Tukaj pošlji na strežnik, npr.:
+       await fetch('/api/nastavitve', {
+           method: 'PUT',
+           headers: { 'Content-Type': 'application/json' },
+           body: JSON.stringify(saved)
+       });
+    */
+    flash('Nastavitve so shranjene.');
+});
+$('reset').addEventListener('click', () => {
+    state = { ...saved };
+    render();
+    flash('Spremembe so razveljavljene.');
+});
+
+$('backupNow').addEventListener('click', () => {
+    /* Tukaj pokliči strežnik, da naredi kopijo. */
+    const now = new Date();
+    const hh = now.getHours();
+    const mm = String(now.getMinutes()).padStart(2, '0');
+    $('lastBackup').textContent = `Danes, ${hh}:${mm}`;
+    flash('Kopija je narejena.');
+});
+$('export').addEventListener('click', () => {
+    flash('Izvoz se pripravlja.');
+});
+$('archive').addEventListener('click', () => {
+    if (confirm('Res želiš arhivirati šolsko leto? Dejanja ni mogoče preklicati.')) {
+        /* Tukaj pokliči strežnik za arhiviranje. */
+        flash('Šolsko leto je arhivirano.');
+    }
+});
+
+const links = [...document.querySelectorAll('#subnav a')];
+const sections = links.map((a) => document.querySelector(a.getAttribute('href')));
+function markActive() {
+    let current = 0;
+    sections.forEach((s, i) => {
+        if (s.getBoundingClientRect().top < window.innerHeight * 0.35) current = i;
+    });
+    links.forEach((a, i) => a.classList.toggle('active', i === current));
+}
+window.addEventListener('scroll', markActive, { passive: true });
+markActive();
+
+render();
+</script>
+</body>
+</html>
