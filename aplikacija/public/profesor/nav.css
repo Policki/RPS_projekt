@@ -1,58 +1,209 @@
- .sidebar {
-     width: 70px;
-     height: 100%;
-     background-color: #232821;
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     padding: 30px 0;
-     gap: 12px;
-     flex-shrink: 0;
-     text-decoration: none;
- }
 
- .sidebar .icon {
-     width: 44px;
-     height: 44px;
-     border-radius: 12px;
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     color: #b3b0b0;
-     cursor: pointer;
-     transition: background .15s ease, color .15s ease;
-     text-decoration: none;
- }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
- .sidebar .icon:hover {
-     background: #c96f4a;
-     color: #f3efeff6;
- }
+:root {
+    --bg: #F7F2EB;
+    --sidebar: #232823;
+    --card: #FCF9F4;
+    --coral: #CF6B49;
+    --ink: #1D1D1B;
+    --muted: #7A746C;
+    --line: #D9D2C7;
+    --serif: 'Alegreya', serif;
+    --sans: 'Figtree', sans-serif;
+}
 
- .sidebar svg {
-     width: 20px;
-     height: 20px;
- }
+html,
+body {
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+}
 
- .sidebar .spacer {
-     flex: 1;
- }
+.all-content {
+    display: flex;
+    min-height: 100vh;
+}
 
- .icon {
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     text-decoration: none;
-     color: inherit;
- }
-.icon,
-.icon:visited,
-.icon:hover,
-.icon:active {
-    color: white;
+.sidebar {
+    width: 64px;
+    flex: none;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    background: var(--sidebar);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 28px 0;
+}
+
+.sidebar .spacer {
+    flex: 1;
+}
+
+.icon a {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #B9B4AA;
     text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+}
+
+.icon a:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+
+.icon.active a {
+    background: var(--coral);
+    color: #fff;
 }
 
 .icon svg {
-    stroke: white;
+    width: 22px;
+    height: 22px;
+}
+
+.main-container {
+    flex: 1;
+    min-width: 0;
+    padding: 40px 48px;
+}
+
+.header h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 42px;
+    line-height: 1.1;
+}
+
+.header h1 span {
+    color: var(--coral);
+}
+
+.header p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 6px;
+}
+
+.crta {
+    height: 1px;
+    background: var(--line);
+    margin: 22px 0 32px;
+}
+
+.dva-stolpca {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.desno {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.card {
+    background: var(--card);
+    border-radius: 28px;
+    padding: 24px 28px;
+}
+
+.card h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 14px;
+}
+
+.card-accent {
+    border-left: 4px solid var(--coral);
+}
+
+.vrstice {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.vrstica {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    background: var(--p);
+    border-radius: 14px;
+    padding: 12px 18px;
+}
+
+.vrstica h3 {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.vrstica p {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+.roza {
+    --p: #F5E4DC;
+}
+
+.zelena {
+    --p: #E6EBDC;
+}
+
+.rumena {
+    --p: #F5EBD3;
+}
+
+.pill {
+    background: #fff;
+    border-radius: 12px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.gumb {
+    min-height: 44px;
+    padding: 0 24px;
+    border: 0;
+    border-radius: 22px;
+    background: var(--coral);
+    color: #fff;
+    font: 700 14px var(--sans);
+    cursor: pointer;
+}
+
+.opomba {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 18px;
+}
+
+@media (max-width: 900px) {
+    .dva-stolpca {
+        grid-template-columns: 1fr;
+    }
+
+    .main-container {
+        padding: 28px 20px;
+    }
 }

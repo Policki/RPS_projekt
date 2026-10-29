@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="sl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="profesor-koledar.css">
+    <link rel="stylesheet" href="nav.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Alegreya:wght@400;500;600;700&display=swap"
+rel="stylesheet">
+    <script src="koledar.js" defer></script>
+    <title>Koledar | Profesor</title>
+</head>
+
+<body>
+    <div class="all-content">
+        <nav class="sidebar" aria-label="Glavna navigacija">
+            <div class="icon" title="Nadzorna plošča">
+                <a href="profesor-dashboard.html">
+                    <svg viewBox="0 0 24 24" fill="none"
+stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7" rx="1.5" />
+                        <rect x="14" y="3" width="7" height="7" rx="1.5" />
+                        <rect x="3" y="14" width="7" height="7" rx="1.5" />
+                        <rect x="14" y="14" width="7" height="7" rx="1.5" />
+                    </svg>
+                </a>
+            </div>
+            <div class="icon" title="Predmeti">
+                <a href="profesor-predmeti.html">
+                    <svg viewBox="0 0 24 24" fill="none"
+stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4
+19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    </svg>
+                </a>
+            </div>
+            <div class="icon" title="Naloge">
+                <a href="profesor-naloge.html">
+                    <svg viewBox="0 0 24 24" fill="none"
+stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <path d="M8 12l2.5 2.5L16 9" />
+                    </svg>
+                </a>
+            </div>
+            <div class="icon" title="Gradiva">
+                <a href="profesor-gradiva.html">
+                    <svg viewBox="0 0 24 24" fill="none"
+stroke="currentColor" stroke-width="2">
+                        <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1
+2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" />
+                    </svg>
+                </a>
+            </div>
+            <div class="icon active" title="Koledar">
+                <a href="profesor-koledar.html" aria-current="page">
+                    <svg viewBox="0 0 24 24" fill="none"
+stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <path d="M3 9h18M8 2v4M16 2v4" />
+                    </svg>
+                </a>
+            </div>
+            <div class="spacer"></div>
+            <div class="icon" title="Profil">
+                <a href="profesor-profil.html">
+                    <svg viewBox="0 0 24 24" fill="none"
+stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
+                    </svg>
+                </a>
+            </div>
+            <div class="icon" title="Nastavitve">
+                <a href="profesor-nastavitve.html">
+                    <svg viewBox="0 0 24 24" fill="none"
+stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3" />
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33
+1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65
+1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65
+1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0
+.33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0
+1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1
+2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2
+2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0
+1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l.06.06a1.65 1.65 0 0 0-.33
+1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0
+0-1.51 1z" />
+                    </svg>
+                </a>
+            </div>
+        </nav>
+
+        <main class="main-container">
+            <header class="page-header">
+                <div>
+                    <h1 class="header-title">Koledar</h1>
+                    <p class="header-text">Na enem mestu spremljaj
+svoje dogodke in obveznosti.</p>
+                </div>
+            </header>
+
+            <div class="calendar-layout">
+                <section class="calendar" aria-label="Mesečni koledar">
+                    <div class="calendar-top">
+                        <div>
+                            <span class="calendar-label">MOJ PREGLED</span>
+                            <h2 id="month-year">Oktober 2026</h2>
+                        </div>
+                        <div class="calendar-navigation">
+                            <button id="prev-month" type="button"
+aria-label="Prejšnji mesec">←</button>
+                            <button id="next-month" type="button"
+aria-label="Naslednji mesec">→</button>
+                        </div>
+                    </div>
+                    <div class="weekdays" aria-hidden="true">
+
+<span>PON</span><span>TOR</span><span>SRE</span><span>ČET</span><span>PET</span><span>SOB</span><span>NED</span>
+                    </div>
+                    <div id="calendar-days" class="calendar-days"></div>
+                </section>
+
+                <aside class="event-panel">
+                    <div class="panel-heading">
+                        <span class="calendar-label">MOJI DOGODKI</span>
+                        <h2>Dodaj dogodek</h2>
+                        <p>Izberi dan v koledarju ali določi datum spodaj.</p>
+                    </div>
+                    <form id="event-form" class="event-form">
+                        <label for="event-title">Ime dogodka</label>
+                        <input id="event-title" name="title"
+type="text" maxlength="60" placeholder="npr. Test iz matematike"
+required>
+
+                        <label for="event-date">Datum</label>
+                        <input id="event-date" name="date" type="date" required>
+
+                        <label for="event-category">Predmet / barva</label>
+                        <select id="event-category" name="category">
+                            <option value="matematika">Matematika</option>
+                            <option value="informatika">Informatika</option>
+                            <option value="fizika">Fizika</option>
+                            <option value="slovenscina">Slovenščina</option>
+                            <option value="anglescina">Angleščina</option>
+                            <option value="zgodovina">Zgodovina</option>
+                        </select>
+                        <button class="add-event-button"
+type="submit">+ Dodaj dogodek</button>
+                    </form>
+
+                    <section class="selected-events" aria-live="polite">
+                        <h3 id="selected-date-title">Dogodki na izbran dan</h3>
+                        <ul id="event-list" class="event-list"></ul>
+                    </section>
+                </aside>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
+<script>
+
+const monthYear = document.getElementById("month-year");
+const calendarDays = document.getElementById("calendar-days");
+const prevMonth = document.getElementById("prev-month");
+const nextMonth = document.getElementById("next-month");
+const eventForm = document.getElementById("event-form");
+const eventTitle = document.getElementById("event-title");
+const eventDate = document.getElementById("event-date");
+const eventCategory = document.getElementById("event-category");
+const selectedDateTitle = document.getElementById("selected-date-title");
+const eventList = document.getElementById("event-list");
+
+const months = [
+    "Januar", "Februar", "Marec", "April", "Maj", "Junij",
+    "Julij", "Avgust", "September", "Oktober", "November", "December"
+];
+
+const categoryColors = {
+    matematika: "#cf704c",
+    informatika: "#7b9058",
+    fizika: "#91889e",
+    slovenscina: "#b98576",
+    anglescina: "#bd9026",
+    zgodovina: "#9d8d62"
+};
+
+let currentDate = new Date();
+let selectedDate = toDateKey(currentDate);
+let events = loadEvents();
+
+eventDate.value = selectedDate;
+
+function toDateKey(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+}
+
+function loadEvents() {
+    try {
+        const storedEvents =
+JSON.parse(localStorage.getItem("ucenec-koledar-dogodki") || "[]");
+        return Array.isArray(storedEvents) ? storedEvents : [];
+    } catch {
+        return [];
+    }
+}
+
+function saveEvents() {
+    localStorage.setItem("ucenec-koledar-dogodki", JSON.stringify(events));
+}
+
+function eventsForDate(dateKey) {
+    return events.filter(event => event.date === dateKey);
+}
+
+function formatDate(dateKey) {
+    const [year, month, day] = dateKey.split("-").map(Number);
+    return `${day}. ${months[month - 1]} ${year}`;
+}
+
+function renderSelectedEvents() {
+    selectedDateTitle.textContent = `Dogodki · ${formatDate(selectedDate)}`;
+    eventList.innerHTML = "";
+
+    const dayEvents = eventsForDate(selectedDate);
+    if (dayEvents.length === 0) {
+        const emptyMessage = document.createElement("li");
+        emptyMessage.className = "empty-events";
+        emptyMessage.textContent = "Za ta dan še ni dogodkov.";
+        eventList.appendChild(emptyMessage);
+        return;
+    }
+
+    dayEvents.forEach(event => {
+        const item = document.createElement("li");
+        const colorDot = document.createElement("span");
+        const title = document.createElement("span");
+        const removeButton = document.createElement("button");
+
+        colorDot.className = "event-color-dot";
+        colorDot.style.backgroundColor = event.color;
+        title.className = "event-list-title";
+        title.textContent = event.title;
+        removeButton.className = "remove-event";
+        removeButton.type = "button";
+        removeButton.setAttribute("aria-label", `Odstrani dogodek
+${event.title}`);
+        removeButton.textContent = "×";
+        removeButton.addEventListener("click", () => {
+            events = events.filter(savedEvent => savedEvent.id !== event.id);
+            saveEvents();
+            renderCalendar();
+            renderSelectedEvents();
+        });
+
+        item.append(colorDot, title, removeButton);
+        eventList.appendChild(item);
+    });
+}
+
+function selectDate(dateKey) {
+    selectedDate = dateKey;
+    eventDate.value = dateKey;
+    renderCalendar();
+    renderSelectedEvents();
+}
+
+function renderCalendar() {
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+    monthYear.textContent = `${months[month]} ${year}`;
+    calendarDays.innerHTML = "";
+
+    const firstDay = new Date(year, month, 1);
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const startingDay = (firstDay.getDay() + 6) % 7;
+    const todayKey = toDateKey(new Date());
+
+    for (let cell = 0; cell < 42; cell++) {
+        const day = cell - startingDay + 1;
+        const dayElement = document.createElement("button");
+        dayElement.type = "button";
+
+        if (day < 1 || day > daysInMonth) {
+            dayElement.className = "calendar-day empty";
+            dayElement.disabled = true;
+            dayElement.setAttribute("aria-hidden", "true");
+            calendarDays.appendChild(dayElement);
+            continue;
+        }
+
+        const dateKey = toDateKey(new Date(year, month, day));
+        const dayEvents = eventsForDate(dateKey);
+        dayElement.className = "calendar-day";
+        dayElement.setAttribute("aria-label", `${day}.
+${months[month]} ${year}${dayEvents.length ? `, ${dayEvents.length}
+dogodkov` : ""}`);
+        dayElement.setAttribute("aria-pressed", String(dateKey ===
+selectedDate));
+
+        if (dateKey === todayKey) dayElement.classList.add("today");
+        if (dateKey === selectedDate) dayElement.classList.add("selected");
+        if (dayEvents.length > 0) {
+            dayElement.classList.add("has-events");
+            dayElement.style.setProperty("--event-color", dayEvents[0].color);
+        }
+
+        const dayNumber = document.createElement("span");
+        dayNumber.className = "day-number";
+        dayNumber.textContent = day;
+        dayElement.appendChild(dayNumber);
+
+        if (dayEvents.length > 0) {
+            const eventNames = document.createElement("span");
+            eventNames.className = "day-events";
+            dayEvents.slice(0, 2).forEach(event => {
+                const name = document.createElement("span");
+                name.className = "day-event-name";
+                name.textContent = event.title;
+                eventNames.appendChild(name);
+            });
+            if (dayEvents.length > 2) {
+                const more = document.createElement("span");
+                more.className = "day-event-more";
+                more.textContent = `+${dayEvents.length - 2} več`;
+                eventNames.appendChild(more);
+            }
+            dayElement.appendChild(eventNames);
+        }
+
+        dayElement.addEventListener("click", () => selectDate(dateKey));
+        calendarDays.appendChild(dayElement);
+    }
+}
+
+prevMonth.addEventListener("click", () => {
+    currentDate = new Date(currentDate.getFullYear(),
+currentDate.getMonth() - 1, 1);
+    selectDate(toDateKey(currentDate));
+});
+
+nextMonth.addEventListener("click", () => {
+    currentDate = new Date(currentDate.getFullYear(),
+currentDate.getMonth() + 1, 1);
+    selectDate(toDateKey(currentDate));
+});
+
+eventDate.addEventListener("change", () => {
+    if (!eventDate.value) return;
+    const [year, month] = eventDate.value.split("-").map(Number);
+    currentDate = new Date(year, month - 1, 1);
+    selectDate(eventDate.value);
+});
+
+eventForm.addEventListener("submit", event => {
+    event.preventDefault();
+    const title = eventTitle.value.trim();
+    const date = eventDate.value;
+    if (!title || !date) return;
+
+    events.push({
+        id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+        title,
+        date,
+        category: eventCategory.value,
+        color: categoryColors[eventCategory.value] || "#cf704c"
+    });
+    saveEvents();
+
+    const [year, month] = date.split("-").map(Number);
+    currentDate = new Date(year, month - 1, 1);
+    selectedDate = date;
+    eventForm.reset();
+    eventDate.value = date;
+    eventCategory.value = "matematika";
+    renderCalendar();
+    renderSelectedEvents();
+    eventTitle.focus();
+});
+
+renderCalendar();
+renderSelectedEvents();
+</script>

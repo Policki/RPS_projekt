@@ -1,48 +1,188 @@
 * {
-            margin: 0;
-            box-sizing: border-box;
-            font-family: 'Alegreya', serif;
-        }
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Alegreya', serif;
+}
 
-        html, body {
-            height: 100%;
-            width: 100%;
-            background-color: #f7f3ec;
-        }
+html,
+body {
+    height: 100%;
+    width: 100%;
+    background-color: #f7f3ec;
+}
 
-        .all-content {
-            height: 100%;
-            width: 100%;
-            display: flex;
-        }
+.all-content {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
 
-        div {
-            border: 1px solid red;
-        }
-        .main-container {
-            width: 100%;
-            height: 90,5%;
-            margin: 30px;
-        }
-        .main-content{
-         display:flex;
-         padding:40px;
-         width:100%;
-         height:90.5%;
-        }
-        .crta{
-            border: 1px solid black;
-        }
-        .predmetti{
-            display:flex;
-            direction:row;
-            width:100%;
-            height:80%;
-            padding:80px;
-        }
-        .predmet1{
-            display:flex;
-            width:30%;
-            height:30%;
-            padding:40px;
-        }
+.main-container {
+    width: 100%;
+    height: 90, 5%;
+    margin: 30px;
+}
+
+.header {
+    padding: 20px;
+}
+
+.header p {
+    margin-top: 12px;
+    margin-bottom: 22px;
+
+    color: #7b756e;
+    font-size: 14px;
+}
+
+.header h1 {
+    margin: 0;
+    font-family: 'Alegreya', serif;
+    font-size: 40px;
+    font-weight: 600;
+}
+
+.header span {
+    color: #d96d49;
+}
+
+.main-content {
+    display: flex;
+    padding: 40px;
+    width: 100%;
+    height: 90.5%;
+}
+
+.crta {
+    height: 1px;
+    width: 100%;
+    background-color: #b8b3ac;
+    margin-bottom: 32px;
+}
+
+.predmeti {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.top-line {
+    width: 100%;
+    height: 5px;
+    border-radius: 5px;
+    margin-bottom: 16px;
+    background-color: #d98164;
+}
+
+.predmet-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.predmet-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 15px;
+    flex-shrink: 0;
+    background-color:#d98164;
+}
+
+.predmet-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.predmet-header p {
+    margin: 3px 0 0;
+    font-size: 13px;
+    color: #77716c;
+}
+
+.podatki {
+    margin-top: 13px;
+}
+
+.podatki p {
+    margin: 0 0 4px;
+    font-size: 13px;
+    color: #77716c;
+}
+
+.podatki strong {
+    font-size: 13px;
+}
+
+.progress {
+    position: absolute;
+
+    left: 22px;
+    right: 22px;
+    bottom: 20px;
+    height: 5px;
+    background-color: #c9c7c2;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress div {
+    height: 100%;
+    border-radius: 5px;
+}
+
+.predmet1 {
+    height: 180px;
+    width: 100%;
+    background-color: #fbfaf7;
+    border: 1px #b8b3ac solid;
+    border-radius: 28px;
+    padding: 16px 22px 20px;
+    position: relative;
+    overflow: hidden;
+    margin: 5px;
+}
+
+.predmet2 {
+    height: 180px;
+    width: 100%;
+    background-color: #fbfaf7;
+    border-radius: 28px;
+    border: 1px #b8b3ac solid;
+    padding: 16px 22px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.predmet3 {
+    height: 180px;
+    width: 100%;
+    background-color: #fbfaf7;
+    border: 1px #b8b3ac solid;
+    border-radius: 28px;
+    padding: 16px 22px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.predmet4 {
+    height: 180px;
+    width: 100%;
+    background-color: #fbfaf7;
+    border: 1px #b8b3ac solid;
+    border-radius: 28px;
+    padding: 16px 22px 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.predmet5 {
+    height: 180px;
+    width: 100%;
+    background-color: #fbfaf7;
+    border: 1px #b8b3ac solid;
+    border-radius: 28px;
+    padding: 16px 22px 20px;
+    position: relative;
+    overflow: hidden;
+}
