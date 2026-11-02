@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/ucenec/nastavitve.css">
     <link rel="stylesheet" href="/ucenec/nav.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="/ucenec/racun.css">
+    <link rel="stylesheet" href="/ucenec/nastavitve.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Alegreya:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="/ucenec/racun.js" defer></script>
+    <title>Nastavitve</title>
 </head>
 
 <body>
@@ -71,6 +76,60 @@
             </a>
         </div>
     </nav>
+
+    <main class="racun">
+        <header class="racun-glava nastavitve-glava">
+            <h1>Nastavitve</h1>
+            <p>Prilagodi obvestila in geslo. Podatkov o šoli ne moreš spreminjati.</p>
+        </header>
+
+        <div class="nastavitve-seznam">
+            <section class="racun-kartica" aria-labelledby="obvestila-naslov">
+                <header class="kartica-glava">
+                    <h2 id="obvestila-naslov">Obvestila</h2>
+                    <p>Izberi, o čem želiš biti obveščen.</p>
+                </header>
+                <label class="nastavitve-vrstica" for="obvestila-naloge">
+                    <span class="nastavitev-opis"><strong>Nova naloga</strong><small>Ko učitelj objavi novo nalogo.</small></span>
+                    <input class="preklop" id="obvestila-naloge" type="checkbox" role="switch" data-obvestilo="novaNaloga" checked>
+                </label>
+                <label class="nastavitve-vrstica" for="obvestila-roki">
+                    <span class="nastavitev-opis"><strong>Opomnik za rok</strong><small>Dan pred potekom roka oddaje.</small></span>
+                    <input class="preklop" id="obvestila-roki" type="checkbox" role="switch" data-obvestilo="opomnikRok" checked>
+                </label>
+                <label class="nastavitve-vrstica" for="obvestila-gradiva">
+                    <span class="nastavitev-opis"><strong>Novo gradivo</strong><small>Ko je objavljeno novo gradivo.</small></span>
+                    <input class="preklop" id="obvestila-gradiva" type="checkbox" role="switch" data-obvestilo="novoGradivo" checked>
+                </label>
+            </section>
+
+            <section class="racun-kartica" aria-labelledby="geslo-naslov">
+                <header class="kartica-glava"><h2 id="geslo-naslov">Geslo</h2></header>
+                <div class="nastavitve-vrstica">
+                    <div class="nastavitev-opis"><strong>Geslo</strong><small>Priporočamo, da ga občasno zamenjaš.</small></div>
+                    <button class="gumb" type="button" data-odpri-dialog="geslo-dialog">Spremeni geslo</button>
+                </div>
+            </section>
+
+            <section class="racun-kartica" aria-labelledby="sola-naslov">
+                <header class="kartica-glava kartica-glava-oznaka">
+                    <div><h2 id="sola-naslov">Določa šola</h2><p>Teh podatkov ne moreš spreminjati.</p></div>
+                    <span class="oznaka-branje"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Samo za branje</span>
+                </header>
+                <div class="nastavitve-vrstica"><div class="nastavitev-opis"><strong>Šolski e-naslov</strong><small>enej.vidmar@sola.si</small></div></div>
+                <div class="nastavitve-vrstica"><div class="nastavitev-opis"><strong>Dostop do predmetov</strong><small>Določa vpis v razred.</small></div></div>
+            </section>
+        </div>
+        <p class="racun-status" id="racun-status" role="status" aria-live="polite"></p>
+    </main>
+
+    <dialog class="racun-dialog" id="geslo-dialog" aria-labelledby="geslo-dialog-naslov" aria-describedby="geslo-dialog-opis">
+        <button class="zapri" type="button" data-zapri-dialog aria-label="Zapri">×</button>
+        <h2 id="geslo-dialog-naslov">Sprememba gesla</h2>
+        <p id="geslo-dialog-opis">Za spremembo gesla svojega šolskega računa se obrni na tajništvo.</p>
+        <div class="dialog-kontakt"><span class="kontakt-avatar tajnistvo-avatar" aria-hidden="true">T</span><div><strong>Tajništvo</strong><a href="mailto:tajnistvo@sola.si">tajnistvo@sola.si</a></div></div>
+        <div class="dialog-dejanja"><button class="gumb" type="button" data-zapri-dialog>Zapri</button><a class="gumb gumb-glavni" href="mailto:tajnistvo@sola.si?subject=Sprememba%20gesla">Piši tajništvu</a></div>
+    </dialog>
 </body>
 
 </html>

@@ -1,12 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/ucenec/profil.css">
     <link rel="stylesheet" href="/ucenec/nav.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="/ucenec/racun.css">
+    <link rel="stylesheet" href="/ucenec/profil.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Alegreya:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="/ucenec/racun.js" defer></script>
+    <title>Profil</title>
 </head>
 
 <body>
@@ -71,6 +76,53 @@
             </a>
         </div>
     </nav>
+
+    <main class="racun">
+        <div class="profil-vsebina">
+            <header class="racun-glava profil-glava">
+                <div class="profil-avatar" aria-hidden="true">EV</div>
+                <div>
+                    <h1>Enej Vidmar</h1>
+                    <div class="profil-oznake"><span class="profil-vloga">Dijak</span><span class="profil-razred">3. letnik · 3. RAČ</span></div>
+                </div>
+            </header>
+
+            <section class="racun-kartica" aria-labelledby="podatki-naslov">
+                <header class="kartica-glava">
+                    <h2 id="podatki-naslov">Podatki o dijaku</h2>
+                    <p>Ime, razred in šolski e-naslov vnese šola, zato jih ne moreš spreminjati.</p>
+                </header>
+                <dl class="profil-podatki">
+                    <div class="profil-vrstica"><dt>Ime in priimek</dt><dd>Enej Vidmar</dd></div>
+                    <div class="profil-vrstica"><dt>Razred</dt><dd>3. RAČ</dd></div>
+                    <div class="profil-vrstica"><dt>Šolski e-naslov</dt><dd><a href="mailto:enej.vidmar@sola.si">enej.vidmar@sola.si</a></dd></div>
+                    <div class="profil-vrstica"><dt>Razrednik</dt><dd>Prof. Novak</dd></div>
+                    <div class="profil-vrstica"><dt>Telefon</dt><dd class="profil-telefon"><span id="profil-telefon">041 123 456</span><button class="gumb" type="button" data-odpri-dialog="telefon-dialog">Uredi<span class="sr-only"> telefonsko številko</span></button></dd></div>
+                </dl>
+                <p class="profil-opomba"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-11v1"/></svg><span>Napačen podatek? Obvesti razrednika ali tajništvo, da ga popravita.</span></p>
+            </section>
+
+            <section class="racun-kartica profil-pomoc" aria-labelledby="pomoc-naslov">
+                <header class="kartica-glava"><h2 id="pomoc-naslov">Kdo ti lahko pomaga</h2></header>
+                <div class="kontakt-vrstica"><span class="kontakt-avatar" aria-hidden="true">N</span><div><strong>Prof. Novak</strong><span>Razrednik</span></div></div>
+                <a class="kontakt-vrstica kontakt-povezava" href="mailto:tajnistvo@sola.si"><span class="kontakt-avatar tajnistvo-avatar" aria-hidden="true">T</span><div><strong>Tajništvo</strong><span>tajnistvo@sola.si</span></div></a>
+            </section>
+            <p class="racun-status" id="racun-status" role="status" aria-live="polite"></p>
+        </div>
+    </main>
+
+    <dialog class="racun-dialog" id="telefon-dialog" aria-labelledby="telefon-dialog-naslov" aria-describedby="telefon-dialog-opis">
+        <button class="zapri" type="button" data-zapri-dialog aria-label="Zapri">×</button>
+        <h2 id="telefon-dialog-naslov">Uredi telefonsko številko</h2>
+        <p id="telefon-dialog-opis">Sprememba se shrani v tem brskalniku.</p>
+        <form id="telefon-obrazec" method="dialog">
+            <label class="obrazec-polje" for="telefon-nov">Telefonska številka
+                <input id="telefon-nov" name="telefon" type="tel" inputmode="tel" autocomplete="tel" maxlength="32" aria-describedby="telefon-napaka" required>
+            </label>
+            <p class="obrazec-napaka" id="telefon-napaka" role="alert"></p>
+            <div class="dialog-dejanja"><button class="gumb" type="button" data-zapri-dialog>Prekliči</button><button class="gumb gumb-glavni" type="submit">Shrani</button></div>
+        </form>
+    </dialog>
 </body>
 
 </html>

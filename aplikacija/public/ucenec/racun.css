@@ -1,0 +1,82 @@
+* { box-sizing: border-box; }
+
+:root {
+    --ozadje: #f7f3ec;
+    --besedilo: #1d1d1b;
+    --priguseno: #91887d;
+    --crta: #e7ded1;
+    --zelena: #2d3326;
+    --olivna: #7f9160;
+    --serif: 'Alegreya', Georgia, serif;
+    --sans: 'Albert Sans', Arial, sans-serif;
+}
+
+body { min-height: 100vh; display: flex; background: var(--ozadje); color: var(--besedilo); font: 14px/1.45 var(--sans); }
+button, input { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+button:focus-visible, input:focus-visible, a:focus-visible { outline: 3px solid #c96f4a; outline-offset: 4px; }
+[hidden] { display: none !important; }
+.sidebar { position: sticky; top: 0; }
+.racun { flex: 1; min-width: 0; padding: 38px 28px 48px; }
+.racun-glava { padding-bottom: 28px; margin-bottom: 28px; border-bottom: 1px solid var(--crta); }
+.racun-glava h1 { margin: 0; font: 500 42px/1.2 var(--serif); }
+.racun-glava p { margin: 10px 0 0; color: var(--priguseno); font-size: 15px; }
+.racun-kartica { min-width: 0; overflow: hidden; border: 1px solid var(--crta); border-radius: 24px; background: #fffefd; box-shadow: 0 2px 3px #3c302309; }
+.kartica-glava { padding: 20px 28px 16px; }
+.kartica-glava h2 { margin: 0; font: 500 22px/1.2 var(--serif); }
+.kartica-glava p { margin: 5px 0 0; color: var(--priguseno); font-size: 13px; }
+.gumb { display: inline-flex; align-items: center; justify-content: center; gap: 10px; flex-shrink: 0; min-height: 36px; padding: 7px 13px; border: 1px solid var(--crta); border-radius: 11px; background: #fffefd; color: var(--besedilo); font-size: 12px; font-weight: 500; text-decoration: none; }
+.gumb:hover { background: #f4f0e8; }
+.gumb-glavni { border-color: var(--zelena); background: var(--zelena); color: #fff; }
+.gumb-glavni:hover { background: #414a36; }
+.racun-status { margin: 18px 0 0; color: #66794b; font-size: 13px; }
+.racun-status:empty { display: none; }
+.racun-status[data-napaka="true"] { color: #a84d30; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+.kontakt-avatar { display: grid; place-items: center; flex: 0 0 38px; width: 38px; height: 38px; border-radius: 50%; background: #f1f5ed; color: var(--olivna); font: 500 16px var(--serif); }
+.tajnistvo-avatar { background: #fcf2ed; color: #c0806d; }
+.racun-dialog { width: min(480px, calc(100% - 32px)); max-height: calc(100dvh - 32px); padding: 30px; border: 1px solid var(--crta); border-radius: 24px; background: var(--ozadje); color: var(--besedilo); }
+.racun-dialog::backdrop { background: #23282166; }
+.racun-dialog h2 { margin: 0 24px 16px 0; font: 500 28px/1.2 var(--serif); }
+.racun-dialog > p { color: var(--priguseno); }
+.zapri { position: absolute; top: 10px; right: 10px; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--priguseno); font-size: 25px; }
+.zapri:hover { background: #eee8dd; }
+.dialog-dejanja { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.dialog-kontakt { display: flex; align-items: center; gap: 14px; margin-top: 24px; padding: 16px; border: 1px solid var(--crta); border-radius: 14px; background: #fffefd; }
+.dialog-kontakt strong { display: block; font-weight: 500; }
+.dialog-kontakt a { color: var(--priguseno); font-size: 13px; overflow-wrap: anywhere; }
+.obrazec-polje { display: flex; flex-direction: column; gap: 8px; margin-top: 24px; font-weight: 500; }
+.obrazec-polje input { width: 100%; min-width: 0; min-height: 44px; padding: 10px 12px; border: 1px solid var(--crta); border-radius: 11px; background: #fffefd; color: var(--besedilo); }
+.obrazec-napaka { margin: 8px 0 0; color: #a84d30; font-size: 13px; }
+.obrazec-napaka:empty { display: none; }
+
+@media (max-width: 1100px) {
+    .racun { padding-top: 32px; padding-bottom: 32px; }
+}
+
+@media (max-width: 1050px) {
+    .racun { padding-right: 18px; padding-left: 18px; }
+}
+
+@media (max-width: 760px) {
+    .racun { padding-right: 14px; padding-left: 14px; }
+}
+
+@media (max-width: 640px) {
+    .racun { padding-top: 24px; padding-bottom: 32px; }
+    .racun-glava { margin-bottom: 22px; padding-bottom: 22px; }
+    .racun-glava h1 { font-size: 36px; }
+    .racun-glava p { font-size: 14px; }
+    .racun-kartica { border-radius: 20px; }
+    .kartica-glava { padding: 18px 20px 16px; }
+    .kartica-glava h2 { font-size: 21px; }
+    .racun-dialog { padding: 24px; }
+    .racun-dialog h2 { font-size: 26px; }
+    .dialog-kontakt { gap: 10px; padding: 12px; }
+}
+
+@media (max-width: 480px) {
+    .racun { padding-right: 10px; padding-left: 10px; }
+}

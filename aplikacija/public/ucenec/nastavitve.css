@@ -1,16 +1,23 @@
-* {
-    box-sizing: border-box;
+.nastavitve-seznam { display: grid; gap: 20px; }
+.nastavitve-vrstica { display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 76px; padding: 16px 28px; border-top: 1px solid var(--crta); }
+label.nastavitve-vrstica { cursor: pointer; }
+.nastavitev-opis { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.nastavitev-opis strong { font-size: 14px; font-weight: 500; }
+.nastavitev-opis small { color: var(--priguseno); font-size: 12px; overflow-wrap: anywhere; }
+.preklop { appearance: none; position: relative; width: 40px; height: 24px; flex: 0 0 40px; margin: 0; border: 0; border-radius: 999px; background: #d5d2c9; cursor: pointer; transition: background 150ms ease; }
+.preklop::before { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px #00000014; content: ''; transition: transform 150ms ease; }
+.preklop:checked { background: var(--olivna); }
+.preklop:checked::before { transform: translateX(16px); }
+.kartica-glava-oznaka { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.oznaka-branje { display: inline-flex; align-items: center; gap: 5px; flex-shrink: 0; margin-top: 2px; padding: 4px 10px; border-radius: 999px; background: #f0ebe1; color: #6f675b; font-size: 11px; }
+.oznaka-branje svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+
+@media (max-width: 640px) {
+    .nastavitve-seznam { gap: 18px; }
+    .nastavitve-vrstica { gap: 14px; padding: 16px 20px; }
+    .nastavitve-vrstica .gumb { flex-shrink: 1; text-align: center; }
 }
 
-html,
-body {
-    min-height: 100%;
-    margin: 0;
-    background: #f7f3ec;
-    font-family: 'Alegreya', serif;
-}
-
-body {
-    min-height: 100vh;
-    display: flex;
+@media (prefers-reduced-motion: reduce) {
+    .preklop, .preklop::before { transition: none; }
 }
