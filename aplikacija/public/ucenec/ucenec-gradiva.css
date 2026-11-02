@@ -1,0 +1,127 @@
+* { box-sizing: border-box; }
+
+:root {
+    --ozadje: #f7f3ec;
+    --besedilo: #1d1d1b;
+    --priguseno: #91887d;
+    --crta: #e7ded1;
+    --zelena: #2d3326;
+    --serif: 'Alegreya', Georgia, serif;
+    --sans: 'Albert Sans', Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    background: var(--ozadje);
+    color: var(--besedilo);
+    font: 14px/1.45 var(--sans);
+}
+
+button, input, select { font: inherit; }
+button, select { cursor: pointer; }
+button, select, a { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible {
+    outline: 3px solid #c96f4a;
+    outline-offset: 4px;
+}
+[hidden] { display: none !important; }
+.ikone { position: absolute; width: 0; height: 0; overflow: hidden; }
+.gradiva svg, .gradivo-podrobnosti svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.sidebar { position: sticky; top: 0; }
+
+.gradiva { flex: 1; min-width: 0; padding: 38px 28px 48px; }
+.gradiva-glava { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding-bottom: 28px; border-bottom: 1px solid var(--crta); }
+.gradiva-glava h1 { margin: 0; font: 600 42px/1.2 var(--serif); }
+.gradiva-glava p { margin: 10px 0 0; color: var(--priguseno); font-size: 16px; }
+.gradiva-iskanje { display: flex; align-items: center; gap: 10px; width: 260px; max-width: 100%; min-height: 42px; flex-shrink: 0; padding: 9px 14px; border: 1px solid var(--crta); border-radius: 13px; background: #fffefd; color: var(--priguseno); }
+.gradiva-iskanje svg { width: 15px; height: 15px; flex-shrink: 0; }
+.gradiva-iskanje input { width: 100%; min-width: 0; padding: 0; border: 0; background: transparent; color: var(--besedilo); }
+.gradiva-iskanje input::placeholder { color: #a29a8e; }
+.gradiva-iskanje:focus-within { outline: 3px solid #c96f4a; outline-offset: 3px; }
+.gradiva-iskanje input:focus-visible { outline: none; }
+
+.gradiva-orodja { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px 24px; margin: 28px 0 30px; }
+.gradiva-filtri { display: flex; flex-wrap: wrap; gap: 8px; }
+.filter { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 9px 16px; border: 1px solid var(--crta); border-radius: 999px; background: #fffefd; color: #847c72; font-weight: 600; transition: background 150ms ease, color 150ms ease; }
+.filter span { width: 7px; height: 7px; flex-shrink: 0; border-radius: 50%; background: var(--barva); }
+.filter:hover { background: #eee9df; }
+.filter.active { border-color: var(--zelena); background: var(--zelena); color: #fff; }
+.gradiva-razvrsti { display: flex; align-items: center; gap: 10px; color: var(--priguseno); }
+.gradiva-razvrsti select { max-width: 100%; padding: 9px 12px; border: 1px solid var(--crta); border-radius: 12px; background: #fffefd; color: var(--besedilo); }
+
+.informatika { --barva: #7b9058; --bledo: #f1f5ed; }
+.matematika { --barva: #cf704c; --bledo: #fcf2ed; }
+.fizika { --barva: #91889e; --bledo: #e4dfeb; }
+.anglescina { --barva: #bd9026; --bledo: #efe2bf; }
+.slovenscina { --barva: #c0806d; --bledo: #efddd5; }
+.zgodovina { --barva: #9d8d62; --bledo: #e7dfc5; }
+.gradiva-mreza { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; }
+.gradivo { min-width: 0; min-height: 220px; display: flex; flex-direction: column; padding: 20px; border: 1px solid var(--crta); border-radius: 21px; background: #fffefd; transition: border-color 150ms ease, box-shadow 150ms ease; }
+.gradivo:hover { border-color: #d4c9b8; box-shadow: 0 4px 14px #3c30230a; }
+.gradivo-glava { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 20px; }
+.gradivo-predmet { display: inline-flex; align-items: center; gap: 6px; color: var(--priguseno); font-size: 12px; }
+.gradivo-predmet::before { width: 7px; height: 7px; flex-shrink: 0; border-radius: 50%; background: var(--barva); content: ''; }
+.gradivo-novo { padding: 2px 8px; border-radius: 999px; background: #fcf1ec; color: #cf704c; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+.gradivo-ikona { display: grid; place-items: center; width: 44px; height: 44px; margin-top: 16px; border-radius: 14px; background: var(--bledo); color: var(--barva); }
+.gradivo h2 { margin: 14px 0 16px; font: 600 15px/1.4 var(--sans); }
+.gradivo h2 button { padding: 0; border: 0; background: transparent; color: inherit; font: inherit; text-align: left; overflow-wrap: anywhere; }
+.gradivo h2 button:hover { text-decoration: underline; text-underline-offset: 3px; }
+.gradivo-noga { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 14px; border-top: 1px solid var(--crta); }
+.gradivo-format { margin: 0; color: var(--priguseno); font-size: 11px; font-weight: 700; }
+.gradivo-noga time { display: block; color: #a29a8e; font-size: 12px; }
+.gradivo-dejanje { display: grid; place-items: center; flex: 0 0 34px; width: 34px; height: 34px; padding: 0; border: 1px solid var(--crta); border-radius: 11px; background: transparent; color: var(--besedilo); }
+.gradivo-dejanje svg { width: 16px; height: 16px; }
+.gradivo-dejanje:hover { background: var(--bledo); border-color: var(--barva); }
+
+.gradiva-prazno { padding: 56px 24px; border: 1px dashed var(--crta); border-radius: 21px; text-align: center; }
+.prazno-ikona { display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: #eee8dd; color: var(--priguseno); }
+.gradiva-prazno h2 { margin: 16px 0 8px; font: 500 26px/1.2 var(--serif); }
+.gradiva-prazno p { margin: 0 0 20px; color: var(--priguseno); }
+.gumb { display: inline-flex; align-items: center; justify-content: center; gap: 12px; min-height: 38px; padding: 9px 16px; border: 1px solid var(--zelena); border-radius: 12px; background: var(--zelena); color: #fff; font-weight: 600; text-decoration: none; }
+.gumb:hover { background: #414a36; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.gradivo-podrobnosti { width: min(520px, calc(100% - 32px)); max-height: calc(100dvh - 32px); padding: 32px; border: 1px solid var(--crta); border-radius: 24px; background: var(--ozadje); color: var(--besedilo); }
+.gradivo-podrobnosti::backdrop { background: #23282166; }
+.gradivo-podrobnosti h2 { margin: 8px 24px 18px 0; font: 600 30px/1.2 var(--serif); }
+.gradivo-podrobnosti p { line-height: 1.6; }
+.podrobnosti-predmet, .podrobnosti-format { color: var(--priguseno); }
+.gradivo-podrobnosti .podrobnosti-predmet { margin: 0; font-size: 13px; }
+.gradivo-podrobnosti .gumb { margin-top: 12px; }
+.zapri { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: var(--priguseno); font-size: 25px; }
+.zapri:hover { background: #eee8dd; }
+
+@media (max-width: 1200px) {
+    .gradiva { padding-top: 32px; padding-bottom: 32px; }
+    .gradiva-mreza { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1050px) {
+    .gradiva { padding-right: 18px; padding-left: 18px; }
+}
+
+@media (max-width: 940px) {
+    .gradiva-mreza { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .gradiva-glava { align-items: flex-start; flex-wrap: wrap; }
+}
+
+@media (max-width: 760px) {
+    .gradiva { padding-right: 14px; padding-left: 14px; }
+}
+
+@media (max-width: 640px) {
+    .gradiva { padding-top: 24px; padding-bottom: 32px; }
+    .gradiva-glava { gap: 20px; padding-bottom: 22px; }
+    .gradiva-glava h1 { font-size: 36px; }
+    .gradiva-glava p { font-size: 14px; }
+    .gradiva-iskanje { width: 100%; }
+    .gradiva-orodja { margin: 22px 0 24px; }
+    .gradiva-filtri { gap: 6px; }
+    .filter { padding: 8px 12px; font-size: 12px; }
+    .gradiva-razvrsti { font-size: 13px; }
+    .gradiva-mreza { grid-template-columns: 1fr; gap: 14px; }
+}
+
+@media (max-width: 480px) {
+    .gradiva { padding-right: 10px; padding-left: 10px; }
+}
