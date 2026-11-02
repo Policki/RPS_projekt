@@ -29,18 +29,18 @@
         <div class="dva-stolpca profil-stolpca">
             <section class="card">
                 <h2>Osebni podatki</h2>
-                <form class="obrazec" onsubmit="return false">
-                    <label>Ime in priimek<input type="text" value="[Ime Priimek]"></label>
-                    <label>E-pošta<input type="email" value="ime.priimek@sola.si"></label>
-                    <label>Telefon<input type="tel" placeholder="/"></label>
-                    <label>Predmeti<input type="text" value="UPP, SPA, RPS, RKO, OPR"></label>
+                <form class="obrazec" id="obrazec-profil">
+                    <label>Ime in priimek<input type="text" id="polje-ime" value=""></label>
+                    <label>E-pošta<input type="email" id="polje-eposta" value=""></label>
+                    <label>Telefon<input type="tel" id="polje-telefon" placeholder="npr. 031 123 456"></label>
+                    <label>Predmeti<input type="text" id="polje-predmeti" value="UPP, SPA, RPS, RKO, OPR"></label>
                     <button class="gumb" type="submit">Shrani spremembe</button>
                 </form>
             </section>
             <div class="desno">
                 <section class="card card-accent profil-kartica">
-                    <div class="avatar" aria-hidden="true">GH</div>
-                    <h2>g. Holobar</h2>
+                    <div class="avatar" id="profil-avatar" aria-hidden="true"></div>
+                    <h2 id="profil-ime"></h2>
                     <p class="opomba">Profesor</p>
                 </section>
                 <section class="card card-accent">
@@ -55,5 +55,7 @@
         </div>
     </main>
 </div>
+<script src="db.js"></script>
+<script src="profesor.js"></script>
 </body>
 </html>
