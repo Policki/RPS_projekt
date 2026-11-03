@@ -23,7 +23,6 @@ function updateTasks() {
             if (sort.value === 'predmet') {
                 return collator.compare(a.dataset.predmet, b.dataset.predmet);
             }
-            // Submitted work is shown with the most recent submission first.
             const direction = a.dataset.status === 'oddane' ? -1 : 1;
             return direction * a.dataset.rok.localeCompare(b.dataset.rok);
         });

@@ -2,6 +2,12 @@
 
 Projekt pri predmetu RPS – Računalniški produkti in storitve.
 
+## TESTNI PODATKI ZA PRIJAVO
+-admin
+-profesor01
+-dijak01
+povsod je geslo: Geslo123!
+
 ## Namen projekta
 
 Izdelava spletne aplikacije za podporo šolskemu delu na daljavo.

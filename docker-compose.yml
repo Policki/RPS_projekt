@@ -3,3 +3,19 @@ services:
     build: ./aplikacija
     ports:
       - "3000:3000"
+  baza:
+    image: mariadb:11
+    container_name: rps-baza
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - baza_podatki:/var/lib/mysql
+      - ./baza/SQL.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+
+volumes:
+  baza_podatki:
