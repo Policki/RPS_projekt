@@ -28,6 +28,9 @@
      background: #c96f4a;
      color: #f3efeff6;
  }
+ .sidebar .icon.active {
+    background: #c96f4a;
+}
 
  .sidebar svg {
      width: 20px;

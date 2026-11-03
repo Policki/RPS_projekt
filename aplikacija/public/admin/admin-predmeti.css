@@ -53,6 +53,8 @@ button { font-family: inherit; }
 .icon, .icon:visited, .icon:hover, .icon:active { color: white; text-decoration: none; }
 .icon svg { stroke: white; }
 
+
+
 .content {
     flex: 1;
     min-width: 0;

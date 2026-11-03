@@ -10,7 +10,7 @@
 <body>
 
 <nav class="sidebar" aria-label="Glavni meni">
-    <a class="icon" href="admin_dashboard.html" aria-label="Nadzorna plošča" title="Nadzorna plošča">
+    <a class="icon" href="admin-dashboard.html" aria-label="Nadzorna plošča" title="Nadzorna plošča">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
     </a>
     <a class="icon" href="admin_uporabniki.html" aria-label="Uporabniki" title="Uporabniki">
@@ -18,9 +18,6 @@
     </a>
     <a class="icon" href="admin-predmeti.html" aria-label="Predmeti" title="Predmeti">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/></svg>
-    </a>
-    <a class="icon" href="admin-statistika.html" aria-label="Statistika" title="Statistika">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 20v-7"/><path d="M12 20V5"/><path d="M17 20v-10"/></svg>
     </a>
     <a class="icon" href="admin-koledar.html" aria-label="Koledar" title="Koledar">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg>
@@ -173,12 +170,9 @@
 </main>
 
 <script>
-/* ===== Pomožne funkcije ===== */
 const $ = (id) => document.getElementById(id);
 const form = $('profileForm');
 
-/* Začetne vrednosti (zamenjaj s podatki s strežnika,
-   npr.: const profile = await (await fetch('/api/profil')).json();) */
 const initial = {
     ime: 'Admin',
     priimek: '',
@@ -188,7 +182,6 @@ const initial = {
 };
 const switches = { twofa: true, novi_vpisi: true, sistemska: true, povzetek: false };
 
-/* Posodobi levo kartico glede na vnos v obrazcu */
 function syncAside() {
     const ime = form.ime.value.trim();
     const priimek = form.priimek.value.trim();
@@ -201,32 +194,22 @@ function syncAside() {
 form.addEventListener('input', syncAside);
 form.addEventListener('change', syncAside);
 
-/* Shrani */
 let statusTimer;
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
     console.log('Shrani profil:', data, switches);
-    /* Tukaj pošlji na strežnik, npr.:
-       await fetch('/api/profil', {
-           method: 'PUT',
-           headers: { 'Content-Type': 'application/json' },
-           body: JSON.stringify({ ...data, nastavitve: switches })
-       });
-    */
     Object.assign(initial, data);
     $('saveStatus').textContent = 'Spremembe so shranjene.';
     clearTimeout(statusTimer);
     statusTimer = setTimeout(() => { $('saveStatus').textContent = ''; }, 3000);
 });
 
-/* Prekliči: povrni začetne vrednosti */
 $('cancel').addEventListener('click', () => {
     Object.entries(initial).forEach(([k, v]) => { form[k].value = v; });
     syncAside();
 });
 
-/* Stikala */
 document.querySelectorAll('.switch').forEach((btn) => {
     btn.addEventListener('click', () => {
         const key = btn.dataset.key;
