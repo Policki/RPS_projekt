@@ -1,9 +1,6 @@
-/* Skupni elementi: obvestila, pogovorna okna, meni.
-   Barve ustrezajo paleti ostalih strani. */
 
 body.ui-lock { overflow: hidden; }
 
-/* ---------- toast ---------- */
 .ui-toasts {
     position: fixed; right: 24px; bottom: 24px; z-index: 1200;
     display: flex; flex-direction: column; gap: 10px; align-items: flex-end;
@@ -18,7 +15,6 @@ body.ui-lock { overflow: hidden; }
 .ui-toast.ui-toast-error { background: #8a3f1f; }
 .ui-toast.out { opacity: 0; transform: translateY(6px); }
 
-/* ---------- modal ---------- */
 .ui-overlay {
     position: fixed; inset: 0; z-index: 1000;
     background: rgba(27, 27, 24, .45);
@@ -67,7 +63,6 @@ body.ui-lock { overflow: hidden; }
 .ui-btn-danger-solid { background: #8a3f1f; border-color: #8a3f1f; color: #fff; }
 .ui-btn-danger-solid:hover { background: #702f14; }
 
-/* ---------- meni ---------- */
 .ui-menu {
     position: absolute; z-index: 1100; min-width: 190px; padding: 6px;
     background: #fff; border: 1px solid #ece6da; border-radius: 12px;

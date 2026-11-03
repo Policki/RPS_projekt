@@ -1,11 +1,9 @@
 <?php
-// Skupna koda za vse API-je: povezava z bazo, seja, JSON odgovori, zaščita.
 require_once __DIR__ . '/config.php';
 
 date_default_timezone_set(APP_TIMEZONE);
 mb_internal_encoding('UTF-8');
 
-/* ---------- JSON odgovori ---------- */
 function json_out($data, $code = 200)
 {
     http_response_code($code);
@@ -28,7 +26,6 @@ set_exception_handler(function ($e) {
     }
 });
 
-/* ---------- Baza ---------- */
 function db()
 {
     static $pdo = null;
@@ -39,7 +36,6 @@ function db()
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES   => false,
         ]);
-        // MySQL naj uporablja isti časovni pas kot PHP (da se NOW() ujema)
         $pdo->exec("SET time_zone = '" . (new DateTime('now'))->format('P') . "'");
     }
     return $pdo;
@@ -52,7 +48,6 @@ function q($sql, $params = [])
     return $st;
 }
 
-/* ---------- Nastavitve ---------- */
 function settings_all()
 {
     $out = [];
@@ -75,7 +70,6 @@ function set_setting($key, $value)
        ON DUPLICATE KEY UPDATE svalue = VALUES(svalue)', [$key, (string)$value]);
 }
 
-/* ---------- Seja ---------- */
 function start_session()
 {
     if (session_status() === PHP_SESSION_ACTIVE) {
@@ -102,7 +96,6 @@ function session_timeout_seconds()
     }
 }
 
-/* Vrne podatke prijavljenega skrbnika ali prekine zahtevo z 401. */
 function require_admin($checkCsrf = null)
 {
     start_session();
@@ -136,7 +129,6 @@ function require_admin($checkCsrf = null)
     return $u;
 }
 
-/* ---------- Vhodni podatki ---------- */
 function read_json()
 {
     $raw = file_get_contents('php://input');

@@ -1,8 +1,4 @@
 <?php
-// ============================================================
-//  NASTAVITVE POVEZAVE – prilagodi svojemu strežniku
-//  (privzete vrednosti ustrezajo XAMPP / WAMP namestitvi)
-// ============================================================
 const DB_HOST = '127.0.0.1';
 const DB_NAME = 'sola_admin';
 const DB_USER = 'root';
