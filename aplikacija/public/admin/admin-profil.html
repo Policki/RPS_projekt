@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Moj profil</title>
 <link href="admin-profil.css" rel="stylesheet">
+<link href="css/admin-ui.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -50,7 +51,7 @@
                     <div class="mail" id="asideMail">admin@sola.example</div>
                 </div>
                 <span class="pill">Skrbnik sistema</span>
-                <button class="btn" type="button" style="margin-top:6px">Zamenjaj sliko</button>
+                <button class="btn" type="button" style="margin-top:6px" id="photoBtn">Zamenjaj sliko</button>
             </div>
             <div class="facts">
                 <div class="fact"><span class="k">Vloga</span><span class="v">Skrbnik sistema</span></div>
@@ -117,7 +118,7 @@
                         <div class="t">Geslo</div>
                         <div class="d">Uporabi dolgo, edinstveno geslo.</div>
                     </div>
-                    <button class="btn" type="button">Zamenjaj geslo</button>
+                    <button class="btn" type="button" id="pwBtn">Zamenjaj geslo</button>
                 </div>
                 <div class="setting">
                     <div>
@@ -169,19 +170,27 @@
     </div>
 </main>
 
+<script src="js/admin.js"></script>
 <script>
 const $ = (id) => document.getElementById(id);
 const form = $('profileForm');
 
-const initial = {
-    ime: 'Admin',
-    priimek: '',
-    eposta: 'admin@sola.example',
-    telefon: '',
-    jezik: 'sl'
-};
-const switches = { twofa: true, novi_vpisi: true, sistemska: true, povzetek: false };
+let initial = { ime: 'Admin', priimek: '', eposta: '', telefon: '', jezik: 'sl' };
+let switches = { twofa: true, novi_vpisi: true, sistemska: true, povzetek: false };
+let savedSwitches = { ...switches };
 
+function renderSwitches() {
+    document.querySelectorAll('.switch').forEach((btn) => {
+        btn.setAttribute('aria-checked', String(!!switches[btn.dataset.key]));
+    });
+}
+
+function fillForm() {
+    Object.entries(initial).forEach(([k, v]) => { form[k].value = v; });
+    syncAside();
+}
+
+/* Posodobi levo kartico glede na vnos v obrazcu */
 function syncAside() {
     const ime = form.ime.value.trim();
     const priimek = form.priimek.value.trim();
@@ -195,21 +204,54 @@ form.addEventListener('input', syncAside);
 form.addEventListener('change', syncAside);
 
 let statusTimer;
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(form).entries());
-    console.log('Shrani profil:', data, switches);
-    Object.assign(initial, data);
-    $('saveStatus').textContent = 'Spremembe so shranjene.';
+function flash(text, isError) {
+    $('saveStatus').textContent = text;
     clearTimeout(statusTimer);
-    statusTimer = setTimeout(() => { $('saveStatus').textContent = ''; }, 3000);
+    statusTimer = setTimeout(() => { $('saveStatus').textContent = ''; }, isError ? 6000 : 3000);
+}
+
+async function load() {
+    try {
+        const d = await Admin.api('profile.php');
+        initial = { ...initial, ...d.profile };
+        switches = { ...switches, ...d.switches };
+        savedSwitches = { ...switches };
+        fillForm();
+        renderSwitches();
+    } catch (e) {
+        if (e.status !== 401) flash(e.message, true);
+    }
+}
+
+/* Shrani */
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const submit = form.querySelector('button[type=submit]');
+    submit.disabled = true;
+    try {
+        const data = Object.fromEntries(new FormData(form).entries());
+        const d = await Admin.api('profile.php', { method: 'PUT', body: { ...data, switches } });
+        initial = { ...initial, ...d.profile };
+        switches = { ...switches, ...d.switches };
+        savedSwitches = { ...switches };
+        fillForm();
+        renderSwitches();
+        flash('Spremembe so shranjene.');
+    } catch (err) {
+        flash(err.message, true);
+    } finally {
+        submit.disabled = false;
+    }
 });
 
+/* Prekliči: povrni začetne vrednosti */
 $('cancel').addEventListener('click', () => {
-    Object.entries(initial).forEach(([k, v]) => { form[k].value = v; });
-    syncAside();
+    switches = { ...savedSwitches };
+    fillForm();
+    renderSwitches();
 });
 
+/* Stikala (shranijo se skupaj z obrazcem) */
 document.querySelectorAll('.switch').forEach((btn) => {
     btn.addEventListener('click', () => {
         const key = btn.dataset.key;
@@ -218,7 +260,33 @@ document.querySelectorAll('.switch').forEach((btn) => {
     });
 });
 
+/* Zamenjava gesla */
+$('pwBtn').addEventListener('click', async () => {
+    const done = await Admin.modal({
+        title: 'Zamenjaj geslo',
+        description: 'Novo geslo naj ima vsaj 10 znakov.',
+        fields: [
+            { name: 'current', label: 'Trenutno geslo', type: 'password', required: true, autocomplete: 'current-password' },
+            { name: 'next', label: 'Novo geslo', type: 'password', required: true, minLength: 10, autocomplete: 'new-password' },
+            { name: 'again', label: 'Ponovi novo geslo', type: 'password', required: true, minLength: 10, autocomplete: 'new-password' }
+        ],
+        submitLabel: 'Zamenjaj geslo',
+        onSubmit: (v) => {
+            if (v.next !== v.again) throw new Error('Novi gesli se ne ujemata.');
+            return Admin.api('password.php', { method: 'POST', body: { current: v.current, new: v.next } });
+        }
+    });
+    if (done) flash('Geslo je zamenjano.');
+});
+
+$('photoBtn').addEventListener('click', () => Admin.toast('Menjava slike še ni na voljo.'));
+$('logout').addEventListener('click', () => Admin.logout());
+
 syncAside();
+(async () => {
+    try { await Admin.init(); } catch (e) { return; }
+    load();
+})();
 </script>
 </body>
 </html>

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Uporabniki</title>
 <link rel="stylesheet" href="admin-uporabniki.css">
+<link rel="stylesheet" href="css/admin-ui.css">
 <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -36,11 +37,11 @@
     <header class="page-header">
         <div>
             <h1>Vsi <span>uporabniki.</span></h1>
-            <p>624 aktivnih računov · 9 novih ta teden</p>
+            <p id="headline">&nbsp;</p>
         </div>
         <div class="actions">
-            <button class="btn" type="button">Izvozi seznam</button>
-            <button class="btn btn-primary" type="button">
+            <button class="btn" type="button" id="exportBtn">Izvozi seznam</button>
+            <button class="btn btn-primary" type="button" id="addBtn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
                 Dodaj uporabnika
             </button>
@@ -49,16 +50,16 @@
 
     <section class="stats" aria-label="Povzetek">
         <div class="stat"><div class="bar" style="background:#c96f4a"></div><div class="body">
-            <div class="label">Vsi računi</div><div class="num">624</div><div class="hint">Novi ta teden: <b>9</b></div>
+            <div class="label">Vsi računi</div><div class="num" id="stAll">0</div><div class="hint">Novi ta teden: <b id="stNew">0</b></div>
         </div></div>
         <div class="stat"><div class="bar" style="background:#7c8f55"></div><div class="body">
-            <div class="label">Dijaki</div><div class="num">342</div><div class="hint">Vseh razredov</div>
+            <div class="label">Dijaki</div><div class="num" id="stStudents">0</div><div class="hint">Vseh razredov</div>
         </div></div>
         <div class="stat"><div class="bar" style="background:#b8912a"></div><div class="body">
-            <div class="label">Učitelji</div><div class="num">24</div><div class="hint">V tem trenutku</div>
+            <div class="label">Učitelji</div><div class="num" id="stTeachers">0</div><div class="hint">V tem trenutku</div>
         </div></div>
         <div class="stat"><div class="bar" style="background:#8e849e"></div><div class="body">
-            <div class="label">Starši</div><div class="num">258</div><div class="hint">Povezani z dijaki</div>
+            <div class="label">Starši</div><div class="num" id="stParents">0</div><div class="hint">Povezani z dijaki</div>
         </div></div>
     </section>
 
@@ -80,69 +81,61 @@
         <div class="footer">
             <div id="shown"></div>
             <div class="pager">
-                <button class="btn" type="button" disabled>Prejšnja</button>
-                <button class="btn" type="button">Naslednja</button>
+                <button class="btn" type="button" id="prevBtn" disabled>Prejšnja</button>
+                <button class="btn" type="button" id="nextBtn">Naslednja</button>
             </div>
         </div>
     </section>
 
 </main>
 
+<script src="js/admin.js"></script>
 <script>
 const ROLES = {
-    dijak:   { label: 'Dijak',   total: 342 },
-    ucitelj: { label: 'Učitelj', total: 24 },
-    stars:   { label: 'Starš',   total: 258 }
+    dijak:   { label: 'Dijak' },
+    ucitelj: { label: 'Učitelj' },
+    stars:   { label: 'Starš' }
 };
 const STATUSES = {
     aktiven:   { label: 'Aktiven',        dot: '#6f8a3c', color: '#33401a' },
     caka:      { label: 'Čaka potrditev', dot: '#c96f4a', color: '#8a3f1f' },
     povabljen: { label: 'Povabljen',      dot: '#8b7f9e', color: '#4f4463' }
 };
-const users = [
-    { name: 'Nina Kovač',    email: 'nina.kovac@sola.example',    role: 'dijak',   detail: '3.A',                 last: 'Danes, 7:42',  status: 'aktiven' },
-    { name: 'Maja Horvat',   email: 'maja.horvat@sola.example',   role: 'ucitelj', detail: 'Matematika',          last: 'Danes, 7:15',  status: 'aktiven' },
-    { name: 'Luka Novak',    email: 'luka.novak@sola.example',    role: 'dijak',   detail: '2.B',                 last: 'Včeraj',       status: 'aktiven' },
-    { name: 'Ana Zupan',     email: 'ana.zupan@sola.example',     role: 'stars',   detail: 'Otrok: Jan Krajnc',   last: 'Danes, 6:58',  status: 'aktiven' },
-    { name: 'Tomaž Vidmar',  email: 'tomaz.vidmar@sola.example',  role: 'ucitelj', detail: 'Slovenščina',         last: 'Včeraj',       status: 'aktiven' },
-    { name: 'Jan Krajnc',    email: 'jan.krajnc@sola.example',    role: 'dijak',   detail: '4.A',                 last: 'Pred 3 dnevi', status: 'aktiven' },
-    { name: 'Eva Potočnik',  email: 'eva.potocnik@sola.example',  role: 'dijak',   detail: '1.C',                 last: 'Še ni bilo',   status: 'caka' },
-    { name: 'Marko Kos',     email: 'marko.kos@sola.example',     role: 'stars',   detail: 'Otrok: Eva Potočnik', last: 'Še ni bilo',   status: 'povabljen' },
-    { name: 'Sara Kolar',    email: 'sara.kolar@sola.example',    role: 'ucitelj', detail: 'Angleščina',          last: 'Danes, 7:31',  status: 'aktiven' },
-    { name: 'Žan Mlakar',    email: 'zan.mlakar@sola.example',    role: 'dijak',   detail: '2.A',                 last: 'Včeraj',       status: 'aktiven' }
-];
-const TOTAL_ALL = 624;
+const TAB_LABELS = { vsi: 'Vsi', dijak: 'Dijaki', ucitelj: 'Učitelji', stars: 'Starši' };
 
 let activeRole = 'vsi';
 let query = '';
+let page = 1;
+let state = { users: [], total: 0, pages: 1, counts: { vsi: 0, dijak: 0, ucitelj: 0, stars: 0 }, summary: {}, classes: [], students: [] };
+let requestSeq = 0;
 
 const $ = (id) => document.getElementById(id);
-const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-const initials = (name) => name.split(' ').map((p) => p[0]).join('');
+const initials = (name) => name.split(' ').filter(Boolean).map((p) => p[0]).join('').slice(0, 3);
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 function renderTabs() {
-    const defs = [
-        { id: 'vsi', label: 'Vsi', count: TOTAL_ALL },
-        ...Object.entries(ROLES).map(([id, r]) => ({ id, label: id === 'dijak' ? 'Dijaki' : id === 'ucitelj' ? 'Učitelji' : 'Starši', count: r.total }))
-    ];
-    $('tabs').innerHTML = defs.map((t) =>
-        `<button type="button" class="tab ${t.id === activeRole ? 'active' : ''}" data-role="${t.id}" aria-pressed="${t.id === activeRole}">${t.label} <span>${t.count}</span></button>`
+    $('tabs').innerHTML = Object.keys(TAB_LABELS).map((id) =>
+        `<button type="button" class="tab ${id === activeRole ? 'active' : ''}" data-role="${id}" aria-pressed="${id === activeRole}">${TAB_LABELS[id]} <span>${state.counts[id] || 0}</span></button>`
     ).join('');
 }
 
-function renderRows() {
-    const q = norm(query.trim());
-    const list = users.filter((u) =>
-        (activeRole === 'vsi' || u.role === activeRole) &&
-        (!q || norm(u.name).includes(q) || norm(u.email).includes(q))
-    );
+function renderStats() {
+    const s = state.summary;
+    $('headline').textContent = `${s.active || 0} aktivnih računov · ${s.newWeek || 0} novih ta teden`;
+    $('stAll').textContent = state.counts.vsi;
+    $('stNew').textContent = s.newWeek || 0;
+    $('stStudents').textContent = state.counts.dijak;
+    $('stTeachers').textContent = state.counts.ucitelj;
+    $('stParents').textContent = state.counts.stars;
+}
 
+function renderRows() {
+    const list = state.users;
     $('rows').innerHTML = list.length
         ? list.map((u) => {
             const s = STATUSES[u.status];
             return `
-            <div class="row">
+            <div class="row" data-id="${u.id}">
                 <div class="user">
                     <div class="avatar a-${u.role}">${esc(initials(u.name))}</div>
                     <div style="min-width:0">
@@ -152,33 +145,160 @@ function renderRows() {
                 </div>
                 <div><span class="pill r-${u.role}">${ROLES[u.role].label}</span></div>
                 <div>${esc(u.detail)}</div>
-                <div>${esc(u.last)}</div>
+                <div>${esc(Admin.fmtWhen(u.last))}</div>
                 <div class="status" style="color:${s.color}"><i style="background:${s.dot}"></i>${s.label}</div>
-                <button type="button" class="more" aria-label="Več možnosti">
+                <button type="button" class="more" aria-label="Več možnosti" data-id="${u.id}">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
                 </button>
             </div>`;
         }).join('')
         : '<div class="empty">Ni najdenih uporabnikov.</div>';
 
-    const total = activeRole === 'vsi' ? TOTAL_ALL : ROLES[activeRole].total;
-    $('shown').textContent = `Prikazujem ${list.length} od ${total}`;
+    const from = state.total ? (state.page - 1) * state.per + 1 : 0;
+    const to = (state.page - 1) * state.per + list.length;
+    $('shown').textContent = state.total
+        ? `Prikazujem ${from}–${to} od ${state.total}`
+        : 'Prikazujem 0 od 0';
+    $('prevBtn').disabled = state.page <= 1;
+    $('nextBtn').disabled = state.page >= state.pages;
 }
 
+async function load() {
+    const seq = ++requestSeq;
+    try {
+        const data = await Admin.api('users.php', { params: { role: activeRole, q: query.trim(), page } });
+        if (seq !== requestSeq) return; // prišel je novejši zahtevek
+        state = data;
+        page = data.page;
+        renderTabs();
+        renderStats();
+        renderRows();
+    } catch (e) {
+        if (e.status !== 401) {
+            $('rows').innerHTML = `<div class="empty">${esc(e.message)}</div>`;
+        }
+    }
+}
+
+/* ---------- obrazec za dodajanje / urejanje ---------- */
+function userFields(role, u) {
+    const isEdit = !!u;
+    const fields = [
+        { name: 'ime', label: 'Ime', required: true, value: u ? u.ime : '', maxLength: 60, autocomplete: 'off' },
+        { name: 'priimek', label: 'Priimek', value: u ? u.priimek : '', maxLength: 60, autocomplete: 'off' },
+        { name: 'email', label: 'E-pošta', type: 'email', required: true, value: u ? u.email : '', maxLength: 190, autocomplete: 'off' }
+    ];
+    if (!isEdit) {
+        fields.push({
+            name: 'role', label: 'Vloga', type: 'select', value: 'dijak',
+            options: [{ value: 'dijak', label: 'Dijak' }, { value: 'ucitelj', label: 'Učitelj' }, { value: 'stars', label: 'Starš' }]
+        });
+    }
+    const roleIs = (r) => (v) => (isEdit ? role === r : v.role === r);
+    fields.push({
+        name: 'class_id', label: 'Razred', type: 'select', value: u && u.class_id ? u.class_id : '',
+        options: [{ value: '', label: '— brez razreda —' }].concat(state.classes.map((c) => ({ value: c.id, label: c.name }))),
+        showIf: roleIs('dijak')
+    });
+    fields.push({
+        name: 'child_id', label: 'Otrok (dijak)', type: 'select', value: u && u.child_id ? u.child_id : '',
+        options: [{ value: '', label: '— brez povezave —' }].concat(state.students.map((s) => ({ value: s.id, label: s.name }))),
+        showIf: roleIs('stars')
+    });
+    fields.push({
+        name: 'status', label: 'Status', type: 'select', value: u ? u.status : 'povabljen',
+        options: Object.keys(STATUSES).map((k) => ({ value: k, label: STATUSES[k].label }))
+    });
+    fields.push({
+        name: 'password', label: isEdit ? 'Novo geslo (neobvezno)' : 'Začasno geslo (neobvezno)', type: 'password',
+        minLength: 8, autocomplete: 'new-password',
+        hint: isEdit ? 'Pusti prazno, če gesla ne želiš spremeniti.' : 'Če je prazno, se uporabnik ne more prijaviti, dokler ni nastavljeno geslo.'
+    });
+    return fields;
+}
+
+async function openAdd() {
+    const done = await Admin.modal({
+        title: 'Dodaj uporabnika',
+        fields: userFields(null, null),
+        submitLabel: 'Dodaj',
+        onSubmit: (v) => Admin.api('users.php', { method: 'POST', body: v })
+    });
+    if (done) { Admin.toast('Uporabnik je dodan.'); page = 1; load(); }
+}
+
+async function openEdit(u) {
+    const done = await Admin.modal({
+        title: 'Uredi uporabnika',
+        fields: userFields(u.role, u),
+        submitLabel: 'Shrani',
+        onSubmit: (v) => Admin.api('users.php', { method: 'PUT', params: { id: u.id }, body: v })
+    });
+    if (done) { Admin.toast('Spremembe so shranjene.'); load(); }
+}
+
+async function approve(u) {
+    try {
+        await Admin.api('users.php', { method: 'PUT', params: { id: u.id }, body: { action: 'approve' } });
+        Admin.toast(`Vpis uporabnika ${u.name} je potrjen.`);
+        load();
+    } catch (e) { Admin.toast(e.message, 'error'); }
+}
+
+async function remove(u) {
+    const ok = await Admin.confirm({
+        title: 'Odstrani uporabnika',
+        text: `Račun ${u.name} (${u.email}) bo trajno izbrisan. Dejanja ni mogoče preklicati.`,
+        confirmLabel: 'Odstrani',
+        danger: true,
+        onConfirm: () => Admin.api('users.php', { method: 'DELETE', params: { id: u.id } })
+    });
+    if (ok) { Admin.toast('Uporabnik je odstranjen.'); load(); }
+}
+
+/* ---------- dogodki ---------- */
 $('tabs').addEventListener('click', (e) => {
     const btn = e.target.closest('.tab');
     if (!btn) return;
     activeRole = btn.dataset.role;
-    renderTabs();
-    renderRows();
-});
-$('search').addEventListener('input', (e) => {
-    query = e.target.value;
-    renderRows();
+    page = 1;
+    load();
 });
 
-renderTabs();
-renderRows();
+let searchTimer;
+$('search').addEventListener('input', (e) => {
+    query = e.target.value;
+    page = 1;
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(load, 250);
+});
+
+$('prevBtn').addEventListener('click', () => { if (page > 1) { page--; load(); } });
+$('nextBtn').addEventListener('click', () => { if (page < state.pages) { page++; load(); } });
+$('addBtn').addEventListener('click', openAdd);
+
+$('exportBtn').addEventListener('click', async () => {
+    try {
+        await Admin.download('users.php', { export: 'csv' }, `uporabniki-${new Date().toISOString().slice(0, 10)}.csv`);
+    } catch (e) { Admin.toast(e.message, 'error'); }
+});
+
+$('rows').addEventListener('click', (e) => {
+    const btn = e.target.closest('.more');
+    if (!btn) return;
+    const u = state.users.find((x) => x.id === Number(btn.dataset.id));
+    if (!u) return;
+    const items = [{ label: 'Uredi', onClick: () => openEdit(u) }];
+    if (u.status === 'caka') items.unshift({ label: 'Potrdi vpis', onClick: () => approve(u) });
+    items.push({ label: 'Odstrani', danger: true, onClick: () => remove(u) });
+    Admin.menu(btn, items);
+});
+
+(async () => {
+    try { await Admin.init(); } catch (e) { return; }
+    renderTabs();
+    load();
+})();
 </script>
 </body>
 </html>

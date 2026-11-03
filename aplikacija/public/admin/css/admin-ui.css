@@ -1,0 +1,87 @@
+/* Skupni elementi: obvestila, pogovorna okna, meni.
+   Barve ustrezajo paleti ostalih strani. */
+
+body.ui-lock { overflow: hidden; }
+
+/* ---------- toast ---------- */
+.ui-toasts {
+    position: fixed; right: 24px; bottom: 24px; z-index: 1200;
+    display: flex; flex-direction: column; gap: 10px; align-items: flex-end;
+}
+.ui-toast {
+    background: #232821; color: #f6f2eb; padding: 12px 18px; border-radius: 12px;
+    font: 500 14px/1.3 Figtree, system-ui, sans-serif;
+    box-shadow: 0 8px 24px rgba(0,0,0,.18);
+    transition: opacity .25s ease, transform .25s ease;
+    max-width: 360px;
+}
+.ui-toast.ui-toast-error { background: #8a3f1f; }
+.ui-toast.out { opacity: 0; transform: translateY(6px); }
+
+/* ---------- modal ---------- */
+.ui-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(27, 27, 24, .45);
+    display: flex; align-items: center; justify-content: center; padding: 20px;
+}
+.ui-modal {
+    background: #fcfaf6; color: #1b1b18; width: 100%; max-width: 480px; max-height: 92vh; overflow: auto;
+    border-radius: 18px; padding: 28px; box-shadow: 0 24px 60px rgba(0,0,0,.25);
+    font-family: Figtree, system-ui, sans-serif;
+}
+.ui-title { margin: 0 0 6px; font: 700 26px/1.15 Alegreya, Georgia, serif; }
+.ui-desc  { margin: 0 0 18px; color: #6e6a60; font-size: 15px; line-height: 1.45; }
+.ui-form  { display: flex; flex-direction: column; gap: 16px; margin-top: 16px; }
+.ui-field { display: flex; flex-direction: column; gap: 6px; }
+.ui-field[hidden] { display: none; }
+.ui-field > label { font-size: 13px; font-weight: 600; color: #3d3a33; }
+.ui-field input, .ui-field select {
+    height: 44px; padding: 0 14px; border: 1px solid #ddd5c6; border-radius: 10px;
+    background: #fff; font: 400 15px Figtree, system-ui, sans-serif; color: #1b1b18;
+}
+.ui-field input:focus, .ui-field select:focus {
+    outline: 2px solid #c96f4a; outline-offset: 1px; border-color: #c96f4a;
+}
+.ui-hint { font-size: 12.5px; color: #6e6a60; }
+.ui-checks {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+    max-height: 190px; overflow: auto; padding: 4px 2px;
+}
+.ui-check {
+    display: flex !important; align-items: center; gap: 6px; font-weight: 500 !important; font-size: 14px !important;
+    padding: 6px 10px; border: 1px solid #ece6da; border-radius: 8px; background: #fff; cursor: pointer;
+}
+.ui-check input { height: auto; width: auto; margin: 0; accent-color: #b0502b; }
+.ui-error { min-height: 0; color: #8a3f1f; font-size: 14px; font-weight: 500; }
+.ui-error:empty { display: none; }
+.ui-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 4px; }
+
+.ui-btn {
+    height: 42px; padding: 0 20px; border-radius: 10px; border: 1px solid #ddd5c6;
+    background: #fff; color: #1b1b18; font: 600 14px Figtree, system-ui, sans-serif; cursor: pointer;
+}
+.ui-btn:hover { background: #f1ece1; }
+.ui-btn:disabled { opacity: .55; cursor: default; }
+.ui-btn-primary { background: #b0502b; border-color: #b0502b; color: #fff; }
+.ui-btn-primary:hover { background: #9a4423; }
+.ui-btn-danger-solid { background: #8a3f1f; border-color: #8a3f1f; color: #fff; }
+.ui-btn-danger-solid:hover { background: #702f14; }
+
+/* ---------- meni ---------- */
+.ui-menu {
+    position: absolute; z-index: 1100; min-width: 190px; padding: 6px;
+    background: #fff; border: 1px solid #ece6da; border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0,0,0,.14);
+    display: flex; flex-direction: column;
+}
+.ui-menu-item {
+    text-align: left; border: 0; background: transparent; padding: 10px 12px; border-radius: 8px;
+    font: 500 14px Figtree, system-ui, sans-serif; color: #1b1b18; cursor: pointer;
+}
+.ui-menu-item:hover, .ui-menu-item:focus { background: #f1ece1; outline: none; }
+.ui-menu-item.danger { color: #8a3f1f; }
+
+@media (max-width: 520px) {
+    .ui-checks { grid-template-columns: repeat(3, 1fr); }
+    .ui-toasts { right: 12px; left: 12px; align-items: stretch; }
+}

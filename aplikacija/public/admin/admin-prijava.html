@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prijava</title>
+<link rel="stylesheet" href="admin-prijava.css">
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="auth">
+<main class="auth-card">
+    <div>
+        <h1>Skrbniška <span>prijava.</span></h1>
+    </div>
+    <p class="auth-sub">Vpiši se z računom skrbnika sistema.</p>
+    <p class="auth-error" id="error" role="alert" hidden></p>
+    <form id="loginForm">
+        <div class="field">
+            <label for="email">E-pošta</label>
+            <input id="email" name="email" type="email" autocomplete="username" required autofocus>
+        </div>
+        <div class="field">
+            <label for="password">Geslo</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <button class="btn btn-primary" id="submit" type="submit">Prijava</button>
+    </form>
+</main>
+<script src="js/admin.js"></script>
+<script>
+const form = document.getElementById('loginForm');
+const errorBox = document.getElementById('error');
+const submit = document.getElementById('submit');
+
+// Če je seja že aktivna, preskoči prijavo
+Admin.api('me.php').then(() => { location.replace('admin-dashboard.html'); }).catch(() => {});
+
+function nextPage() {
+    const next = new URLSearchParams(location.search).get('next') || '';
+    // dovoli samo preusmeritev na lastne admin strani
+    return /^admin[-_][a-z]+\.html$/.test(next) ? next : 'admin-dashboard.html';
+}
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorBox.hidden = true;
+    submit.disabled = true;
+    try {
+        await Admin.api('login.php', {
+            method: 'POST',
+            body: { email: form.email.value, password: form.password.value }
+        });
+        location.href = nextPage();
+    } catch (err) {
+        errorBox.textContent = err.message;
+        errorBox.hidden = false;
+        submit.disabled = false;
+        form.password.value = '';
+        form.password.focus();
+    }
+});
+</script>
+</body>
+</html>

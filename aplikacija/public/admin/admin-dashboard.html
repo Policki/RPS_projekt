@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nadzorna plošča</title>
 <link href="admin-dashboard.css" rel="stylesheet">
+<link href="css/admin-ui.css" rel="stylesheet">
 </head>
 
 <nav class="sidebar" aria-label="Glavni meni">
@@ -35,7 +36,7 @@
 <main class="content">
 
     <header class="page-header">
-        <h1><span id="greeting">Dobro jutro</span>, <span>Admin.</span></h1>
+        <h1><span id="greeting">Dobro jutro</span>, <span id="adminName">Admin.</span></h1>
         <p id="subtitle"></p>
     </header>
 
@@ -44,7 +45,7 @@
         <section class="overview" aria-labelledby="pregled">
             <h2 id="pregled">Pregled sistema</h2>
 
-            <a class="line l-rose" href="uporabniki.html">
+            <a class="line l-rose" href="admin_uporabniki.html">
                 <div>
                     <div class="t">Vpisi za potrditev</div>
                     <div class="d">Novi dijaki tekočega tedna</div>
@@ -52,7 +53,7 @@
                 <span class="badge" id="pendingBadge"></span>
             </a>
 
-            <a class="line l-green" href="uporabniki.html">
+            <a class="line l-green" href="admin_uporabniki.html">
                 <div>
                     <div class="t">Aktivni dijaki</div>
                     <div class="d">Vseh razredov</div>
@@ -60,7 +61,7 @@
                 <span class="badge" id="studentsBadge"></span>
             </a>
 
-            <a class="line l-sand" href="uporabniki.html">
+            <a class="line l-sand" href="admin_uporabniki.html">
                 <div>
                     <div class="t">Aktivni učitelji</div>
                     <div class="d">V tem trenutku</div>
@@ -92,7 +93,7 @@
 
     <section class="shortcuts" aria-label="Bližnjice">
 
-        <a class="shortcut s-users" href="uporabniki.html">
+        <a class="shortcut s-users" href="admin_uporabniki.html">
             <div class="bar"></div>
             <div class="body">
                 <div class="head">
@@ -110,7 +111,7 @@
             </div>
         </a>
 
-        <a class="shortcut s-subj" href="predmeti.html">
+        <a class="shortcut s-subj" href="admin-predmeti.html">
             <div class="bar"></div>
             <div class="body">
                 <div class="head">
@@ -128,7 +129,7 @@
             </div>
         </a>
 
-        <a class="shortcut s-rep" href="statistika.html">
+        <a class="shortcut s-rep" href="#">
             <div class="bar"></div>
             <div class="body">
                 <div class="head">
@@ -149,24 +150,8 @@
     </section>
 </main>
 
+<script src="js/admin.js"></script>
 <script>
-const data = {
-    admin: 'Admin',
-    pendingEnrollments: 5,
-    systemNotices: 1,
-    students: 342,
-    teachers: 24,
-    accounts: 624,
-    newThisWeek: 9,
-    classes: 16,
-    classesWithoutTeacher: 1,
-    newReports: 3,
-    lastReport: 'Včeraj',
-    diskUsedPct: 34,
-    lastBackup: 'danes, 7:10',
-    uptimePct: 99.9
-};
-
 const $ = (id) => document.getElementById(id);
 
 function plural(n, f1, f2, f34, f5) {
@@ -180,37 +165,53 @@ function plural(n, f1, f2, f34, f5) {
 const hour = new Date().getHours();
 $('greeting').textContent = hour < 10 ? 'Dobro jutro' : hour < 18 ? 'Dober dan' : 'Dober večer';
 
-const parts = [];
-if (data.pendingEnrollments) {
-    parts.push(`Potrdi ${data.pendingEnrollments} ${plural(data.pendingEnrollments, 'vpis', 'vpisa', 'vpise', 'vpisov')}`);
+function render(data) {
+    $('adminName').textContent = data.admin + '.';
+
+    const parts = [];
+    if (data.pendingEnrollments) {
+        parts.push(`Potrdi ${data.pendingEnrollments} ${plural(data.pendingEnrollments, 'vpis', 'vpisa', 'vpise', 'vpisov')}`);
+    }
+    if (data.systemNotices) {
+        parts.push(`${parts.length ? 'preveri' : 'Preveri'} ${data.systemNotices} ${plural(data.systemNotices, 'sistemsko obvestilo', 'sistemski obvestili', 'sistemska obvestila', 'sistemskih obvestil')}`);
+    }
+    $('subtitle').textContent = parts.length ? parts.join(' in ') + '.' : 'Vse je urejeno.';
+
+    $('pendingBadge').textContent = `${data.pendingEnrollments} čaka`;
+    $('studentsBadge').textContent = data.students;
+    $('teachersBadge').textContent = data.teachers;
+
+    $('diskBar').style.width = data.diskUsedPct + '%';
+    $('diskText').textContent = `${data.diskUsedPct} % prostora`;
+    $('backupText').textContent = data.lastBackup
+        ? `Zadnja varnostna kopija: ${Admin.fmtWhen(data.lastBackup).toLowerCase()}`
+        : 'Varnostna kopija še ni bila narejena';
+
+    const R = 40;
+    const C = 2 * Math.PI * R;
+    $('uptimeArc').setAttribute('stroke-dasharray', `${(C * data.uptimePct) / 100} ${C}`);
+    const uptimeLabel = String(data.uptimePct).replace('.', ',');
+    $('uptimeRing').setAttribute('aria-label', `Razpoložljivost ${uptimeLabel} odstotka`);
+    $('uptimeText').textContent = `${data.uptimePct}% razpoložljivost`;
+
+    $('usersMain').textContent = `${data.accounts} ${plural(data.accounts, 'aktiven račun', 'aktivna računa', 'aktivni računi', 'aktivnih računov')}`;
+    $('usersNew').textContent = data.newThisWeek;
+    $('classesMain').textContent = `${data.classes} ${plural(data.classes, 'aktiven razred', 'aktivna razreda', 'aktivni razredi', 'aktivnih razredov')}`;
+    $('noTeacher').textContent = data.classesWithoutTeacher;
+    $('reportsMain').textContent = `${data.newReports} ${plural(data.newReports, 'novo poročilo', 'novi poročili', 'nova poročila', 'novih poročil')}`;
+    $('reportsLast').textContent = Admin.fmtDay(data.lastReport);
 }
-if (data.systemNotices) {
-    parts.push(`${parts.length ? 'preveri' : 'Preveri'} ${data.systemNotices} ${plural(data.systemNotices, 'sistemsko obvestilo', 'sistemski obvestili', 'sistemska obvestila', 'sistemskih obvestil')}`);
-}
-$('subtitle').textContent = parts.length ? parts.join(' in ') + '.' : 'Vse je urejeno.';
 
-$('pendingBadge').textContent = `${data.pendingEnrollments} čaka`;
-$('studentsBadge').textContent = data.students;
-$('teachersBadge').textContent = data.teachers;
-
-$('diskBar').style.width = data.diskUsedPct + '%';
-$('diskText').textContent = `${data.diskUsedPct} % prostora`;
-$('backupText').textContent = `Zadnja varnostna kopija: ${data.lastBackup}`;
-
-const R = 40;
-const C = 2 * Math.PI * R;
-const arc = $('uptimeArc');
-arc.setAttribute('stroke-dasharray', `${(C * data.uptimePct) / 100} ${C}`);
-const uptimeLabel = String(data.uptimePct).replace('.', ',');
-$('uptimeRing').setAttribute('aria-label', `Razpoložljivost ${uptimeLabel} odstotka`);
-$('uptimeText').textContent = `${data.uptimePct}% razpoložljivost`;
-
-$('usersMain').textContent = `${data.accounts} aktivnih računov`;
-$('usersNew').textContent = data.newThisWeek;
-$('classesMain').textContent = `${data.classes} aktivnih razredov`;
-$('noTeacher').textContent = data.classesWithoutTeacher;
-$('reportsMain').textContent = `${data.newReports} ${plural(data.newReports, 'novo poročilo', 'novi poročili', 'nova poročila', 'novih poročil')}`;
-$('reportsLast').textContent = data.lastReport;
+(async () => {
+    try {
+        await Admin.init();
+        render(await Admin.api('dashboard.php'));
+    } catch (e) {
+        if (e.status !== 401) {
+            $('subtitle').textContent = e.message;
+        }
+    }
+})();
 </script>
 </body>
 </html>

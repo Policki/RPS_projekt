@@ -10,7 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Alegreya:wght@400;500;600;700&display=swap"
 rel="stylesheet">
-    <script src="koledar.js" defer></script>
+    <link rel="stylesheet" href="css/admin-ui.css">
+    <script src="js/admin.js"></script>
     <title>Koledar | Učenec</title>
 </head>
 
@@ -135,7 +136,7 @@ const categoryColors = {
 
 let currentDate = new Date();
 let selectedDate = toDateKey(currentDate);
-let events = loadEvents();
+let events = [];
 
 eventDate.value = selectedDate;
 
@@ -146,18 +147,13 @@ function toDateKey(date) {
     return `${year}-${month}-${day}`;
 }
 
-function loadEvents() {
-    try {
-        const storedEvents =
-JSON.parse(localStorage.getItem("ucenec-koledar-dogodki") || "[]");
-        return Array.isArray(storedEvents) ? storedEvents : [];
-    } catch {
-        return [];
-    }
+function withColor(event) {
+    return { ...event, color: categoryColors[event.category] || "#cf704c" };
 }
 
-function saveEvents() {
-    localStorage.setItem("ucenec-koledar-dogodki", JSON.stringify(events));
+async function loadEvents() {
+    const data = await Admin.api("calendar.php");
+    return data.events.map(withColor);
 }
 
 function eventsForDate(dateKey) {
@@ -197,11 +193,17 @@ function renderSelectedEvents() {
         removeButton.setAttribute("aria-label", `Odstrani dogodek
 ${event.title}`);
         removeButton.textContent = "×";
-        removeButton.addEventListener("click", () => {
-            events = events.filter(savedEvent => savedEvent.id !== event.id);
-            saveEvents();
-            renderCalendar();
-            renderSelectedEvents();
+        removeButton.addEventListener("click", async () => {
+            removeButton.disabled = true;
+            try {
+                await Admin.api("calendar.php", { method: "DELETE", params: { id: event.id } });
+                events = events.filter(savedEvent => savedEvent.id !== event.id);
+                renderCalendar();
+                renderSelectedEvents();
+            } catch (error) {
+                removeButton.disabled = false;
+                Admin.toast(error.message, "error");
+            }
         });
 
         item.append(colorDot, title, removeButton);
@@ -303,20 +305,26 @@ eventDate.addEventListener("change", () => {
     selectDate(eventDate.value);
 });
 
-eventForm.addEventListener("submit", event => {
+eventForm.addEventListener("submit", async event => {
     event.preventDefault();
     const title = eventTitle.value.trim();
     const date = eventDate.value;
     if (!title || !date) return;
 
-    events.push({
-        id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-        title,
-        date,
-        category: eventCategory.value,
-        color: categoryColors[eventCategory.value] || "#cf704c"
-    });
-    saveEvents();
+    const submitButton = eventForm.querySelector("button[type=submit]");
+    submitButton.disabled = true;
+    try {
+        const data = await Admin.api("calendar.php", {
+            method: "POST",
+            body: { title, date, category: eventCategory.value }
+        });
+        events.push(withColor(data.event));
+    } catch (error) {
+        Admin.toast(error.message, "error");
+        submitButton.disabled = false;
+        return;
+    }
+    submitButton.disabled = false;
 
     const [year, month] = date.split("-").map(Number);
     currentDate = new Date(year, month - 1, 1);
@@ -331,4 +339,15 @@ eventForm.addEventListener("submit", event => {
 
 renderCalendar();
 renderSelectedEvents();
+
+(async () => {
+    try {
+        await Admin.init();
+        events = await loadEvents();
+        renderCalendar();
+        renderSelectedEvents();
+    } catch (error) {
+        if (error.status !== 401) Admin.toast(error.message, "error");
+    }
+})();
 </script>

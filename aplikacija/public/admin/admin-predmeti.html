@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Predmeti</title>
 <link href="admin-predmeti.css" rel="stylesheet">
+<link href="css/admin-ui.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -36,11 +37,11 @@
     <header class="page-header">
         <div>
             <h1>Predmeti in <span>razredi.</span></h1>
-            <p>16 aktivnih razredov · 1 predmet brez učitelja</p>
+            <p id="headline">&nbsp;</p>
         </div>
         <div class="actions">
-            <button class="btn" type="button">Učni načrti</button>
-            <button class="btn btn-primary" type="button">
+            <button class="btn" type="button" id="plansBtn">Učni načrti</button>
+            <button class="btn btn-primary" type="button" id="addBtn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
                 Dodaj predmet
             </button>
@@ -49,13 +50,13 @@
 
     <section class="stats" aria-label="Povzetek">
         <div class="stat"><div class="bar" style="background:#8e849e"></div><div class="body">
-            <div class="label">Aktivni razredi</div><div class="num">16</div><div class="hint">4 letniki, 4 oddelki</div>
+            <div class="label">Aktivni razredi</div><div class="num" id="statClasses">0</div><div class="hint" id="statClassesHint">&nbsp;</div>
         </div></div>
         <div class="stat"><div class="bar" style="background:#7c8f55"></div><div class="body">
-            <div class="label">Predmeti</div><div class="num" id="statSubjects">9</div><div class="hint">Z učnimi načrti</div>
+            <div class="label">Predmeti</div><div class="num" id="statSubjects">0</div><div class="hint">Z učnimi načrti</div>
         </div></div>
         <div class="stat"><div class="bar" style="background:#c96f4a"></div><div class="body">
-            <div class="label">Brez učitelja</div><div class="num" id="statUnassigned">1</div><div class="hint">Potrebna dodelitev</div>
+            <div class="label">Brez učitelja</div><div class="num" id="statUnassigned">0</div><div class="hint">Potrebna dodelitev</div>
         </div></div>
     </section>
 
@@ -75,24 +76,8 @@
 
 </main>
 
+<script src="js/admin.js"></script>
 <script>
-const subjects = [
-    { name: 'Matematika',     teacher: 'Maja Horvat',     classes: ['1.A', '2.A', '3.A', '4.A'] },
-    { name: 'Slovenščina',    teacher: 'Tomaž Vidmar',    classes: ['1.B', '2.B', '3.B', '4.B'] },
-    { name: 'Angleščina',     teacher: 'Sara Kolar',      classes: ['1.C', '2.C', '3.C'] },
-    { name: 'Zgodovina',      teacher: 'Peter Zajc',      classes: ['2.D', '3.D'] },
-    { name: 'Fizika',         teacher: 'Matej Golob',     classes: ['3.A', '4.A'] },
-    { name: 'Biologija',      teacher: 'Katja Rozman',    classes: ['2.A', '2.B'] },
-    { name: 'Kemija',         teacher: 'Urša Pirc',       classes: ['3.B', '3.C'] },
-    { name: 'Geografija',     teacher: null,              classes: ['3.C'] },
-    { name: 'Športna vzgoja', teacher: 'Boštjan Oražem',  classes: ['1.A', '1.B', '1.C', '1.D'] }
-];
-const years = [1, 2, 3, 4].map((y) => ({
-    label: `${y}. letnik`,
-    cls: `y${y}`,
-    classes: ['A', 'B', 'C', 'D'].map((l) => `${y}.${l}`)
-}));
-
 const BARS = ['#7c8f55', '#8e849e', '#b8912a', '#c4875f'];
 const AVATARS = [
     { bg: '#d4debf', fg: '#44561f' },
@@ -101,23 +86,34 @@ const AVATARS = [
     { bg: '#ebd3c4', fg: '#7a3a1c' }
 ];
 
+let data = { subjects: [], teachers: [], classes: [], stats: { classes: 0, years: 0, sections: 0, subjects: 0, unassigned: 0 } };
 let filter = 'vsi';
 let query = '';
 
 const $ = (id) => document.getElementById(id);
 const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-const initials = (name) => name.split(' ').map((p) => p[0]).join('');
+const initials = (name) => name.split(' ').filter(Boolean).map((p) => p[0]).join('');
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const unassignedCount = () => subjects.filter((s) => !s.teacher).length;
+const unassignedCount = () => data.subjects.filter((s) => !s.teacher_id).length;
+function plural(n, f1, f2, f34, f5) {
+    const m = n % 100;
+    return m === 1 ? f1 : m === 2 ? f2 : (m === 3 || m === 4) ? f34 : f5;
+}
 
 function renderStats() {
-    $('statSubjects').textContent = subjects.length;
+    const st = data.stats;
+    $('headline').textContent =
+        `${st.classes} ${plural(st.classes, 'aktiven razred', 'aktivna razreda', 'aktivni razredi', 'aktivnih razredov')} · ` +
+        `${st.unassigned} ${plural(st.unassigned, 'predmet', 'predmeta', 'predmeti', 'predmetov')} brez učitelja`;
+    $('statClasses').textContent = st.classes;
+    $('statClassesHint').textContent = `${st.years} ${plural(st.years, 'letnik', 'letnika', 'letniki', 'letnikov')}, ${st.sections} ${plural(st.sections, 'oddelek', 'oddelka', 'oddelki', 'oddelkov')}`;
+    $('statSubjects').textContent = data.subjects.length;
     $('statUnassigned').textContent = unassignedCount();
 }
 
 function renderTabs() {
     const defs = [
-        { id: 'vsi',  label: 'Vsi predmeti',  count: subjects.length },
+        { id: 'vsi',  label: 'Vsi predmeti',  count: data.subjects.length },
         { id: 'brez', label: 'Brez učitelja', count: unassignedCount() }
     ];
     $('tabs').innerHTML = defs.map((t) =>
@@ -127,16 +123,15 @@ function renderTabs() {
 
 function renderSubjects() {
     const q = norm(query.trim());
-    const list = subjects
+    const list = data.subjects
         .map((s, i) => ({ ...s, idx: i }))
         .filter((s) =>
-            (filter === 'vsi' || !s.teacher) &&
+            (filter === 'vsi' || !s.teacher_id) &&
             (!q || norm(s.name).includes(q) || (s.teacher && norm(s.teacher).includes(q)))
         );
-
     $('subjects').innerHTML = list.length
         ? list.map((s) => {
-            const un = !s.teacher;
+            const un = !s.teacher_id;
             const av = AVATARS[s.idx % 4];
             return `
             <article class="subject ${un ? 'unassigned' : ''}">
@@ -152,23 +147,102 @@ function renderSubjects() {
                     </div>
                     <div>
                         <div class="eyebrow">Razredi</div>
-                        <div class="chips">${s.classes.map((c) => `<span class="chip">${esc(c)}</span>`).join('')}</div>
+                        <div class="chips">${s.classes.length ? s.classes.map((c) => `<span class="chip">${esc(c)}</span>`).join('') : '<span class="chip">—</span>'}</div>
                     </div>
-                    ${un ? '<button type="button" class="btn btn-primary">Dodeli učitelja</button>' : ''}
+                    <div style="display:flex; gap:8px; flex-wrap:wrap">
+                        ${un ? `<button type="button" class="btn btn-primary" data-act="assign" data-id="${s.id}">Dodeli učitelja</button>` : ''}
+                        <button type="button" class="btn" data-act="edit" data-id="${s.id}">Uredi</button>
+                        <button type="button" class="btn" data-act="delete" data-id="${s.id}">Odstrani</button>
+                    </div>
                 </div>
             </article>`;
         }).join('')
         : '<div class="empty">Ni najdenih predmetov.</div>';
-
-    $('shown').textContent = `Prikazujem ${list.length} od ${subjects.length} predmetov`;
+    $('shown').textContent = `Prikazujem ${list.length} od ${data.subjects.length} predmetov`;
 }
 
 function renderYears() {
-    $('years').innerHTML = years.map((y) => `
+    const byYear = {};
+    data.classes.forEach((c) => { (byYear[c.year] = byYear[c.year] || []).push(c.name); });
+    $('years').innerHTML = Object.keys(byYear).sort().map((y) => `
         <div class="year">
-            <div class="ylabel">${y.label}</div>
-            <div class="classes">${y.classes.map((c) => `<span class="class ${y.cls}">${c}</span>`).join('')}</div>
-        </div>`).join('');
+            <div class="ylabel">${y}. letnik</div>
+            <div class="classes">${byYear[y].map((c) => `<span class="class y${y}">${esc(c)}</span>`).join('')}</div>
+        </div>`).join('') || '<div class="empty">Ni aktivnih razredov.</div>';
+}
+
+function renderAll() {
+    renderStats();
+    renderTabs();
+    renderSubjects();
+    renderYears();
+}
+
+async function load() {
+    try {
+        data = await Admin.api('subjects.php');
+        renderAll();
+    } catch (e) {
+        if (e.status !== 401) $('subjects').innerHTML = `<div class="empty">${esc(e.message)}</div>`;
+    }
+}
+
+const teacherOptions = (empty) => [{ value: '', label: empty }].concat(data.teachers.map((t) => ({ value: t.id, label: t.name })));
+const classOptions = () => data.classes.map((c) => ({ value: c.id, label: c.name }));
+
+async function addSubject() {
+    const done = await Admin.modal({
+        title: 'Dodaj predmet',
+        fields: [
+            { name: 'name', label: 'Ime predmeta', required: true, maxLength: 80 },
+            { name: 'teacher_id', label: 'Učitelj', type: 'select', value: '', options: teacherOptions('— ni dodeljen —') },
+            { name: 'class_ids', label: 'Razredi', type: 'checkboxes', value: [], options: classOptions() }
+        ],
+        submitLabel: 'Dodaj',
+        onSubmit: (v) => Admin.api('subjects.php', { method: 'POST', body: v })
+    });
+    if (done) { data = done; renderAll(); Admin.toast('Predmet je dodan.'); }
+}
+
+async function editSubject(s) {
+    const done = await Admin.modal({
+        title: 'Uredi predmet',
+        fields: [
+            { name: 'name', label: 'Ime predmeta', required: true, maxLength: 80, value: s.name },
+            { name: 'teacher_id', label: 'Učitelj', type: 'select', value: s.teacher_id || '', options: teacherOptions('— ni dodeljen —') },
+            { name: 'class_ids', label: 'Razredi', type: 'checkboxes', value: s.class_ids, options: classOptions() }
+        ],
+        submitLabel: 'Shrani',
+        onSubmit: (v) => Admin.api('subjects.php', { method: 'PUT', params: { id: s.id }, body: v })
+    });
+    if (done) { data = done; renderAll(); Admin.toast('Spremembe so shranjene.'); }
+}
+
+async function assignTeacher(s) {
+    if (!data.teachers.length) { Admin.toast('Najprej dodaj učitelja v razdelku Uporabniki.', 'error'); return; }
+    const done = await Admin.modal({
+        title: 'Dodeli učitelja',
+        description: `Predmet: ${s.name}`,
+        fields: [{ name: 'teacher_id', label: 'Učitelj', type: 'select', required: true, value: '', options: teacherOptions('— izberi učitelja —') }],
+        submitLabel: 'Dodeli',
+        onSubmit: (v) => {
+            if (!v.teacher_id) throw new Error('Izberi učitelja.');
+            return Admin.api('subjects.php', { method: 'PUT', params: { id: s.id }, body: { teacher_id: v.teacher_id } });
+        }
+    });
+    if (done) { data = done; renderAll(); Admin.toast('Učitelj je dodeljen.'); }
+}
+
+async function deleteSubject(s) {
+    let result = null;
+    const ok = await Admin.confirm({
+        title: 'Odstrani predmet',
+        text: `Predmet ${s.name} bo izbrisan. Dejanja ni mogoče preklicati.`,
+        confirmLabel: 'Odstrani',
+        danger: true,
+        onConfirm: async () => { result = await Admin.api('subjects.php', { method: 'DELETE', params: { id: s.id } }); }
+    });
+    if (ok && result) { data = result; renderAll(); Admin.toast('Predmet je odstranjen.'); }
 }
 
 $('tabs').addEventListener('click', (e) => {
@@ -182,11 +256,22 @@ $('search').addEventListener('input', (e) => {
     query = e.target.value;
     renderSubjects();
 });
+$('subjects').addEventListener('click', (e) => {
+    const btn = e.target.closest('button[data-act]');
+    if (!btn) return;
+    const s = data.subjects.find((x) => x.id === Number(btn.dataset.id));
+    if (!s) return;
+    if (btn.dataset.act === 'assign') assignTeacher(s);
+    if (btn.dataset.act === 'edit') editSubject(s);
+    if (btn.dataset.act === 'delete') deleteSubject(s);
+});
+$('addBtn').addEventListener('click', addSubject);
+$('plansBtn').addEventListener('click', () => Admin.toast('Učni načrti še niso na voljo.'));
 
-renderStats();
-renderTabs();
-renderSubjects();
-renderYears();
+(async () => {
+    try { await Admin.init(); } catch (e) { return; }
+    load();
+})();
 </script>
 </body>
 </html>

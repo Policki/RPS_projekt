@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nastavitve</title>
 <link href="admin-nastavitve.css" rel="stylesheet">
+<link href="css/admin-ui.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -197,6 +198,7 @@
     </div>
 </main>
 
+<script src="js/admin.js"></script>
 <script>
 const DEFAULTS = {
     ime: '',
@@ -210,17 +212,28 @@ const DEFAULTS = {
     starsi: true,
     novaPrijava: false
 };
+
 let saved = { ...DEFAULTS };
 let state = { ...DEFAULTS };
 
 const $ = (id) => document.getElementById(id);
+
 const FREQ_HINT = {
     dnevno: 'Kopija vsak dan ob 7:00.',
     tedensko: 'Kopija vsak ponedeljek ob 7:00.'
 };
 
+function ensureOption(select, value) {
+    if (value && !Array.prototype.some.call(select.options, (o) => o.value === value)) {
+        const o = document.createElement('option');
+        o.textContent = value;
+        select.appendChild(o);
+    }
+}
+
 function render() {
     document.querySelectorAll('[data-setting]').forEach((el) => {
+        if (el.tagName === 'SELECT') ensureOption(el, state[el.dataset.setting]);
         el.value = state[el.dataset.setting];
     });
     document.querySelectorAll('.switch').forEach((el) => {
@@ -232,22 +245,42 @@ function render() {
     $('freqHint').textContent = FREQ_HINT[state.freq];
 }
 
+function renderInfo(info) {
+    $('lastBackup').textContent = info.lastBackup ? Admin.fmtWhen(info.lastBackup) : 'Še ni bila narejena';
+    $('diskBar').style.width = info.diskUsedPct + '%';
+    $('diskText').textContent = `${info.diskUsedPct} % prostora`;
+}
+
 let statusTimer;
-function flash(text) {
+function flash(text, isError) {
     $('saveStatus').textContent = text;
     clearTimeout(statusTimer);
-    statusTimer = setTimeout(() => { $('saveStatus').textContent = ''; }, 3000);
+    statusTimer = setTimeout(() => { $('saveStatus').textContent = ''; }, isError ? 6000 : 3000);
+}
+
+async function load() {
+    try {
+        const d = await Admin.api('settings.php');
+        saved = { ...DEFAULTS, ...d.settings };
+        state = { ...saved };
+        render();
+        renderInfo(d);
+    } catch (e) {
+        if (e.status !== 401) flash(e.message, true);
+    }
 }
 
 document.querySelectorAll('[data-setting]').forEach((el) => {
     el.addEventListener('input', () => { state[el.dataset.setting] = el.value; });
 });
+
 document.querySelectorAll('.switch').forEach((el) => {
     el.addEventListener('click', () => {
         state[el.dataset.key] = !state[el.dataset.key];
         render();
     });
 });
+
 $('freq').addEventListener('click', (e) => {
     const btn = e.target.closest('button[data-freq]');
     if (!btn) return;
@@ -255,39 +288,67 @@ $('freq').addEventListener('click', (e) => {
     render();
 });
 
-$('save').addEventListener('click', () => {
-    saved = { ...state };
-    console.log('Shrani nastavitve:', saved);
-    /* Tukaj pošlji na strežnik, npr.:
-       await fetch('/api/nastavitve', {
-           method: 'PUT',
-           headers: { 'Content-Type': 'application/json' },
-           body: JSON.stringify(saved)
-       });
-    */
-    flash('Nastavitve so shranjene.');
+$('save').addEventListener('click', async () => {
+    $('save').disabled = true;
+    try {
+        const d = await Admin.api('settings.php', { method: 'PUT', body: state });
+        saved = { ...DEFAULTS, ...d.settings };
+        state = { ...saved };
+        render();
+        renderInfo(d);
+        flash('Nastavitve so shranjene.');
+    } catch (e) {
+        flash(e.message, true);
+    } finally {
+        $('save').disabled = false;
+    }
 });
+
 $('reset').addEventListener('click', () => {
     state = { ...saved };
     render();
     flash('Spremembe so razveljavljene.');
 });
 
-$('backupNow').addEventListener('click', () => {
-    /* Tukaj pokliči strežnik, da naredi kopijo. */
-    const now = new Date();
-    const hh = now.getHours();
-    const mm = String(now.getMinutes()).padStart(2, '0');
-    $('lastBackup').textContent = `Danes, ${hh}:${mm}`;
-    flash('Kopija je narejena.');
+$('backupNow').addEventListener('click', async () => {
+    $('backupNow').disabled = true;
+    flash('Kopija se pripravlja …');
+    try {
+        const d = await Admin.api('backup.php', { method: 'POST' });
+        $('lastBackup').textContent = Admin.fmtWhen(d.lastBackup);
+        flash('Kopija je narejena.');
+    } catch (e) {
+        flash(e.message, true);
+    } finally {
+        $('backupNow').disabled = false;
+    }
 });
-$('export').addEventListener('click', () => {
-    flash('Izvoz se pripravlja.');
+
+$('export').addEventListener('click', async () => {
+    $('export').disabled = true;
+    flash('Izvoz se pripravlja …');
+    try {
+        const data = await Admin.api('export.php');
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        Admin.saveBlob(blob, `podatki-sola-${new Date().toISOString().slice(0, 10)}.json`);
+        flash('Izvoz je pripravljen.');
+    } catch (e) {
+        flash(e.message, true);
+    } finally {
+        $('export').disabled = false;
+    }
 });
-$('archive').addEventListener('click', () => {
-    if (confirm('Res želiš arhivirati šolsko leto? Dejanja ni mogoče preklicati.')) {
-        /* Tukaj pokliči strežnik za arhiviranje. */
-        flash('Šolsko leto je arhivirano.');
+
+$('archive').addEventListener('click', async () => {
+    if (!confirm('Res želiš arhivirati šolsko leto? Dejanja ni mogoče preklicati.')) return;
+    $('archive').disabled = true;
+    try {
+        const d = await Admin.api('archive.php', { method: 'POST' });
+        flash(`Šolsko leto ${d.leto} je arhivirano (zaprtih razredov: ${d.closed}).`);
+    } catch (e) {
+        flash(e.message, true);
+    } finally {
+        $('archive').disabled = false;
     }
 });
 
@@ -304,6 +365,10 @@ window.addEventListener('scroll', markActive, { passive: true });
 markActive();
 
 render();
+(async () => {
+    try { await Admin.init(); } catch (e) { return; }
+    load();
+})();
 </script>
 </body>
 </html>
