@@ -1,0 +1,1 @@
+﻿pripraviPredmet('Fizika');

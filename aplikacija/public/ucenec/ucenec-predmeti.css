@@ -19,7 +19,8 @@ html, body { width: 100%; height: 100%; background-color: #f7f3ec; overflow: hid
     min-height: 0;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    grid-template-rows: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: minmax(280px, auto);
+    overflow-y: auto;
     gap: 20px 24px;
     margin-top: 18px;
 }
@@ -29,6 +30,7 @@ html, body { width: 100%; height: 100%; background-color: #f7f3ec; overflow: hid
     --bledo: #fbefea;
     position: relative;
     min-width: 0;
+    min-height: max-content;
     display: flex;
     flex-direction: column;
     padding: 22px 28px;
@@ -84,6 +86,8 @@ html, body { width: 100%; height: 100%; background-color: #f7f3ec; overflow: hid
 }
 
 .predmet-glava h3 { font-size: 24px; line-height: 1.05; }
+.predmet-glava > div { min-width: 0; }
+.predmet-glava h3 { overflow-wrap: anywhere; }
 .predmet-glava p,
 .predmet-status,
 .predmet-statistika span,
@@ -143,5 +147,12 @@ html, body { width: 100%; height: 100%; background-color: #f7f3ec; overflow: hid
 @media (max-width: 1100px) {
     html, body { overflow: auto; }
     .predmeti { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; }
-    .predmet { min-height: 280px; }
+}
+
+@media (max-width: 650px) {
+    .main-container { margin-right: 14px; margin-left: 14px; }
+    .predmeti { grid-template-columns: minmax(0, 1fr); grid-auto-rows: minmax(320px, auto); }
+    .predmet { padding: 20px; }
+    .predmet-glava { display: grid; grid-template-columns: 50px minmax(0, 1fr); }
+    .predmet-status { grid-column: 2; justify-self: start; margin-left: 0; }
 }
