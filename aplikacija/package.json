@@ -4,7 +4,7 @@
   "description": "",
   "main": "server/server.js",
   "scripts": {
-    "test": "node test/datoteke.js",
+    "test": "node test/datoteke.js && node test/izvor-prijave.js",
     "test:api": "node test/api.js",
     "start": "node server/server.js"
   },

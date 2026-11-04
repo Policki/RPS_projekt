@@ -37,6 +37,8 @@ const casovnik=setTimeout(()=>{console.error('Prijava je presegla časovno omeji
 async function zagon(){
     const stran=await fetch(naslov+'/');
     if(!process.argv.includes('--pokazi'))assert.equal(stran.headers.get('referrer-policy'),'strict-origin-when-cross-origin');
+    assert.equal(stran.headers.get('cache-control'),'no-store');
+    const drugaPrijava=await fetch(naslov+'/prijava/index.html');assert.equal(drugaPrijava.headers.get('cache-control'),'no-store');
     const {targetId}=await ukaz('Target.createTarget',{url:'about:blank'});
     const {sessionId}=await ukaz('Target.attachToTarget',{targetId,flatten:true});
     await ukaz('Page.enable',{},sessionId);await ukaz('Network.enable',{},sessionId);
@@ -56,6 +58,7 @@ async function zagon(){
         await ukaz('Network.clearBrowserCookies',{},sessionId);
         await ukaz('Page.navigate',{url:naslov+'/'},sessionId);
         await pocakaj('Boolean(document.getElementById("username"))');
+        if(process.argv.includes('--skrit-izvor'))await preberi(`const politika=document.createElement('meta');politika.name='referrer';politika.content='no-referrer';document.head.append(politika)`);
         await preberi(`document.getElementById('username').value=${JSON.stringify(uporabnik)};document.getElementById('password').value='Geslo123!';document.querySelector('form').requestSubmit()`);
         await pocakaj('location.pathname!=="/"');
         const stanje=await preberi('({pot:location.pathname,besedilo:document.body.innerText.slice(0,120)})');
@@ -64,6 +67,16 @@ async function zagon(){
         const seja=await preberi(`fetch('/api/uporabnik').then(async r=>({status:r.status,podatki:await r.json()}))`);
         assert.equal(seja.status,200);assert.equal(seja.podatki.uporabnik.vloga,vloga);
         console.log('OK oddaja prijavnega obrazca, preusmeritev in seja: '+uporabnik+' ('+izvor+')');
+        const strani={
+            dijak:['/profil','/ucenec/ucenec-dasboard.html','/ucenec/ucenec-predmeti.html','/ucenec/ucenec-naloge.html','/ucenec/ucenec-gradiva.html','/ucenec/usenec-koledar.html','/ucenec/nastavitve.html',...['matematika','informatika','fizika','slovenscina','anglescina','zgodovina'].map(p=>'/ucenec/predmeti/'+p+'.html'),'/api/moji-predmeti','/api/ucenec/naloge','/api/ucenec/gradiva'],
+            profesor:['/profil',...['dashboard','predmeti','naloge','gradiva','koledar','nastavitve'].map(p=>'/profesor/profesor-'+p+'.html'),...['dashboard','predmeti','naloge','gradiva'].map(p=>'/api/profesor/'+p),'/api/dogodki','/api/nastavitve'],
+            administrator:['/profil','/admin/admin_uporabniki.html',...['dashboard','predmeti','koledar','nastavitve'].map(p=>'/admin/admin-'+p+'.html'),...['dashboard','uporabniki','sifranti','nastavitve'].map(p=>'/api/admin/'+p),'/api/dogodki']
+        };
+        for(const stran of strani[vloga]){
+            const status=await preberi(`fetch(${JSON.stringify(stran)},{redirect:'manual'}).then(r=>r.status)`);
+            assert.equal(status,200,uporabnik+' ne more odpreti '+stran);
+        }
+        console.log('OK dostop do '+strani[vloga].length+' strani in API-jev za '+vloga);
     }
     if(process.argv.includes('--pokazi'))return;
     for(const izvor of ['https://tuja-stran.example','null']){

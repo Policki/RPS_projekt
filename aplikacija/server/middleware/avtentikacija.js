@@ -16,6 +16,16 @@ async function prijava(req, res, next) {
 function vloga(zahtevana) {
     return (req, res, next) => req.uporabnik.vloga === zahtevana ? next() : zavrni(req, res, 403, 'Nimate dovoljenja za dostop.');
 }
+function preveriIzvorPrijave(req,res,next) {
+    const izvor=req.get('origin');
+    const mesto=req.get('sec-fetch-site');
+    const pricakovan=`${req.protocol}://${req.get('host')}`;
+    const skritIstiIzvor=izvor==='null' && mesto==='same-origin';
+    if(mesto==='cross-site' || (izvor && izvor!==pricakovan && !skritIstiIzvor)){
+        return res.status(403).send('Prijava s te strani ni dovoljena. Odpri prijavno stran aplikacije in poskusi znova.');
+    }
+    next();
+}
 function csrf(req, res, next) {
     if (['GET', 'HEAD', 'OPTIONS'].includes(req.method)) return next();
     const prejet = Buffer.from(req.get('x-csrf-token') || '');
@@ -23,4 +33,4 @@ function csrf(req, res, next) {
     if (!prejet.length || prejet.length !== pricakovan.length || !timingSafeEqual(prejet, pricakovan)) return res.status(403).json({ napaka: 'Osvežite stran in poskusite znova.' });
     next();
 }
-module.exports = { prijava, vloga, csrf };
+module.exports = { prijava, vloga, csrf, preveriIzvorPrijave };

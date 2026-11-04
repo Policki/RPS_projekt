@@ -8,7 +8,7 @@ const helmet = require('helmet');
 const { rateLimit } = require('express-rate-limit');
 const { randomBytes } = require('crypto');
 const pool = require('./db');
-const { prijava, vloga, csrf } = require('./middleware/avtentikacija');
+const { prijava, vloga, csrf, preveriIzvorPrijave } = require('./middleware/avtentikacija');
 const app = express();
 const produkcija = process.env.NODE_ENV === 'production';
 if (!process.env.SESSION_SECRET || (produkcija && process.env.SESSION_SECRET.length < 32)) throw new Error('Nastavite SESSION_SECRET; v produkciji mora imeti vsaj 32 znakov.');
@@ -34,10 +34,9 @@ app.get('/api/health', async (req, res) => {
     try { await pool.query('SELECT 1'); res.json({ status: 'ok', baza: 'povezana' }); }
     catch { res.status(503).json({ status: 'napaka', baza: 'nedosegljiva' }); }
 });
-app.post('/login', rateLimit({ windowMs: 15 * 60000, limit: 30, standardHeaders: 'draft-8', legacyHeaders: false }), async (req, res) => {
+app.post('/login', rateLimit({ windowMs: 15 * 60000, limit: 30, standardHeaders: 'draft-8', legacyHeaders: false }), preveriIzvorPrijave, async (req, res) => {
     const { username, password } = req.body;
     if (typeof username !== 'string' || !username.trim() || username.length > 50 || typeof password !== 'string' || Buffer.byteLength(password) > 72 || !password) return res.status(400).send('Vnesite veljavno uporabniško ime in geslo.');
-    if (req.get('origin') && req.get('origin') !== `${req.protocol}://${req.get('host')}`) return res.sendStatus(403);
     const [vrstice] = await pool.execute('SELECT * FROM Uporabnik WHERE uporabnisko_ime=?', [username.trim()]);
     const uporabnik = vrstice[0];
     const pravilen = uporabnik && await bcrypt.compare(password, uporabnik.geslo_hash);
@@ -78,8 +77,11 @@ app.use((req,res,next)=>{
     if(zahtevana && /\.html$/i.test(normalna))return prijava(req,res,()=>vloga(zahtevana)(req,res,next));
     next();
 });
+app.get(['/', '/prijava/index.html'], (req, res) => {
+    res.set('Cache-Control','no-store');
+    res.sendFile(path.join(javno,'prijava/index.html'));
+});
 app.use(express.static(javno, { dotfiles: 'deny', index: false }));
-app.get('/', (req, res) => res.sendFile(path.join(javno, 'prijava/index.html')));
 app.use((req, res) => res.status(404).send('Stran ne obstaja.'));
 app.use((napaka, req, res, next) => {
     if (res.headersSent) return next(napaka);
