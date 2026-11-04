@@ -23,11 +23,11 @@
     <main class="main-container">
         <header class="header">
             <h1>Naloge<span>.</span></h1>
-            <p>12 nalog čaka na pregled.</p>
+            <p id="opis-naloge">Nalagam naloge ...</p>
         </header>
         <div class="crta"></div>
         <div class="dva-stolpca">
-            <section class="card"><h2>Naloge za pregled</h2><div class="vrstice">
+            <section class="card"><h2>Naloge za pregled</h2><div class="vrstice" id="naloge-seznam">
                 <div class="vrstica roza"><div><h3>Naloga [naziv]</h3><p>RPS · R4A</p></div><span class="pill">Rok: /</span></div>
                 <div class="vrstica zelena"><div><h3>Naloga [naziv]</h3><p>RKO · R2B</p></div><span class="pill">Rok: /</span></div>
                 <div class="vrstica rumena"><div><h3>Naloga [naziv]</h3><p>OPR · R3A</p></div><span class="pill">Rok: /</span></div>
@@ -35,19 +35,22 @@
                 <div class="vrstica zelena"><div><h3>Naloga [naziv]</h3><p>UPP · R3A</p></div><span class="pill">Rok: /</span></div>
             </div></section>
             <div class="desno">
-                <section class="card card-accent"><h2>Za pregled</h2><div class="velika">12</div><p class="opomba">nalog</p></section>
+                <section class="card card-accent"><h2>Za pregled</h2><div class="velika" id="naloge-stevilo">0</div><p class="opomba">nalog</p></section>
                 <section class="card card-accent"><h2>Opravljene obveznosti</h2>
                     <div class="obroc">
                         <svg width="72" height="72" viewBox="0 0 72 72" fill="none" aria-hidden="true">
                             <circle cx="36" cy="36" r="28" stroke="#E8DFD2" stroke-width="8"/>
-                            <circle cx="36" cy="36" r="28" stroke="#CF6B49" stroke-width="8" stroke-dasharray="132 176" stroke-linecap="round" transform="rotate(-90 36 36)"/>
+                            <circle id="obroc-krog" cx="36" cy="36" r="28" stroke="#CF6B49" stroke-width="8" stroke-dasharray="132 176" stroke-linecap="round" transform="rotate(-90 36 36)"/>
                         </svg>
-                        <div><small>TA TEDEN:</small><strong>18/24 nalog pregledanih</strong></div>
+                        <div><small>TA TEDEN:</small><strong id="obroc-besedilo">18/24 nalog pregledanih</strong></div>
                     </div>
                 </section>
             </div>
         </div>
     </main>
 </div>
+<script src="DB.js"></script>
+<script src="profesor.js"></script>
+<script src="profesor-naloge.js"></script>
 </body>
 </html>

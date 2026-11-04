@@ -22,68 +22,40 @@
     </nav>
     <main class="main-container">
         <header class="header">
-            <h1>Dobro jutro, <span>g. Holobar.</span></h1>
-            <p>Danes poučujete 3 ure in imate 12 nalog za pregled.</p>
+            <h1>Dobro jutro, <span id="profil-ime">(ime uporabnika)</span></h1>
+            <p id="opis-dashboard">Nalagam urnik ...</p>
         </header>
         <div class="crta"></div>
         <div class="dva-stolpca">
             <section class="card">
-                <h2>Današnji urnik</h2>
-                <div class="vrstice">
-                <div class="vrstica roza"><div><h3>RPS · R4A</h3><p>Učilnica BE04</p></div><span class="pill">8:00 – 8:45</span></div>
-                <div class="vrstica zelena"><div><h3>RKO · R2B</h3><p>Učilnica BE07</p></div><span class="pill">10:30 – 11:15</span></div>
-                <div class="vrstica rumena"><div><h3>OPR · R3A</h3><p>Učilnica BE04</p></div><span class="pill">12:10 – 12:55</span></div>
+                <h2>Današnji dogodki</h2>
+                <div class="vrstice" id="dogodki-danes">
                 </div>
             </section>
             <div class="desno">
                 <section class="card card-accent">
-                    <h2>Rok za vnos ocen</h2>
-                    <div class="rok-vrstica"><div></div></div>
-                    <p class="rok-predmet">Predmet</p>
-                    <p class="rok-datum">Datum</p>
+                    <h2>Najbližji rok oddaje</h2>
+                    <div class="rok-vrstica"><div id="rok-crta"></div></div>
+                    <p class="rok-predmet" id="rok-predmet">Predmet</p>
+                    <p class="rok-datum" id="rok-datum">Datum</p>
                 </section>
                 <section class="card card-accent">
                     <h2>Opravljene obveznosti</h2>
                     <div class="obroc">
                         <svg width="72" height="72" viewBox="0 0 72 72" fill="none" aria-hidden="true">
                             <circle cx="36" cy="36" r="28" stroke="#E8DFD2" stroke-width="8"/>
-                            <circle cx="36" cy="36" r="28" stroke="#CF6B49" stroke-width="8" stroke-dasharray="132 176" stroke-linecap="round" transform="rotate(-90 36 36)"/>
+                            <circle id="obroc-krog" cx="36" cy="36" r="28" stroke="#CF6B49" stroke-width="8" stroke-dasharray="132 176" stroke-linecap="round" transform="rotate(-90 36 36)"/>
                         </svg>
-                        <div><small>TA TEDEN:</small><strong>18/24 nalog pregledanih</strong></div>
+                        <div><small>TA TEDEN:</small><strong id="obroc-besedilo">18/24 nalog pregledanih</strong></div>
                     </div>
                 </section>
             </div>
         </div>
-        <div class="predmeti">
-            <div class="predmet1">
-                <div class="top-line"></div>
-                <div class="predmet-header">
-                    <div class="predmet-icon"></div>
-                    <div><h3>R3A</h3><p>UPP</p></div>
-                </div>
-                <div class="podatki"><p>24 dijakov</p><strong>Rok oddaje: /</strong></div>
-                <div class="progress"><div></div></div>
-            </div>
-            <div class="predmet2">
-                <div class="top-line"></div>
-                <div class="predmet-header">
-                    <div class="predmet-icon"></div>
-                    <div><h3>R1B</h3><p>SPA</p></div>
-                </div>
-                <div class="podatki"><p>30 dijakov</p><strong>Rok pregleda: /</strong></div>
-                <div class="progress"><div></div></div>
-            </div>
-            <div class="predmet3">
-                <div class="top-line"></div>
-                <div class="predmet-header">
-                    <div class="predmet-icon"></div>
-                    <div><h3>R4A</h3><p>RPS</p></div>
-                </div>
-                <div class="podatki"><p>5 skupin</p><strong>Rok oddaje: /</strong></div>
-                <div class="progress"><div></div></div>
-            </div>
-        </div>
+        <div class="predmeti" id="predmeti-seznam" data-najvec="3"></div>
     </main>
 </div>
+<script src="DB.js"></script>
+<script src="profesor.js"></script>
+<script src="profesor-dashboard.js"></script>
 </body>
 </html>

@@ -30,27 +30,30 @@
             <section class="card">
                 <h2>Obvestila</h2>
                 <div class="nastavitve">
-                    <label class="nastavitev"><span><strong>Obvestila po e-pošti</strong><small>Prejmite povzetek oddanih nalog.</small></span><input type="checkbox" class="stikalo" checked></label>
-                    <label class="nastavitev"><span><strong>Opomnik za rok vnosa ocen</strong><small>Opomnik tri dni pred rokom.</small></span><input type="checkbox" class="stikalo" checked></label>
-                    <label class="nastavitev"><span><strong>Obvestilo o novih oddajah</strong><small>Takoj, ko dijak odda nalogo.</small></span><input type="checkbox" class="stikalo" ></label>
+                    <label class="nastavitev"><span><strong>Tedenski povzetek po e-pošti</strong><small>Prejmite povzetek oddanih nalog.</small></span><input type="checkbox" class="stikalo" data-nastavitev="tedenski_povzetek" checked></label>
+                    <label class="nastavitev"><span><strong>Opomnik za rok</strong><small>Opomnik pred rokom oddaje nalog.</small></span><input type="checkbox" class="stikalo" data-nastavitev="opomnik_rok" checked></label>
+                    <label class="nastavitev"><span><strong>Obvestilo o novih vpisih</strong><small>Ko se dijak vpiše k vašemu predmetu.</small></span><input type="checkbox" class="stikalo" data-nastavitev="novi_vpisi" ></label>
                 </div>
             </section>
             <div class="desno">
                 <section class="card card-accent">
                     <h2>Videz</h2>
                     <div class="nastavitve">
-                    <label class="nastavitev"><span><strong>Zgoščen prikaz</strong><small>Manjši razmiki med vrsticami.</small></span><input type="checkbox" class="stikalo" ></label>
-                    <label class="nastavitev"><span><strong>Začni na nadzorni plošči</strong><small>Ob prijavi odpri glavno stran.</small></span><input type="checkbox" class="stikalo" checked></label>
+                    <label class="nastavitev"><span><strong>Zgoščen prikaz</strong><small>Manjši razmiki med vrsticami.</small></span><input type="checkbox" class="stikalo" data-lokalno="zgosceni_prikaz" ></label>
+                    <label class="nastavitev"><span><strong>Začni na nadzorni plošči</strong><small>Ob prijavi odpri glavno stran.</small></span><input type="checkbox" class="stikalo" data-lokalno="zacni_dashboard" checked></label>
                     </div>
                 </section>
                 <section class="card card-accent">
                     <h2>Račun</h2>
                     <p class="opomba">Odjava vas vrne na prijavno stran.</p>
-                    <button class="gumb" type="button">Odjava</button>
+                    <button type="button" id="btnOdjava">Odjava</button>
                 </section>
             </div>
         </div>
     </main>
 </div>
+<script src="DB.js"></script>
+<script src="profesor.js"></script>
+<script src="profesor-nastavitve.js"></script>
 </body>
 </html>

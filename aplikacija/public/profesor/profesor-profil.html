@@ -33,7 +33,7 @@
                     <label>Ime in priimek<input type="text" id="polje-ime" value=""></label>
                     <label>E-pošta<input type="email" id="polje-eposta" value=""></label>
                     <label>Telefon<input type="tel" id="polje-telefon" placeholder="npr. 031 123 456"></label>
-                    <label>Predmeti<input type="text" id="polje-predmeti" value="UPP, SPA, RPS, RKO, OPR"></label>
+                    <label>Predmeti<input type="text" id="polje-predmeti" value="" readonly></label>
                     <button class="gumb" type="submit">Shrani spremembe</button>
                 </form>
             </section>
@@ -46,16 +46,17 @@
                 <section class="card card-accent">
                     <h2>Povzetek</h2>
                     <div class="vrstice">
-                <div class="vrstica roza"><div><h3>Razredi</h3><p>v tem šolskem letu</p></div><span class="pill">5</span></div>
-                <div class="vrstica zelena"><div><h3>Nalog za pregled</h3><p>trenutno</p></div><span class="pill">12</span></div>
-                <div class="vrstica rumena"><div><h3>Ur danes</h3><p>po urniku</p></div><span class="pill">3</span></div>
+                <div class="vrstica roza"><div><h3>Razredi</h3><p>v tem šolskem letu</p></div><span class="pill" id="povzetek-razredi">5</span></div>
+                <div class="vrstica zelena"><div><h3>Nalog za pregled</h3><p>trenutno</p></div><span class="pill" id="povzetek-naloge">12</span></div>
+                <div class="vrstica rumena"><div><h3>Dogodkov danes</h3><p>v koledarju</p></div><span class="pill" id="povzetek-dogodki">0</span></div>
                     </div>
                 </section>
             </div>
         </div>
     </main>
 </div>
-<script src="db.js"></script>
+<script src="DB.js"></script>
 <script src="profesor.js"></script>
+<script src="profesor-profil.js"></script>
 </body>
 </html>

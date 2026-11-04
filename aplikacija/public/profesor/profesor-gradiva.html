@@ -27,7 +27,7 @@
         </header>
         <div class="crta"></div>
         <div class="dva-stolpca">
-            <section class="card"><h2>Nedavna gradiva</h2><div class="vrstice">
+            <section class="card"><h2>Nedavna gradiva</h2><div class="vrstice" id="gradiva-seznam">
                 <div class="vrstica zelena"><div><h3>Gradivo [naziv]</h3><p>UPP · R3A</p></div><span class="pill">PDF</span></div>
                 <div class="vrstica roza"><div><h3>Gradivo [naziv]</h3><p>RPS · R4A</p></div><span class="pill">PPT</span></div>
                 <div class="vrstica rumena"><div><h3>Gradivo [naziv]</h3><p>OPR · R3A</p></div><span class="pill">DOC</span></div>
@@ -37,10 +37,17 @@
             <section class="card card-accent">
                 <h2>Dodaj gradivo</h2>
                 <p class="opomba">Naložite datoteko ali dodajte povezavo.</p>
-                <button class="gumb" type="button">Naloži datoteko</button>
+                <select id="gradivo-predmet" class="izbira-predmeta" aria-label="Predmet"></select>
+                <input type="file" id="gradivo-datoteka" accept=".pdf,.ppt,.pptx,.doc,.docx" hidden>
+                <button class="gumb" type="button" id="btnNaloziDatoteko">Naloži datoteko</button>
+                <button class="gumb" type="button" id="btnDodajPovezavo">Dodaj povezavo</button>
+                <p class="opomba" id="gradivo-sporocilo"></p>
             </section>
         </div>
     </main>
 </div>
+<script src="DB.js"></script>
+<script src="profesor.js"></script>
+<script src="profesor-gradiva.js"></script>
 </body>
 </html>
