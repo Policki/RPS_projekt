@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profesor - Profil</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500&family=Figtree:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="profesor-profil.css">
+</head>
+<body>
+<div class="all-content">
+    <nav class="sidebar" aria-label="Glavna navigacija">
+        <div class="icon" title="Nadzorna plošča"><a href="profesor-dashboard.html" aria-label="Nadzorna plošča"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></a></div>
+        <div class="icon" title="Predmeti"><a href="profesor-predmeti.html" aria-label="Predmeti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></a></div>
+        <div class="icon" title="Naloge"><a href="profesor-naloge.html" aria-label="Naloge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12l2.5 2.5L16 9"/></svg></a></div>
+        <div class="icon" title="Gradiva"><a href="profesor-gradiva.html" aria-label="Gradiva"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg></a></div>
+        <div class="icon" title="Koledar"><a href="profesor-koledar.html" aria-label="Koledar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></a></div>
+        <div class="spacer"></div>
+        <div class="icon active" title="Profil"><a href="profesor-profil.html" aria-label="Profil" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></a></div>
+        <div class="icon" title="Nastavitve"><a href="profesor-nastavitve.html" aria-label="Nastavitve"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></a></div>
+    </nav>
+    <main class="main-container">
+        <header class="header">
+            <h1>Profil<span>.</span></h1>
+            <p>Vaši osebni podatki in povzetek računa.</p>
+        </header>
+        <div class="crta"></div>
+        <div class="dva-stolpca profil-stolpca">
+            <section class="card">
+                <h2>Osebni podatki</h2>
+                <form class="obrazec" id="obrazec-profil">
+                    <label>Ime in priimek<input type="text" id="polje-ime" value=""></label>
+                    <label>E-pošta<input type="email" id="polje-eposta" value=""></label>
+                    <label>Telefon<input type="tel" id="polje-telefon" placeholder="npr. 031 123 456"></label>
+                    <label>Predmeti<input type="text" id="polje-predmeti" value="" readonly></label>
+                    <button class="gumb" type="submit">Shrani spremembe</button>
+                </form>
+            </section>
+            <div class="desno">
+                <section class="card card-accent profil-kartica">
+                    <div class="avatar" id="profil-avatar" aria-hidden="true"></div>
+                    <h2 id="profil-ime"></h2>
+                    <p class="opomba">Profesor</p>
+                </section>
+                <section class="card card-accent">
+                    <h2>Povzetek</h2>
+                    <div class="vrstice">
+                <div class="vrstica roza"><div><h3>Razredi</h3><p>v tem šolskem letu</p></div><span class="pill" id="povzetek-razredi">5</span></div>
+                <div class="vrstica zelena"><div><h3>Nalog za pregled</h3><p>trenutno</p></div><span class="pill" id="povzetek-naloge">12</span></div>
+                <div class="vrstica rumena"><div><h3>Dogodkov danes</h3><p>v koledarju</p></div><span class="pill" id="povzetek-dogodki">0</span></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="DB.js"></script>
+<script src="profesor.js"></script>
+<script src="profesor-profil.js"></script>
+</body>
+</html>

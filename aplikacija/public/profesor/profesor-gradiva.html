@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profesor - Gradiva</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500&family=Figtree:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="nav.css">
+    <link rel="stylesheet" href="profesor-gradiva.css">
+</head>
+<body>
+<div class="all-content">
+    <nav class="sidebar" aria-label="Glavna navigacija">
+        <div class="icon" title="Nadzorna plošča"><a href="profesor-dashboard.html" aria-label="Nadzorna plošča"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></a></div>
+        <div class="icon" title="Predmeti"><a href="profesor-predmeti.html" aria-label="Predmeti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></a></div>
+        <div class="icon" title="Naloge"><a href="profesor-naloge.html" aria-label="Naloge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12l2.5 2.5L16 9"/></svg></a></div>
+        <div class="icon active" title="Gradiva"><a href="profesor-gradiva.html" aria-label="Gradiva" aria-current="page"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg></a></div>
+        <div class="icon" title="Koledar"><a href="profesor-koledar.html" aria-label="Koledar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></a></div>
+        <div class="spacer"></div>
+        <div class="icon" title="Profil"><a href="profesor-profil.html" aria-label="Profil"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></a></div>
+        <div class="icon" title="Nastavitve"><a href="profesor-nastavitve.html" aria-label="Nastavitve"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></a></div>
+    </nav>
+    <main class="main-container">
+        <header class="header">
+            <h1>Gradiva<span>.</span></h1>
+            <p>Učno gradivo po predmetih.</p>
+        </header>
+        <div class="crta"></div>
+        <div class="dva-stolpca">
+            <section class="card"><h2>Nedavna gradiva</h2><div class="vrstice" id="gradiva-seznam">
+                <div class="vrstica zelena"><div><h3>Gradivo [naziv]</h3><p>UPP · R3A</p></div><span class="pill">PDF</span></div>
+                <div class="vrstica roza"><div><h3>Gradivo [naziv]</h3><p>RPS · R4A</p></div><span class="pill">PPT</span></div>
+                <div class="vrstica rumena"><div><h3>Gradivo [naziv]</h3><p>OPR · R3A</p></div><span class="pill">DOC</span></div>
+                <div class="vrstica zelena"><div><h3>Gradivo [naziv]</h3><p>SPA · R1B</p></div><span class="pill">PDF</span></div>
+                <div class="vrstica roza"><div><h3>Gradivo [naziv]</h3><p>RKO · R2B</p></div><span class="pill">URL</span></div>
+            </div></section>
+            <section class="card card-accent">
+                <h2>Dodaj gradivo</h2>
+                <p class="opomba">Naložite datoteko ali dodajte povezavo.</p>
+                <select id="gradivo-predmet" class="izbira-predmeta" aria-label="Predmet"></select>
+                <input type="file" id="gradivo-datoteka" accept=".pdf,.ppt,.pptx,.doc,.docx" hidden>
+                <button class="gumb" type="button" id="btnNaloziDatoteko">Naloži datoteko</button>
+                <button class="gumb" type="button" id="btnDodajPovezavo">Dodaj povezavo</button>
+                <p class="opomba" id="gradivo-sporocilo"></p>
+            </section>
+        </div>
+    </main>
+</div>
+<script src="DB.js"></script>
+<script src="profesor.js"></script>
+<script src="profesor-gradiva.js"></script>
+</body>
+</html>
