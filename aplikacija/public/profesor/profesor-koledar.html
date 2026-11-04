@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="sl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/profesor/nav.css">
+    <link rel="stylesheet" href="/profesor/profesor-koledar.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Alegreya:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Profesor - Koledar</title>
+<link rel="stylesheet" href="/skupno/skupno.css">
+<script src="/skupno/api.js" defer></script>
+<script src="/skupno/navigacija.js" defer></script>
+<script src="/skupno/koledar.js" defer></script>
+<link rel="stylesheet" href="/skupno/navigacija.css">
+</head>
+
+<body>
+    <div class="all-content">
+        <nav class="sidebar" aria-label="Glavna navigacija">
+        <div class="icon" title="Nadzorna plošča"><a href="/profesor-dashboard" aria-label="Nadzorna plošča"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></a></div>
+        <div class="icon" title="Predmeti"><a href="/profesor/profesor-predmeti.html" aria-label="Predmeti"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></a></div>
+        <div class="icon" title="Naloge"><a href="/profesor/profesor-naloge.html" aria-label="Naloge"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m8 12 2.5 2.5L16 9"/></svg></a></div>
+        <div class="icon" title="Gradiva"><a href="/profesor/profesor-gradiva.html" aria-label="Gradiva"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg></a></div>
+        <div class="icon active" title="Koledar"><a href="/profesor/profesor-koledar.html" aria-label="Koledar" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></a></div>
+        <div class="spacer"></div>
+        <div class="icon" title="Profil"><a href="/profil" aria-label="Profil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></a></div>
+        <div class="icon" title="Nastavitve"><a href="/profesor/profesor-nastavitve.html" aria-label="Nastavitve"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m9 3 1-1h4l1 3 3 1 3 1v4l-2 2v3l-2 3-3-1-3 2-3-2-3-1v-4l-2-2V7l3-1 1-3z"/></svg></a></div>
+    </nav>
+
+        <main class="main-container">
+            <header class="page-header">
+                <div>
+                    <h1 class="header-title">Koledar</h1>
+                    <p class="header-text">Na enem mestu spremljaj
+svoje dogodke in obveznosti.</p>
+                </div>
+            </header>
+
+            <div class="calendar-layout">
+                <section class="calendar" aria-label="Mesečni koledar">
+                    <div class="calendar-top">
+                        <div>
+                            <span class="calendar-label">MOJ PREGLED</span>
+                            <h2 id="month-year">Oktober 2026</h2>
+                        </div>
+                        <div class="calendar-navigation">
+                            <button id="prev-month" type="button"
+aria-label="Prejšnji mesec">←</button>
+                            <button id="next-month" type="button"
+aria-label="Naslednji mesec">→</button>
+                        </div>
+                    </div>
+                    <div class="weekdays" aria-hidden="true">
+
+<span>PON</span><span>TOR</span><span>SRE</span><span>ČET</span><span>PET</span><span>SOB</span><span>NED</span>
+                    </div>
+                    <div id="calendar-days" class="calendar-days"></div>
+                </section>
+
+                <aside class="event-panel">
+                    <div class="panel-heading">
+                        <span class="calendar-label">MOJI DOGODKI</span>
+                        <h2>Dodaj dogodek</h2>
+                        <p>Izberi dan v koledarju ali določi datum spodaj.</p>
+                    </div>
+                    <form id="event-form" class="event-form">
+                        <label for="event-title">Ime dogodka</label>
+                        <input id="event-title" name="title"
+type="text" maxlength="60" placeholder="npr. Test iz matematike"
+required>
+
+                        <label for="event-date">Datum</label>
+                        <input id="event-date" name="date" type="date" required>
+
+                        <label for="event-category">Predmet / barva</label>
+                        <select id="event-category" name="category">
+                            <option value="">Brez predmeta</option>
+                        </select>
+                        <button class="add-event-button"
+type="submit">+ Dodaj dogodek</button>
+                    </form>
+
+                    <section class="selected-events" aria-live="polite">
+                        <h3 id="selected-date-title">Dogodki na izbran dan</h3>
+                        <ul id="event-list" class="event-list"></ul>
+                    </section>
+                </aside>
+            </div>
+        </main>
+    </div>
+    <script src="/profesor/DB.js"></script>
+    <script src="/profesor/profesor.js"></script>
+    <script src="/profesor/profesor-koledar.js"></script>
+</body>
+
+</html>

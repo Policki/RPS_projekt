@@ -2,6 +2,14 @@
 
 Projekt pri predmetu RPS – Računalniški produkti in storitve.
 
+## TESTNI PODATKI ZA PRIJAVO
+-admin
+-profesor01
+-dijak001
+povsod je geslo: Geslo123!
+
+To so samo razvojni računi. Navodila za zagon, produkcijo, HTTPS, trajne seje in varnostne kopije so v [PRODUKCIJA.md](PRODUKCIJA.md). Pregled izvedenih API-jev in omejitev je v [API.md](API.md).
+
 ## Namen projekta
 
 Izdelava spletne aplikacije za podporo šolskemu delu na daljavo.

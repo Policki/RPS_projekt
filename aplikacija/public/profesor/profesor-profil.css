@@ -1,0 +1,70 @@
+
+.profil-stolpca {
+    grid-template-columns: 1.4fr 1fr;
+}
+
+.obrazec {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.obrazec label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+}
+
+.obrazec input {
+    min-height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: #fff;
+    padding: 0 16px;
+    font: 400 15px var(--sans);
+    color: var(--ink);
+}
+
+.obrazec input:focus {
+    outline: 2px solid var(--coral);
+    outline-offset: 1px;
+}
+
+.obrazec .gumb {
+    align-self: flex-start;
+    margin-top: 6px;
+}
+
+.profil-kartica {
+    text-align: center;
+}
+
+.profil-kartica h2 {
+    margin-bottom: 4px;
+}
+
+.profil-kartica .opomba {
+    margin-bottom: 0;
+}
+
+.avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: var(--coral);
+    color: #fff;
+    font: 500 32px var(--serif);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+@media (max-width: 900px) {
+    .profil-stolpca {
+        grid-template-columns: 1fr;
+    }
+}

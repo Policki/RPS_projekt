@@ -1,0 +1,50 @@
+.nastavitve { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 6px; 
+}
+.nastavitev { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; gap: 16px; 
+    padding: 12px 0; border-bottom: 1px solid var(--line); 
+    cursor: pointer; 
+}
+.nastavitve .nastavitev:last-child { 
+    border-bottom: 0; 
+}
+.nastavitev strong { 
+    display: block; font-size: 15px; 
+    font-weight: 500; 
+}
+.nastavitev small { 
+    display: block; 
+    font-size: 12px; color: var(--muted); 
+    margin-top: 2px; 
+}
+ 
+.stikalo {
+     appearance: none; 
+     -webkit-appearance: none; 
+     flex: none; width: 46px; 
+     height: 26px; border-radius: 13px; 
+     background: #C8C4BD; 
+     position: relative; 
+     cursor: pointer; 
+     transition: background .15s;
+     }
+.stikalo::after { 
+    content: ""; 
+    position: absolute; 
+    top: 3px; left: 3px; 
+    width: 20px; 
+    height: 20px; 
+    border-radius: 50%; 
+    background: #fff; 
+    transition: transform .15s; }
+.stikalo:checked { 
+    background: var(--coral); }
+.stikalo:checked::after { 
+    transform: translateX(20px); }
+.stikalo:focus-visible { 
+    outline: 2px solid var(--coral); outline-offset: 2px; }

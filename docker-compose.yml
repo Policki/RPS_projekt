@@ -1,0 +1,40 @@
+services:
+  aplikacija:
+    build: ./aplikacija
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    depends_on:
+      baza:
+        condition: service_healthy
+    volumes:
+      - datoteke:/app/podatki/datoteke
+      - kopije:/app/backup
+
+  baza:
+    image: mariadb:11
+    container_name: rps-baza
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${DB_NAME}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - baza_podatki:/var/lib/mysql
+      - ./baza/SQL.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+
+volumes:
+  baza_podatki:
+  datoteke:
+  kopije:

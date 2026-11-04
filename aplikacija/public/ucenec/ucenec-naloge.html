@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="sl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/ucenec/nav.css">
+    <link rel="stylesheet" href="/ucenec/ucenec-naloge.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Alegreya:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Naloge</title>
+<link rel="stylesheet" href="/skupno/skupno.css">
+<script src="/skupno/api.js" defer></script>
+<script src="/skupno/navigacija.js" defer></script>
+<link rel="stylesheet" href="/skupno/navigacija.css">
+</head>
+
+<body>
+    <nav class="sidebar" aria-label="Glavna navigacija">
+        <div class="icon" title="Nadzorna plošča"><a href="/ucenec-dasboard" aria-label="Nadzorna plošča"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></a></div>
+        <div class="icon" title="Predmeti"><a href="/ucenec/ucenec-predmeti.html" aria-label="Predmeti"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></a></div>
+        <div class="icon active" title="Naloge"><a href="/ucenec/ucenec-naloge.html" aria-label="Naloge" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m8 12 2.5 2.5L16 9"/></svg></a></div>
+        <div class="icon" title="Gradiva"><a href="/ucenec/ucenec-gradiva.html" aria-label="Gradiva"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg></a></div>
+        <div class="icon" title="Koledar"><a href="/ucenec/usenec-koledar.html" aria-label="Koledar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></a></div>
+        <div class="spacer"></div>
+        <div class="icon" title="Profil"><a href="/profil" aria-label="Profil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></a></div>
+        <div class="icon" title="Nastavitve"><a href="/ucenec/nastavitve.html" aria-label="Nastavitve"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m9 3 1-1h4l1 3 3 1 3 1v4l-2 2v3l-2 3-3-1-3 2-3-2-3-1v-4l-2-2V7l3-1 1-3z"/></svg></a></div>
+    </nav>
+    <main class="naloge" id="glavna-vsebina">
+        <header class="naloge-glava">
+            <div>
+                <h1>Naloge</h1>
+                <p>Vse naloge iz tvojih predmetov na enem mestu</p>
+            </div>
+            <div class="naloge-statistika" aria-label="Pregled nalog">
+                <div><strong id="stevilo-odprtih">?</strong><span>Odprte</span></div>
+                <div><strong id="stevilo-oddanih">?</strong><span>Oddane</span></div>
+            </div>
+        </header>
+
+        <div class="naloge-orodja">
+            <div class="naloge-filtri" role="group" aria-label="Filtriraj naloge">
+                <button type="button" class="filter active" data-filter="vse" aria-pressed="true">Vse naloge</button>
+                <button type="button" class="filter" data-filter="odprte" aria-pressed="false">Ni oddano</button>
+                <button type="button" class="filter" data-filter="oddane" aria-pressed="false">Oddano</button>
+                <button type="button" class="filter" data-filter="kmalu" aria-pressed="false">Rok kmalu</button>
+            </div>
+            <label class="naloge-razvrsti" for="razvrsti">Razvrsti po
+                <select id="razvrsti">
+                    <option value="rok">Roku oddaje</option>
+                    <option value="naslov">Naslovu</option>
+                    <option value="predmet">Predmetu</option>
+                </select>
+            </label>
+        </div>
+
+        <div id="seznam-nalog"></div>
+        <p id="oddaja-sporocilo" role="status" aria-live="polite"></p>
+        <p class="header-text" id="naloge-prazno" role="status" hidden>Ni nalog za izbrani prikaz.</p>
+        <p class="sr-only" id="rezultati-filtra" role="status" aria-live="polite"></p>
+    </main>
+
+    <dialog class="naloga-podrobnosti" aria-labelledby="podrobnosti-naslov">
+        <form method="dialog"><button class="zapri" aria-label="Zapri podrobnosti">×</button></form>
+        <p class="podrobnosti-predmet" id="podrobnosti-predmet"></p>
+        <h2 id="podrobnosti-naslov"></h2>
+        <p id="podrobnosti-opis"></p>
+        <p class="podrobnosti-rok" id="podrobnosti-rok"></p>
+        <a class="gumb gumb-glavni" id="podrobnosti-povezava" href="/ucenec/ucenec-predmeti.html">Odpri predmet <span aria-hidden="true">→</span></a>
+        <div id="trenutna-oddaja"></div>
+        <p id="oddaja-zaprta"></p>
+        <form id="oddaja-obrazec">
+            <label for="oddaja-datoteka">Datoteka<input id="oddaja-datoteka" name="datoteka" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.xlsx,.txt,.sql,.zip,.png,.jpg,.jpeg" required></label>
+            <p id="oddaja-omejitev"></p>
+            <label for="oddaja-komentar">Komentar (neobvezno)<textarea id="oddaja-komentar" name="komentar" maxlength="5000" rows="3"></textarea></label>
+            <p id="oddaja-napaka" role="alert"></p>
+            <button type="submit" class="gumb gumb-glavni" id="oddaja-poslji">Oddaj datoteko</button>
+        </form>
+    </dialog>
+    <script src="/ucenec/racun.js"></script>
+    <script src="/ucenec/ucenec-naloge.js"></script>
+</body>
+
+</html>

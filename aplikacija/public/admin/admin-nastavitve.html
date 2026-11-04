@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nastavitve</title>
+<link href="/admin/admin-nastavitve.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/skupno/skupno.css">
+<script src="/skupno/api.js" defer></script>
+<script src="/skupno/navigacija.js" defer></script>
+<script src="/admin/admin.js" defer></script>
+<link rel="stylesheet" href="/skupno/navigacija.css">
+</head>
+<body>
+
+<nav class="sidebar" aria-label="Glavna navigacija">
+        <div class="icon" title="Nadzorna plošča"><a href="/admin-dashboard" aria-label="Nadzorna plošča"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></a></div>
+        <div class="icon" title="Uporabniki"><a href="/admin/admin_uporabniki.html" aria-label="Uporabniki"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2c2.6.3 4.5 2.2 4.5 5.3"/></svg></a></div>
+        <div class="icon" title="Predmeti"><a href="/admin/admin-predmeti.html" aria-label="Predmeti"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></a></div>
+        <div class="icon" title="Koledar"><a href="/admin/admin-koledar.html" aria-label="Koledar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></a></div>
+        <div class="spacer"></div>
+        <div class="icon" title="Profil"><a href="/profil" aria-label="Profil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></a></div>
+        <div class="icon active" title="Nastavitve"><a href="/admin/admin-nastavitve.html" aria-label="Nastavitve" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m9 3 1-1h4l1 3 3 1 3 1v4l-2 2v3l-2 3-3-1-3 2-3-2-3-1v-4l-2-2V7l3-1 1-3z"/></svg></a></div>
+    </nav>
+
+<main class="content">
+
+    <header class="page-header">
+        <div>
+            <h1>Nastavitve <span>sistema.</span></h1>
+            <p>Šola, varnostne kopije, dostop in podatki.</p>
+        </div>
+        <div class="actions">
+            <span class="save-status" id="saveStatus" role="status"></span>
+            <button class="btn" type="button" id="reset">Razveljavi</button>
+            <button class="btn btn-primary" type="button" id="save">Shrani nastavitve</button>
+        </div>
+    </header>
+
+    <div class="layout">
+
+        <nav class="subnav" id="subnav" aria-label="Razdelki nastavitev">
+            <a href="#sola" class="active">Šola</a>
+            <a href="#kopije">Varnostne kopije</a>
+            <a href="#dostop">Dostop in vpisi</a>
+            <a href="#podatki">Podatki</a>
+        </nav>
+
+        <div class="stack">
+
+            <section class="card" id="sola" aria-labelledby="h-sola">
+                <div>
+                    <h2 id="h-sola">Šola</h2>
+                    <p class="sub">Osnovni podatki, ki se prikažejo v sistemu in na poročilih.</p>
+                </div>
+                <div class="fields">
+                    <div class="field">
+                        <label for="sola-ime">Ime šole</label>
+                        <input id="sola-ime" data-setting="ime" type="text" placeholder="Ime šole">
+                    </div>
+                    <div class="field">
+                        <label for="sola-mail">E-pošta šole</label>
+                        <input id="sola-mail" data-setting="mail" type="email" placeholder="tajnistvo@sola.si">
+                    </div>
+                    <div class="field">
+                        <label for="leto">Šolsko leto</label>
+                        <select id="leto" data-setting="leto">
+                            <option>2026/2027</option>
+                            <option>2025/2026</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="cas">Časovni pas</label>
+                        <select id="cas" data-setting="cas">
+                            <option>Europe/Ljubljana</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card" id="kopije" aria-labelledby="h-kopije">
+                <div>
+                    <h2 id="h-kopije">Varnostne kopije</h2>
+                    <p class="sub">Samodejno shranjevanje podatkov šole.</p>
+                </div>
+
+                <div class="backup-box">
+                    <div class="cell">
+                        <div class="eyebrow">Zadnja kopija</div>
+                        <div class="when" id="lastBackup">Danes, 7:10</div>
+                    </div>
+                    <div class="cell">
+                        <div class="eyebrow">Zasedenost strežnika</div>
+                        <div class="meter"><div id="diskBar" style="width:34%"></div></div>
+                        <div class="pct" id="diskText">34 % prostora</div>
+                    </div>
+                    <button class="btn" type="button" id="backupNow">Naredi kopijo zdaj</button>
+                </div>
+
+                <div class="setting">
+                    <div>
+                        <div class="t">Samodejne kopije</div>
+                        <div class="d">Sistem sam shrani podatke po urniku.</div>
+                    </div>
+                    <button class="switch" type="button" role="switch" aria-checked="true" aria-label="Samodejne kopije" data-key="auto">
+                        <span class="track"><span class="knob"></span></span>
+                    </button>
+                </div>
+
+                <div class="setting">
+                    <div>
+                        <div class="t">Pogostost</div>
+                        <div class="d" id="freqHint"></div>
+                    </div>
+                    <div class="segmented" id="freq" role="group" aria-label="Pogostost kopij">
+                        <button type="button" data-freq="dnevno">Dnevno</button>
+                        <button type="button" data-freq="tedensko">Tedensko</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card" id="dostop" aria-labelledby="h-dostop">
+                <div>
+                    <h2 id="h-dostop">Dostop in vpisi</h2>
+                    <p class="sub">Kdo lahko dostopa do sistema in kako se vpisujejo novi dijaki.</p>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Ročna potrditev vpisov</div>
+                        <div class="d">Novi dijaki čakajo, da jih skrbnik potrdi.</div>
+                    </div>
+                    <button class="switch" type="button" role="switch" aria-checked="true" aria-label="Ročna potrditev vpisov" data-key="rocnaPotrditev">
+                        <span class="track"><span class="knob"></span></span>
+                    </button>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Starševski računi</div>
+                        <div class="d">Starši lahko spremljajo ocene in prisotnost otroka.</div>
+                    </div>
+                    <button class="switch" type="button" role="switch" aria-checked="true" aria-label="Starševski računi" data-key="starsi">
+                        <span class="track"><span class="knob"></span></span>
+                    </button>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Obvestilo o novi prijavi</div>
+                        <div class="d">E-pošta skrbniku ob prijavi z nove naprave.</div>
+                    </div>
+                    <button class="switch" type="button" role="switch" aria-checked="false" aria-label="Obvestilo o novi prijavi" data-key="novaPrijava">
+                        <span class="track"><span class="knob"></span></span>
+                    </button>
+                </div>
+                <div class="setting">
+                    <div>
+                        <label class="t" for="seja">Potek seje</label>
+                        <div class="d">Samodejna odjava ob nedejavnosti.</div>
+                    </div>
+                    <select class="inline-select" id="seja" data-setting="seja">
+                        <option>30 minut</option>
+                        <option>1 ura</option>
+                        <option>4 ure</option>
+                    </select>
+                </div>
+            </section>
+
+            <section class="card" id="podatki" aria-labelledby="h-podatki">
+                <div>
+                    <h2 id="h-podatki">Podatki</h2>
+                    <p class="sub">Izvoz in arhiviranje. Ta dejanja vplivajo na vse uporabnike.</p>
+                </div>
+                <div class="setting">
+                    <div>
+                        <div class="t">Izvozi vse podatke</div>
+                        <div class="d">Uporabniki, predmeti in poročila v datoteki.</div>
+                    </div>
+                    <button class="btn" type="button" id="export">Izvozi</button>
+                </div>
+                <div class="danger-box">
+                    <div>
+                        <div class="t">Arhiviraj šolsko leto</div>
+                        <div class="d">Razredi se zaprejo, računi dijakov ostanejo. Dejanja ni mogoče preklicati.</div>
+                    </div>
+                    <button class="btn btn-danger" type="button" id="archive">Arhiviraj</button>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</main>
+
+
+<script src="/admin/admin-nastavitve.js"></script>
+</body>
+</html>

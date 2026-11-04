@@ -22,3 +22,9 @@ Thumbs.db
 
 # Varnostne kopije baze
 backup/*.sql
+backup/
+aplikacija/backup/
+aplikacija/podatki/
+*.delno
+nginx/certifikati/
+.test-okolje/
