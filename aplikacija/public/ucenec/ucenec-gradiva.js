@@ -1,111 +1,73 @@
-﻿async function pripraviGradiva() {
-    const mreza = document.querySelector('#seznam-gradiv');
-    const iskanje = document.querySelector('#iskanje-gradiv');
-    const razvrsti = document.querySelector('#razvrsti-gradiva');
-    const filtri = document.querySelector('.gradiva-filtri');
-    const prazno = document.querySelector('#gradiva-prazno');
-    const okno = document.querySelector('.gradivo-podrobnosti');
-    if (!mreza) return;
-    mreza.hidden = true;
-    try {
-        const uporabnik = await pridobiUporabnika();
-        if (!uporabnik) return;
-        const predmeti = await pridobiPredmete();
-        if (!predmeti) return;
-        const izbran = izbranaIzvedba(predmeti);
-        const kartice = [...mreza.querySelectorAll('.gradivo')];
-        const primerjava = new Intl.Collator('sl');
-        let izbraniPredmet = izbran ? oznakaPredmeta(izbran) : 'vsa';
-        const predmetKartice = kartica => predmeti.find(predmet => oznakaPredmeta(predmet) === kartica.dataset.predmet);
-        function prikaziGradiva() {
-            const besede = normaliziraj(iskanje?.value.trim()).split(/\s+/).filter(Boolean);
-            const urejene = [...kartice].sort((prva, druga) => {
-                if (razvrsti?.value === 'naslov') return primerjava.compare(prva.querySelector('h2')?.textContent || '', druga.querySelector('h2')?.textContent || '');
-                if (razvrsti?.value === 'predmet') return primerjava.compare(prva.querySelector('.gradivo-predmet')?.textContent || '', druga.querySelector('.gradivo-predmet')?.textContent || '');
-                const smer = razvrsti?.value === 'najstarejsa' ? 1 : -1;
-                return smer * String(prva.dataset.datum || '').localeCompare(druga.dataset.datum || '');
-            });
-            let stevilo = 0;
-            urejene.forEach(kartica => {
-                const predmet = predmetKartice(kartica);
-                const besedilo = normaliziraj((kartica.querySelector('h2')?.textContent || '') + ' '
-                    + (kartica.querySelector('.gradivo-predmet')?.textContent || '') + ' '
-                    + (kartica.querySelector('.gradivo-format')?.textContent || ''));
-                const ustreza = izbraniPredmet === 'vsa' || kartica.dataset.predmet === izbraniPredmet;
-                kartica.hidden = !predmet || !ustreza || !besede.every(beseda => besedilo.includes(beseda));
-                if (!kartica.hidden) stevilo++;
-                if (predmet) kartica.style.setProperty('--barva', barvaPredmeta(predmet));
-                mreza.append(kartica);
-            });
-            mreza.hidden = stevilo === 0;
-            if (prazno) prazno.hidden = stevilo !== 0;
-            nastaviBesedilo('#rezultati-gradiv', 'Število prikazanih vzorčnih gradiv: ' + stevilo + '.');
-        }
-        function oznaciFilter() {
-            if (!filtri) return;
-            filtri.querySelectorAll('[data-filter]').forEach(gumb => {
-                const aktiven = gumb.dataset.filter === izbraniPredmet;
-                gumb.classList.toggle('active', aktiven);
-                gumb.setAttribute('aria-pressed', String(aktiven));
-            });
-        }
-        if (filtri) {
-            const gumbVsa = filtri.querySelector('[data-filter="vsa"]') || ustvariElement('button', 'filter', 'Vsa gradiva');
-            gumbVsa.type = 'button';
-            gumbVsa.dataset.filter = 'vsa';
-            filtri.replaceChildren(gumbVsa);
-            const dodane = [];
-            predmeti.forEach(predmet => {
-                const oznaka = oznakaPredmeta(predmet);
-                if (dodane.includes(oznaka)) return;
-                dodane.push(oznaka);
-                const gumb = ustvariElement('button', 'filter', '');
-                gumb.type = 'button';
-                gumb.dataset.filter = oznaka;
-                gumb.style.setProperty('--barva', barvaPredmeta(predmet));
-                const pika = ustvariElement('span', '', '');
-                pika.setAttribute('aria-hidden', 'true');
-                gumb.append(pika, document.createTextNode(predmet.naziv));
-                filtri.append(gumb);
-            });
-            filtri.addEventListener('click', dogodek => {
-                const gumb = dogodek.target.closest('[data-filter]');
-                if (!gumb || !filtri.contains(gumb)) return;
-                izbraniPredmet = gumb.dataset.filter;
-                oznaciFilter();
-                prikaziGradiva();
-            });
-        }
-        nastaviBesedilo('#gradiva-povzetek', 'Vzorčni prikaz gradiv. Dejanska gradiva še niso povezana.');
-        if (iskanje) iskanje.addEventListener('input', prikaziGradiva);
-        if (razvrsti) razvrsti.addEventListener('change', prikaziGradiva);
-        const ponastavi = document.querySelector('#ponastavi-gradiva');
-        if (ponastavi) ponastavi.addEventListener('click', () => {
-            if (iskanje) iskanje.value = '';
-            izbraniPredmet = 'vsa';
-            oznaciFilter();
-            prikaziGradiva();
-            if (iskanje) iskanje.focus();
-        });
-        pripraviOkna();
-        mreza.addEventListener('click', dogodek => {
-            const gumb = dogodek.target.closest('[data-podrobnosti]');
-            const kartica = gumb?.closest('.gradivo');
-            if (!kartica || !okno || kartica.hidden) return;
-            const predmet = predmetKartice(kartica);
-            if (!predmet) return;
-            nastaviBesedilo('#podrobnosti-naslov', kartica.querySelector('h2')?.textContent || 'Gradivo');
-            nastaviBesedilo('#podrobnosti-predmet', predmet.naziv);
-            nastaviBesedilo('#podrobnosti-format', kartica.querySelector('.gradivo-format')?.textContent || '');
-            const povezava = document.querySelector('#podrobnosti-povezava');
-            if (povezava) povezava.href = povezavaPredmeta(predmet);
-            okno.showModal();
-        });
-        oznaciFilter();
-        prikaziGradiva();
-    } catch (napaka) {
-        prikaziNapako(napaka.message);
+async function pripraviGradiva(){
+    const mreza=document.getElementById('seznam-gradiv');
+    const iskanje=document.getElementById('iskanje-gradiv');
+    const razvrsti=document.getElementById('razvrsti-gradiva');
+    const filtri=document.querySelector('.gradiva-filtri');
+    const predmeti=await pridobiPredmete();if(!predmeti)return;
+    const izbran=izbranaIzvedba(predmeti);
+    const gradiva=await API.klic('/api/ucenec/gradiva');
+    let izbraniPredmet=izbran ? String(izbran.id_predmet) : 'vsa';
+    const primerjava=new Intl.Collator('sl');
+    function povezava(gradivo){
+        if(gradivo.id_datoteka)return gradivo.datoteka_na_voljo ? '/api/datoteke/'+gradivo.id_datoteka : null;
+        try{const url=new URL(gradivo.url);return ['http:','https:'].includes(url.protocol) ? url.href : null;}catch{return null;}
     }
+    function ikona(oznaka){
+        const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+        const uporabi=document.createElementNS('http://www.w3.org/2000/svg','use');uporabi.setAttribute('href','#ikona-'+oznaka);svg.append(uporabi);return svg;
+    }
+    function oblika(gradivo){
+        if(gradivo.id_datoteka){
+            const koncnica=gradivo.izvorno_ime.split('.').pop().toUpperCase();
+            const bajti=Number(gradivo.velikost_bajtov);
+            return koncnica+' · '+(bajti>=1048576 ? (bajti/1048576).toLocaleString('sl-SI',{maximumFractionDigits:1})+' MB' : Math.ceil(bajti/1024)+' KB');
+        }
+        return gradivo.vrsta==='video' ? 'VIDEO' : 'POVEZAVA';
+    }
+    function odpri(gradivo){
+        const dialog=document.querySelector('.gradivo-podrobnosti');
+        nastaviBesedilo('#podrobnosti-naslov',gradivo.naslov);nastaviBesedilo('#podrobnosti-predmet',gradivo.predmet);
+        nastaviBesedilo('#podrobnosti-format',oblika(gradivo));nastaviBesedilo('#podrobnosti-opis',gradivo.opis || '');
+        const gumb=document.getElementById('podrobnosti-povezava');const naslov=povezava(gradivo);
+        gumb.hidden=!naslov;
+        if(naslov){gumb.href=naslov;gumb.textContent=gradivo.id_datoteka ? 'Prenesi datoteko' : 'Odpri povezavo';gumb.target=gradivo.id_datoteka ? '_self' : '_blank';gumb.rel='noopener noreferrer';}
+        nastaviBesedilo('#gradivo-nedosegljivo',naslov ? '' : 'Datoteka še ni na voljo. Obrni se na profesorja.');dialog.showModal();
+    }
+    function oznaci(){for(const gumb of filtri.children){const aktiven=gumb.dataset.filter===izbraniPredmet;gumb.classList.toggle('active',aktiven);gumb.setAttribute('aria-pressed',String(aktiven));}}
+    function prikazi(){
+        const besede=normaliziraj(iskanje.value).split(/\s+/).filter(Boolean);
+        const urejena=gradiva.filter(g=>(!izbran || g.id_izvedba===izbran.id_izvedba) && (izbraniPredmet==='vsa' || String(g.id_predmet)===izbraniPredmet) && besede.every(b=>normaliziraj(g.naslov+' '+g.predmet+' '+oblika(g)).includes(b)));
+        urejena.sort((a,b)=>razvrsti.value==='naslov' ? primerjava.compare(a.naslov,b.naslov) : razvrsti.value==='predmet' ? primerjava.compare(a.predmet,b.predmet) : (razvrsti.value==='najstarejsa' ? 1 : -1)*a.objavljeno.localeCompare(b.objavljeno));
+        mreza.replaceChildren();
+        for(const gradivo of urejena){
+            const kartica=API.element('article','','gradivo');kartica.dataset.id=gradivo.id_gradivo;kartica.style.setProperty('--barva',barvaPredmeta(gradivo));
+            const glava=API.element('div','','gradivo-glava');glava.append(API.element('span',gradivo.predmet,'gradivo-predmet'));
+            if(Date.now()-datumGradiva(gradivo.objavljeno).getTime()<7*86400000)glava.append(API.element('span','NOVO','gradivo-novo'));
+            const oznaka=API.element('span','','gradivo-ikona');oznaka.append(ikona(gradivo.vrsta==='video' ? 'video' : gradivo.vrsta==='povezava' ? 'povezava' : gradivo.vrsta==='predstavitev' ? 'predstavitev' : 'dokument'));
+            const naslov=API.element('h2');naslov.append(API.gumb(gradivo.naslov,()=>odpri(gradivo),''));
+            const noga=API.element('footer','','gradivo-noga');const podatki=API.element('div');
+            const datum=API.element('time',datumGradiva(gradivo.objavljeno).toLocaleDateString('sl-SI',{day:'numeric',month:'short'}));datum.dateTime=datumGradiva(gradivo.objavljeno).toISOString();
+            podatki.append(API.element('p',oblika(gradivo),'gradivo-format'),datum);
+            const url=povezava(gradivo);const dejanje=API.element(url ? 'a' : 'button','','gradivo-dejanje');
+            if(url){dejanje.href=url;dejanje.target=gradivo.id_datoteka ? '_self' : '_blank';dejanje.rel='noopener noreferrer';dejanje.setAttribute('aria-label',(gradivo.id_datoteka ? 'Prenesi: ' : 'Odpri: ')+gradivo.naslov);}
+            else{dejanje.type='button';dejanje.disabled=true;dejanje.title='Datoteka ni na voljo';dejanje.setAttribute('aria-label','Datoteka ni na voljo');}
+            dejanje.append(ikona(gradivo.id_datoteka ? 'prenos' : 'puscica'));
+            noga.append(podatki,dejanje);kartica.append(glava,oznaka,naslov,noga);mreza.append(kartica);
+        }
+        document.getElementById('gradiva-prazno').hidden=urejena.length!==0;
+        nastaviBesedilo('#rezultati-gradiv','Število prikazanih gradiv: '+urejena.length+'.');
+    }
+    filtri.replaceChildren();
+    const prikazani=new Set();
+    const vsi=API.gumb('Vsa gradiva',()=>{izbraniPredmet='vsa';oznaci();prikazi();},'filter');vsi.dataset.filter='vsa';filtri.append(vsi);
+    for(const predmet of predmeti){
+        if(prikazani.has(predmet.id_predmet))continue;prikazani.add(predmet.id_predmet);
+        const gumb=API.gumb(predmet.naziv,()=>{izbraniPredmet=String(predmet.id_predmet);oznaci();prikazi();},'filter');gumb.dataset.filter=predmet.id_predmet;gumb.style.setProperty('--barva',barvaPredmeta(predmet));filtri.append(gumb);
+    }
+    nastaviBesedilo('#gradiva-povzetek',izbran ? 'Gradiva pri predmetu '+izbran.naziv : gradiva.length+' gradiv iz tvojih predmetov');
+    iskanje.addEventListener('input',prikazi);razvrsti.addEventListener('change',prikazi);
+    document.getElementById('ponastavi-gradiva').addEventListener('click',()=>{iskanje.value='';izbraniPredmet='vsa';oznaci();prikazi();});
+    pripraviOkna();oznaci();prikazi();
 }
-
-pripraviGradiva();
+function datumGradiva(vrednost){return new Date(vrednost.replace(' ','T')+(vrednost.endsWith('Z') ? '' : 'Z'));}
+document.addEventListener('DOMContentLoaded',()=>pripraviGradiva().catch(n=>prikaziNapako(n.message)));

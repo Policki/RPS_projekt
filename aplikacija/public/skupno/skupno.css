@@ -1,0 +1,18 @@
+.sidebar svg { width:22px; height:22px; stroke:currentColor; stroke-width:2; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+.skupni-dialog { margin:auto; width:min(680px,calc(100% - 32px)); max-height:90vh; overflow:auto; padding:24px; border:1px solid #ded5c7; border-radius:20px; background:#fcf9f4; color:#1d1d1b; font:inherit; }
+.skupni-dialog::backdrop { background:#23282377; }
+.dialog-glava { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:16px; }
+.skupni-dialog h2 { font-family:Alegreya,serif; }
+.skupni-dialog form { display:grid; gap:14px; }
+.skupni-dialog label { display:grid; gap:5px; font-size:14px; }
+.skupni-dialog input,.skupni-dialog select,.skupni-dialog textarea { width:100%; padding:10px; border:1px solid #ded5c7; border-radius:8px; background:white; font:inherit; }
+.skupni-dialog input[type=checkbox] { width:auto; justify-self:start; }
+.skupni-dialog button,.skupni-dialog a { cursor:pointer; }
+.skupni-dialog table { width:100%; border-collapse:collapse; font-size:13px; }
+.skupni-dialog th,.skupni-dialog td { padding:9px 5px; text-align:left; border-bottom:1px solid #ded5c7; overflow-wrap:anywhere; }
+.api-sporocilo { padding:12px 16px; border:1px solid #cf6b49; border-radius:12px; margin-bottom:16px; }
+.dejanja-vrstice { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+.zgosceni-prikaz .vrstica { padding-top:8px; padding-bottom:8px; }
+.skupni-dialog > div > button { margin:4px; }
+.skupni-dialog > select,.skupni-dialog > input { padding:10px; margin-bottom:12px; width:100%; }
+.predmet1[tabindex],.predmet2[tabindex],.predmet3[tabindex],.predmet4[tabindex],.predmet5[tabindex] { cursor:pointer; }

@@ -1,5 +1,5 @@
 async function naloziGradiva() {
-    const uporabnik = preberiUporabnika();
+    const uporabnik = await preberiUporabnika();
     if (!uporabnik || !uporabnik.email) return;
 
     try {
@@ -13,11 +13,14 @@ async function naloziGradiva() {
             vrstica.style.cursor = "pointer";
             vrstica.addEventListener("click", () => {
                 if (!gradivo.url) {
-                    window.open(Gradiva.naslovDatoteke(uporabnik.email, gradivo.id), "_blank", "noopener");
+                    window.open(Gradiva.naslovDatoteke(uporabnik.email, gradivo.id_datoteka), "_blank", "noopener");
                 } else if (/^https?:\/\//i.test(gradivo.url)) {
                     window.open(gradivo.url, "_blank", "noopener");
                 }
             });
+            const odstrani=API.gumb('Odstrani',async()=>{if(!confirm('Odstranim gradivo iz objave?'))return;await API.klic('/api/profesor/gradiva/'+gradivo.id,'DELETE');await naloziGradiva();});
+            odstrani.addEventListener('click',d=>d.stopPropagation());
+            vrstica.append(odstrani);
             seznam.appendChild(vrstica);
         });
 
@@ -32,7 +35,7 @@ async function naloziGradiva() {
             });
         }
     } catch (napaka) {
-        console.error(napaka);
+        API.napaka(napaka);
     }
 }
 
@@ -42,7 +45,7 @@ function prikaziSporocilo(besedilo) {
 }
 
 async function dodajDatoteko(dogodek) {
-    const uporabnik = preberiUporabnika();
+    const uporabnik = await preberiUporabnika();
     const datoteka = dogodek.target.files[0];
     const izvedbaId = document.getElementById("gradivo-predmet").value;
     if (!uporabnik || !datoteka) return;
@@ -52,14 +55,14 @@ async function dodajDatoteko(dogodek) {
         prikaziSporocilo("Gradivo dodano");
         naloziGradiva();
     } catch (napaka) {
-        console.error(napaka);
+        API.napaka(napaka);
         prikaziSporocilo(napaka.message);
     }
     dogodek.target.value = "";
 }
 
 async function dodajPovezavo() {
-    const uporabnik = preberiUporabnika();
+    const uporabnik = await preberiUporabnika();
     const izvedbaId = document.getElementById("gradivo-predmet").value;
     if (!uporabnik) return;
 
@@ -72,13 +75,13 @@ async function dodajPovezavo() {
         prikaziSporocilo("Povezava dodana");
         naloziGradiva();
     } catch (napaka) {
-        console.error(napaka);
+        API.napaka(napaka);
         prikaziSporocilo(napaka.message);
     }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    naloziGradiva();
+    naloziGradiva().catch(API.napaka);
 
     const vnosDatoteke = document.getElementById("gradivo-datoteka");
     document.getElementById("btnNaloziDatoteko").addEventListener("click", () => vnosDatoteke.click());

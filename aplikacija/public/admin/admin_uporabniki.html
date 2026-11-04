@@ -4,35 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Uporabniki</title>
-<link rel="stylesheet" href="admin-uporabniki.css">
+<link rel="stylesheet" href="/admin/admin-uporabniki.css">
 <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/skupno/skupno.css">
+<script src="/skupno/api.js" defer></script>
+<script src="/skupno/navigacija.js" defer></script>
+<script src="/admin/admin.js" defer></script>
+<link rel="stylesheet" href="/skupno/navigacija.css">
 </head>
 <body>
 
-<nav class="sidebar" aria-label="Glavni meni">
-    <a class="icon" href="admin-dashboard.html" aria-label="Nadzorna plošča" title="Nadzorna plošča">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-    </a>
-    <a class="icon active" href="admin_uporabniki.html" aria-label="Uporabniki" aria-current="page" title="Uporabniki">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2c2.6.3 4.5 2.2 4.5 5.3"/></svg>
-    </a>
-    <a class="icon" href="admin-predmeti.html" aria-label="Predmeti" title="Predmeti">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/></svg>
-    </a>
-    <a class="icon" href="admin-statistika.html" aria-label="Statistika" title="Statistika">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 20v-7"/><path d="M12 20V5"/><path d="M17 20v-10"/></svg>
-    </a>
-    <a class="icon" href="admin-koledar.html" aria-label="Koledar" title="Koledar">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg>
-    </a>
-    <div class="spacer"></div>
-    <a class="icon" href="admin-nastavitve.html" aria-label="Nastavitve" title="Nastavitve">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10"/><path d="M18 7h2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
-    </a>
-    <a class="icon active" href="admin-profil.html" aria-label="Moj profil" aria-current="page" title="Moj profil">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.2 18.2c1.2-2.2 3.2-3.2 5.8-3.2s4.6 1 5.8 3.2"/></svg>
-    </a>
-</nav>
+<nav class="sidebar" aria-label="Glavna navigacija">
+        <div class="icon" title="Nadzorna plošča"><a href="/admin-dashboard" aria-label="Nadzorna plošča"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></a></div>
+        <div class="icon active" title="Uporabniki"><a href="/admin/admin_uporabniki.html" aria-label="Uporabniki" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2c2.6.3 4.5 2.2 4.5 5.3"/></svg></a></div>
+        <div class="icon" title="Predmeti"><a href="/admin/admin-predmeti.html" aria-label="Predmeti"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></a></div>
+        <div class="icon" title="Koledar"><a href="/admin/admin-koledar.html" aria-label="Koledar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></a></div>
+        <div class="spacer"></div>
+        <div class="icon" title="Profil"><a href="/profil" aria-label="Profil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></a></div>
+        <div class="icon" title="Nastavitve"><a href="/admin/admin-nastavitve.html" aria-label="Nastavitve"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m9 3 1-1h4l1 3 3 1 3 1v4l-2 2v3l-2 3-3-1-3 2-3-2-3-1v-4l-2-2V7l3-1 1-3z"/></svg></a></div>
+    </nav>
 
 <main class="content">
 
@@ -91,97 +81,7 @@
 
 </main>
 
-<script>
-const ROLES = {
-    dijak:   { label: 'Dijak',   total: 342 },
-    ucitelj: { label: 'Učitelj', total: 24 },
-    stars:   { label: 'Starš',   total: 258 }
-};
-const STATUSES = {
-    aktiven:   { label: 'Aktiven',        dot: '#6f8a3c', color: '#33401a' },
-    caka:      { label: 'Čaka potrditev', dot: '#c96f4a', color: '#8a3f1f' },
-    povabljen: { label: 'Povabljen',      dot: '#8b7f9e', color: '#4f4463' }
-};
-const users = [
-    { name: 'Nina Kovač',    email: 'nina.kovac@sola.example',    role: 'dijak',   detail: '3.A',                 last: 'Danes, 7:42',  status: 'aktiven' },
-    { name: 'Maja Horvat',   email: 'maja.horvat@sola.example',   role: 'ucitelj', detail: 'Matematika',          last: 'Danes, 7:15',  status: 'aktiven' },
-    { name: 'Luka Novak',    email: 'luka.novak@sola.example',    role: 'dijak',   detail: '2.B',                 last: 'Včeraj',       status: 'aktiven' },
-    { name: 'Ana Zupan',     email: 'ana.zupan@sola.example',     role: 'stars',   detail: 'Otrok: Jan Krajnc',   last: 'Danes, 6:58',  status: 'aktiven' },
-    { name: 'Tomaž Vidmar',  email: 'tomaz.vidmar@sola.example',  role: 'ucitelj', detail: 'Slovenščina',         last: 'Včeraj',       status: 'aktiven' },
-    { name: 'Jan Krajnc',    email: 'jan.krajnc@sola.example',    role: 'dijak',   detail: '4.A',                 last: 'Pred 3 dnevi', status: 'aktiven' },
-    { name: 'Eva Potočnik',  email: 'eva.potocnik@sola.example',  role: 'dijak',   detail: '1.C',                 last: 'Še ni bilo',   status: 'caka' },
-    { name: 'Marko Kos',     email: 'marko.kos@sola.example',     role: 'stars',   detail: 'Otrok: Eva Potočnik', last: 'Še ni bilo',   status: 'povabljen' },
-    { name: 'Sara Kolar',    email: 'sara.kolar@sola.example',    role: 'ucitelj', detail: 'Angleščina',          last: 'Danes, 7:31',  status: 'aktiven' },
-    { name: 'Žan Mlakar',    email: 'zan.mlakar@sola.example',    role: 'dijak',   detail: '2.A',                 last: 'Včeraj',       status: 'aktiven' }
-];
-const TOTAL_ALL = 624;
 
-let activeRole = 'vsi';
-let query = '';
-
-const $ = (id) => document.getElementById(id);
-const norm = (s) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
-const initials = (name) => name.split(' ').map((p) => p[0]).join('');
-const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-
-function renderTabs() {
-    const defs = [
-        { id: 'vsi', label: 'Vsi', count: TOTAL_ALL },
-        ...Object.entries(ROLES).map(([id, r]) => ({ id, label: id === 'dijak' ? 'Dijaki' : id === 'ucitelj' ? 'Učitelji' : 'Starši', count: r.total }))
-    ];
-    $('tabs').innerHTML = defs.map((t) =>
-        `<button type="button" class="tab ${t.id === activeRole ? 'active' : ''}" data-role="${t.id}" aria-pressed="${t.id === activeRole}">${t.label} <span>${t.count}</span></button>`
-    ).join('');
-}
-
-function renderRows() {
-    const q = norm(query.trim());
-    const list = users.filter((u) =>
-        (activeRole === 'vsi' || u.role === activeRole) &&
-        (!q || norm(u.name).includes(q) || norm(u.email).includes(q))
-    );
-
-    $('rows').innerHTML = list.length
-        ? list.map((u) => {
-            const s = STATUSES[u.status];
-            return `
-            <div class="row">
-                <div class="user">
-                    <div class="avatar a-${u.role}">${esc(initials(u.name))}</div>
-                    <div style="min-width:0">
-                        <div class="name">${esc(u.name)}</div>
-                        <div class="email">${esc(u.email)}</div>
-                    </div>
-                </div>
-                <div><span class="pill r-${u.role}">${ROLES[u.role].label}</span></div>
-                <div>${esc(u.detail)}</div>
-                <div>${esc(u.last)}</div>
-                <div class="status" style="color:${s.color}"><i style="background:${s.dot}"></i>${s.label}</div>
-                <button type="button" class="more" aria-label="Več možnosti">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>
-                </button>
-            </div>`;
-        }).join('')
-        : '<div class="empty">Ni najdenih uporabnikov.</div>';
-
-    const total = activeRole === 'vsi' ? TOTAL_ALL : ROLES[activeRole].total;
-    $('shown').textContent = `Prikazujem ${list.length} od ${total}`;
-}
-
-$('tabs').addEventListener('click', (e) => {
-    const btn = e.target.closest('.tab');
-    if (!btn) return;
-    activeRole = btn.dataset.role;
-    renderTabs();
-    renderRows();
-});
-$('search').addEventListener('input', (e) => {
-    query = e.target.value;
-    renderRows();
-});
-
-renderTabs();
-renderRows();
-</script>
+<script src="/admin/admin_uporabniki.js"></script>
 </body>
 </html>

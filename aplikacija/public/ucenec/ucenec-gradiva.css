@@ -73,6 +73,8 @@ button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible
 .gradivo-dejanje { display: grid; place-items: center; flex: 0 0 34px; width: 34px; height: 34px; padding: 0; border: 1px solid var(--crta); border-radius: 11px; background: transparent; color: var(--besedilo); }
 .gradivo-dejanje svg { width: 16px; height: 16px; }
 .gradivo-dejanje:hover { background: var(--bledo); border-color: var(--barva); }
+.gradivo-dejanje:disabled { opacity:.4; cursor:not-allowed; }
+.gradivo-ikona { background:#f1f5ed; }
 
 .gradiva-prazno { padding: 56px 24px; border: 1px dashed var(--crta); border-radius: 21px; text-align: center; }
 .prazno-ikona { display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: #eee8dd; color: var(--priguseno); }

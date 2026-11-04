@@ -10,69 +10,22 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Alegreya:wght@400;500;600;700&display=swap" rel="stylesheet">
     <title>Gradiva</title>
+<link rel="stylesheet" href="/skupno/skupno.css">
+<script src="/skupno/api.js" defer></script>
+<script src="/skupno/navigacija.js" defer></script>
+<link rel="stylesheet" href="/skupno/navigacija.css">
 </head>
 
 <body>
     <nav class="sidebar" aria-label="Glavna navigacija">
-        <div class="icon" title="Nadzorna plošča">
-            <a href="/ucenec-dasboard">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                    <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                    <rect x="3" y="14" width="7" height="7" rx="1.5" />
-                    <rect x="14" y="14" width="7" height="7" rx="1.5" />
-                </svg>
-            </a>
-        </div>
-        <div class="icon" title="Predmeti">
-            <a href="/ucenec/ucenec-predmeti.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-                </svg>
-            </a>
-        </div>
-        <div class="icon" title="Naloge">
-            <a href="/ucenec/ucenec-naloge.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2" />
-                    <path d="M8 12l2.5 2.5L16 9" />
-                </svg>
-            </a>
-        </div>
-        <div class="icon active" title="Gradiva">
-            <a href="/ucenec/ucenec-gradiva.html" aria-current="page">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" />
-                </svg>
-            </a>
-        </div>
-        <div class="icon" title="Koledar">
-            <a href="/ucenec/usenec-koledar.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" />
-                    <path d="M3 9h18M8 2v4M16 2v4" />
-                </svg>
-            </a>
-        </div>
+        <div class="icon" title="Nadzorna plošča"><a href="/ucenec-dasboard" aria-label="Nadzorna plošča"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></a></div>
+        <div class="icon" title="Predmeti"><a href="/ucenec/ucenec-predmeti.html" aria-label="Predmeti"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></a></div>
+        <div class="icon" title="Naloge"><a href="/ucenec/ucenec-naloge.html" aria-label="Naloge"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m8 12 2.5 2.5L16 9"/></svg></a></div>
+        <div class="icon active" title="Gradiva"><a href="/ucenec/ucenec-gradiva.html" aria-label="Gradiva" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg></a></div>
+        <div class="icon" title="Koledar"><a href="/ucenec/usenec-koledar.html" aria-label="Koledar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></a></div>
         <div class="spacer"></div>
-        <div class="icon" title="Profil">
-            <a href="/ucenec/profil.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="8" r="4" />
-                    <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
-                </svg>
-            </a>
-        </div>
-        <div class="icon" title="Nastavitve">
-            <a href="/ucenec/nastavitve.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="3" />
-                    <path
-                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                </svg>
-            </a>
-        </div>
+        <div class="icon" title="Profil"><a href="/profil" aria-label="Profil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></a></div>
+        <div class="icon" title="Nastavitve"><a href="/ucenec/nastavitve.html" aria-label="Nastavitve"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m9 3 1-1h4l1 3 3 1 3 1v4l-2 2v3l-2 3-3-1-3 2-3-2-3-1v-4l-2-2V7l3-1 1-3z"/></svg></a></div>
     </nav>
 
     <svg class="ikone" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -118,99 +71,7 @@
             </label>
         </div>
 
-        <div class="gradiva-mreza" id="seznam-gradiv">
-            <article class="gradivo informatika" data-predmet="informatika" data-datum="2026-09-10T10:00" data-novo="true">
-                <div class="gradivo-glava"><span class="gradivo-predmet">Informatika</span><span class="gradivo-novo">Novo</span></div>
-                <span class="gradivo-ikona" aria-hidden="true"><svg><use href="#ikona-dokument"/></svg></span>
-                <h2><button type="button" data-podrobnosti>Uvod v SQL – predavanje</button></h2>
-                <footer class="gradivo-noga">
-                    <div><p class="gradivo-format">PDF · 1.2 MB</p><time datetime="2026-09-10T10:00">pred 2 h</time></div>
-                    <button class="gradivo-dejanje" type="button" data-podrobnosti aria-label="Podrobnosti: Uvod v SQL – predavanje" title="Podrobnosti gradiva"><svg aria-hidden="true"><use href="#ikona-prenos"/></svg></button>
-                </footer>
-            </article>
-            <article class="gradivo slovenscina" data-predmet="slovenscina" data-datum="2026-09-10T09:00" data-novo="true">
-                <div class="gradivo-glava"><span class="gradivo-predmet">Slovenščina</span><span class="gradivo-novo">Novo</span></div>
-                <span class="gradivo-ikona" aria-hidden="true"><svg><use href="#ikona-dokument"/></svg></span>
-                <h2><button type="button" data-podrobnosti>Cankar – izbrana dela</button></h2>
-                <footer class="gradivo-noga">
-                    <div><p class="gradivo-format">PDF · 3.1 MB</p><time datetime="2026-09-10T09:00">pred 3 h</time></div>
-                    <button class="gradivo-dejanje" type="button" data-podrobnosti aria-label="Podrobnosti: Cankar – izbrana dela" title="Podrobnosti gradiva"><svg aria-hidden="true"><use href="#ikona-prenos"/></svg></button>
-                </footer>
-            </article>
-            <article class="gradivo fizika" data-predmet="fizika" data-datum="2026-09-09T12:00" data-novo="true">
-                <div class="gradivo-glava"><span class="gradivo-predmet">Fizika</span><span class="gradivo-novo">Novo</span></div>
-                <span class="gradivo-ikona" aria-hidden="true"><svg><use href="#ikona-video"/></svg></span>
-                <h2><button type="button" data-podrobnosti>Gibalna energija – video razlaga</button></h2>
-                <footer class="gradivo-noga">
-                    <div><p class="gradivo-format">VIDEO · 12:40</p><time datetime="2026-09-09T12:00">včeraj</time></div>
-                    <button class="gradivo-dejanje" type="button" data-podrobnosti aria-label="Odpri: Gibalna energija – video razlaga" title="Odpri gradivo"><svg aria-hidden="true"><use href="#ikona-puscica"/></svg></button>
-                </footer>
-            </article>
-            <article class="gradivo matematika" data-predmet="matematika" data-datum="2026-09-05T12:00">
-                <div class="gradivo-glava"><span class="gradivo-predmet">Matematika</span></div>
-                <span class="gradivo-ikona" aria-hidden="true"><svg><use href="#ikona-predstavitev"/></svg></span>
-                <h2><button type="button" data-podrobnosti>Algebrske enačbe – razlaga</button></h2>
-                <footer class="gradivo-noga">
-                    <div><p class="gradivo-format">PPTX · 2.8 MB</p><time datetime="2026-09-05T12:00">5. sep.</time></div>
-                    <button class="gradivo-dejanje" type="button" data-podrobnosti aria-label="Podrobnosti: Algebrske enačbe – razlaga" title="Podrobnosti gradiva"><svg aria-hidden="true"><use href="#ikona-prenos"/></svg></button>
-                </footer>
-            </article>
-            <article class="gradivo informatika" data-predmet="informatika" data-datum="2026-09-03T12:00">
-                <div class="gradivo-glava"><span class="gradivo-predmet">Informatika</span></div>
-                <span class="gradivo-ikona" aria-hidden="true"><svg><use href="#ikona-dokument"/></svg></span>
-                <h2><button type="button" data-podrobnosti>Podatkovni modeli – vaje</button></h2>
-                <footer class="gradivo-noga">
-                    <div><p class="gradivo-format">DOCX · 340 KB</p><time datetime="2026-09-03T12:00">3. sep.</time></div>
-                    <button class="gradivo-dejanje" type="button" data-podrobnosti aria-label="Podrobnosti: Podatkovni modeli – vaje" title="Podrobnosti gradiva"><svg aria-hidden="true"><use href="#ikona-prenos"/></svg></button>
-                </footer>
-            </article>
-            <article class="gradivo matematika" data-predmet="matematika" data-datum="2026-09-01T12:00">
-                <div class="gradivo-glava"><span class="gradivo-predmet">Matematika</span></div>
-                <span class="gradivo-ikona" aria-hidden="true"><svg><use href="#ikona-dokument"/></svg></span>
-                <h2><button type="button" data-podrobnosti>Vaje za samostojno delo</button></h2>
-                <footer class="gradivo-noga">
-                    <div><p class="gradivo-format">PDF · 610 KB</p><time datetime="2026-09-01T12:00">1. sep.</time></div>
-                    <button class="gradivo-dejanje" type="button" data-podrobnosti aria-label="Podrobnosti: Vaje za samostojno delo" title="Podrobnosti gradiva"><svg aria-hidden="true"><use href="#ikona-prenos"/></svg></button>
-                </footer>
-            </article>
-            <article class="gradivo fizika" data-predmet="fizika" data-datum="2026-08-28T12:00">
-                <div class="gradivo-glava"><span class="gradivo-predmet">Fizika</span></div>
-                <span class="gradivo-ikona" aria-hidden="true"><svg><use href="#ikona-dokument"/></svg></span>
-                <h2><button type="button" data-podrobnosti>Laboratorijske vaje – navodila</button></h2>
-                <footer class="gradivo-noga">
-                    <div><p class="gradivo-format">PDF · 480 KB</p><time datetime="2026-08-28T12:00">28. avg.</time></div>
-                    <button class="gradivo-dejanje" type="button" data-podrobnosti aria-label="Podrobnosti: Laboratorijske vaje – navodila" title="Podrobnosti gradiva"><svg aria-hidden="true"><use href="#ikona-prenos"/></svg></button>
-                </footer>
-            </article>
-            <article class="gradivo anglescina" data-predmet="anglescina" data-datum="2026-08-30T12:00">
-                <div class="gradivo-glava"><span class="gradivo-predmet">Angleščina</span></div>
-                <span class="gradivo-ikona" aria-hidden="true"><svg><use href="#ikona-dokument"/></svg></span>
-                <h2><button type="button" data-podrobnosti>Grammar practice – worksheet</button></h2>
-                <footer class="gradivo-noga">
-                    <div><p class="gradivo-format">PDF · 220 KB</p><time datetime="2026-08-30T12:00">30. avg.</time></div>
-                    <button class="gradivo-dejanje" type="button" data-podrobnosti aria-label="Podrobnosti: Grammar practice – worksheet" title="Podrobnosti gradiva"><svg aria-hidden="true"><use href="#ikona-prenos"/></svg></button>
-                </footer>
-            </article>
-            <article class="gradivo anglescina" data-predmet="anglescina" data-datum="2026-08-26T12:00">
-                <div class="gradivo-glava"><span class="gradivo-predmet">Angleščina</span></div>
-                <span class="gradivo-ikona" aria-hidden="true"><svg><use href="#ikona-povezava"/></svg></span>
-                <h2><button type="button" data-podrobnosti>Speaking topics – povezava</button></h2>
-                <footer class="gradivo-noga">
-                    <div><p class="gradivo-format">POVEZAVA</p><time datetime="2026-08-26T12:00">26. avg.</time></div>
-                    <button class="gradivo-dejanje" type="button" data-podrobnosti aria-label="Odpri: Speaking topics – povezava" title="Odpri gradivo"><svg aria-hidden="true"><use href="#ikona-puscica"/></svg></button>
-                </footer>
-            </article>
-            <article class="gradivo zgodovina" data-predmet="zgodovina" data-datum="2026-08-25T12:00">
-                <div class="gradivo-glava"><span class="gradivo-predmet">Zgodovina</span></div>
-                <span class="gradivo-ikona" aria-hidden="true"><svg><use href="#ikona-predstavitev"/></svg></span>
-                <h2><button type="button" data-podrobnosti>Prva svetovna vojna – predstavitev</button></h2>
-                <footer class="gradivo-noga">
-                    <div><p class="gradivo-format">PPTX · 4.5 MB</p><time datetime="2026-08-25T12:00">25. avg.</time></div>
-                    <button class="gradivo-dejanje" type="button" data-podrobnosti aria-label="Podrobnosti: Prva svetovna vojna – predstavitev" title="Podrobnosti gradiva"><svg aria-hidden="true"><use href="#ikona-prenos"/></svg></button>
-                </footer>
-            </article>
-        </div>
-
+        <div class="gradiva-mreza" id="seznam-gradiv"></div>
         <div class="gradiva-prazno" id="gradiva-prazno" hidden>
             <span class="prazno-ikona" aria-hidden="true"><svg><use href="#ikona-iskanje"/></svg></span>
             <h2>Ni najdenih gradiv</h2>
@@ -225,7 +86,7 @@
         <p class="podrobnosti-predmet" id="podrobnosti-predmet"></p>
         <h2 id="podrobnosti-naslov"></h2>
         <p class="podrobnosti-format" id="podrobnosti-format"></p>
-        <p>To je vzorčno gradivo. Datoteka oziroma povezava še ni dodana.</p>
+        <p id="podrobnosti-opis"></p><p id="gradivo-nedosegljivo"></p>
         <a class="gumb" id="podrobnosti-povezava" href="/ucenec/ucenec-predmeti.html">Odpri predmet <span aria-hidden="true">→</span></a>
     </dialog>
     <script src="/ucenec/racun.js"></script>

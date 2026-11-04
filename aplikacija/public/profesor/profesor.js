@@ -1,13 +1,8 @@
-// Skupne funkcije za vse strani profesorja
 
-function preberiUporabnika() {
-    const shranjeno = sessionStorage.getItem("prijavljenUporabnik") || localStorage.getItem("prijavljenUporabnik");
-    if (!shranjeno) return null;
-    try {
-        return JSON.parse(shranjeno);
-    } catch (napaka) {
-        return null;
-    }
+async function preberiUporabnika() {
+    const podatki=await API.identiteta();
+    if (podatki.uporabnik.vloga!=='profesor') throw new Error('Nimate dovoljenja.');
+    return podatki.uporabnik;
 }
 
 const MESECI = [
@@ -29,16 +24,13 @@ function sklanjaj(stevilo, oblike) {
 
 function oblikujDatum(datum) {
     if (!datum) return "/";
-    const [leto, mesec, dan] = datum.split(" ")[0].split("-").map(Number);
+    const [leto, mesec, dan] = datum.split(/[ T]/)[0].split("-").map(Number);
     return `${dan}. ${MESECI[mesec - 1]} ${leto}`;
 }
 
 function oblikujUro(cas) {
     return cas.slice(0, 5).replace(/^0/, "");
-}
-
-// iz barve predmeta (#rrggbb) naredi svetlo ozadje vrstice
-function svetlaBarva(hex) {
+}function svetlaBarva(hex) {
     const barva = /^#[0-9a-f]{6}$/i.test(hex || "") ? hex : "#cf704c";
     const kanali = [1, 3, 5].map(i => parseInt(barva.slice(i, i + 2), 16));
     return "rgb(" + kanali.map(k => Math.round(k + (255 - k) * 0.82)).join(",") + ")";
@@ -81,6 +73,7 @@ function nastaviObroc(oddano, pregledano) {
 function prikaziPredmete(predmeti) {
     const kontejner = document.getElementById("predmeti-seznam");
     if (!kontejner) return;
+    if(!predmeti.length){prikaziPrazno(kontejner,'Nimate dodeljenih predmetov.');return;}
 
     const najvec = Number(kontejner.dataset.najvec) || predmeti.length;
     kontejner.innerHTML = "";
@@ -109,6 +102,19 @@ function prikaziPredmete(predmeti) {
         kartica.querySelector(".podatki p").textContent = `${stevilo} ${predmet.enota}`;
         kartica.querySelector(".podatki strong").textContent = "Rok oddaje: " + oblikujDatum(predmet.rok);
         kartica.querySelector(".progress div").style.width = odstotek + "%";
+        kartica.tabIndex=0;
+        kartica.setAttribute('role','button');
+        kartica.setAttribute('aria-label','Dijaki: '+predmet.naziv+' · '+predmet.razred);
+        const odpri=async()=>{
+            try {
+                const dijaki=await API.klic('/api/profesor/izvedbe/'+predmet.id+'/dijaki');
+                const dialog=API.okno(predmet.naziv+' · '+predmet.razred);
+                if(!dijaki.length)dialog.append(API.element('p','Ni vpisanih dijakov.'));
+                dijaki.forEach(d=>dialog.append(API.element('p',d.ime+' '+d.priimek+' · '+d.status)));
+            }catch(napaka){API.napaka(napaka);}
+        };
+        kartica.addEventListener('click',odpri);
+        kartica.addEventListener('keydown',dogodek=>{if(['Enter',' '].includes(dogodek.key)){dogodek.preventDefault();odpri();}});
         kontejner.appendChild(kartica);
     });
 }
@@ -130,36 +136,25 @@ function nastaviIme(polnoIme) {
     nastaviVrednost("polje-ime", polnoIme);
 }
 
-function prikaziUporabnika() {
-    const uporabnik = preberiUporabnika();
+async function prikaziUporabnika() {
+    const uporabnik = await preberiUporabnika();
     if (!uporabnik) return;
 
     const polnoIme = [uporabnik.ime, uporabnik.priimek].filter(Boolean).join(" ") || uporabnik.polnoIme || "";
     nastaviIme(polnoIme);
+    try { document.body.classList.toggle('zgosceni-prikaz',localStorage.getItem('profesor-'+uporabnik.id+'-zgosceni_prikaz')==='1'); } catch {}
 
     if (uporabnik.email) nastaviVrednost("polje-eposta", uporabnik.email);
     if (uporabnik.telefon) nastaviVrednost("polje-telefon", uporabnik.telefon);
 }
 
-async function odjava() {
-    try {
-        await Odjava.izvedi();
-    } catch (napaka) {
-        console.error(napaka);
+function odjava() { location.assign("/logout"); }
+document.addEventListener("DOMContentLoaded", async () => {
+    for (const id of ['predmeti-seznam','gradiva-seznam','naloge-seznam','dogodki-danes']) {
+        const seznam=document.getElementById(id);
+        if(seznam)prikaziPrazno(seznam,'Nalagam podatke …');
     }
-    sessionStorage.removeItem("prijavljenUporabnik");
-    localStorage.removeItem("prijavljenUporabnik");
-    window.location.href = DB_CONFIG.prijava;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    // brez prijave stran ni dostopna
-    if (!preberiUporabnika()) {
-        window.location.href = DB_CONFIG.prijava;
-        return;
-    }
-    prikaziUporabnika();
-
-    const gumbOdjava = document.getElementById("btnOdjava");
-    if (gumbOdjava) gumbOdjava.addEventListener("click", odjava);
+    for(const id of ['opis-dashboard','opis-predmeti','opis-naloge','rok-predmet','rok-datum','obroc-besedilo'])nastaviBesedilo(id,'Nalagam …');
+    try { await prikaziUporabnika(); } catch (n) { API.napaka(n); }
+    document.getElementById("btnOdjava")?.addEventListener("click",odjava);
 });

@@ -1,0 +1,39 @@
+services:
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "127.0.0.1:18081:80"
+    volumes:
+      - ../../nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - aplikacija
+  aplikacija:
+    image: rps-preizkus-aplikacija:latest
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_HOST: baza
+      DB_PORT: 3306
+      DB_NAME: sola_is
+      DB_USER: test
+      DB_PASSWORD: lokalni-preizkus-baze
+      SESSION_SECRET: lokalni-preizkus-seje-ki-ima-vec-kot-32-znakov
+    depends_on:
+      baza:
+        condition: service_healthy
+  baza:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: lokalni-preizkus-root
+      MARIADB_DATABASE: sola_is
+      MARIADB_USER: test
+      MARIADB_PASSWORD: lokalni-preizkus-baze
+    tmpfs:
+      - /var/lib/mysql
+    volumes:
+      - ../../baza/struktura.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 3s
+      timeout: 3s
+      retries: 30

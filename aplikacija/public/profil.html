@@ -11,70 +11,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Alegreya:wght@400;500;600;700&display=swap" rel="stylesheet">
     <title>Profil</title>
+<link rel="stylesheet" href="/skupno/skupno.css">
+<script src="/skupno/api.js" defer></script>
+<script src="/skupno/navigacija.js" defer></script>
+<link rel="stylesheet" href="/skupno/navigacija.css">
 </head>
 
 <body>
-    <nav class="sidebar" aria-label="Glavna navigacija">
-        <div class="icon" title="Nadzorna plošča">
-            <a href="/ucenec-dasboard">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                    <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                    <rect x="3" y="14" width="7" height="7" rx="1.5" />
-                    <rect x="14" y="14" width="7" height="7" rx="1.5" />
-                </svg>
-            </a>
-        </div>
-        <div class="icon" title="Predmeti">
-            <a href="/ucenec/ucenec-predmeti.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-                </svg>
-            </a>
-        </div>
-        <div class="icon" title="Naloge">
-            <a href="/ucenec/ucenec-naloge.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2" />
-                    <path d="M8 12l2.5 2.5L16 9" />
-                </svg>
-            </a>
-        </div>
-        <div class="icon" title="Gradiva">
-            <a href="/ucenec/ucenec-gradiva.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" />
-                </svg>
-            </a>
-        </div>
-        <div class="icon" title="Koledar">
-            <a href="/ucenec/usenec-koledar.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" />
-                    <path d="M3 9h18M8 2v4M16 2v4" />
-                </svg>
-            </a>
-        </div>
-        <div class="spacer"></div>
-        <div class="icon active" title="Profil">
-            <a href="/ucenec/profil.html" aria-current="page">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="8" r="4" />
-                    <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
-                </svg>
-            </a>
-        </div>
-        <div class="icon" title="Nastavitve">
-            <a href="/ucenec/nastavitve.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="3" />
-                    <path
-                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                </svg>
-            </a>
-        </div>
-    </nav>
+    <nav class="sidebar" aria-label="Glavna navigacija" id="profil-navigacija"></nav>
 
     <main class="racun">
         <div class="profil-vsebina">
@@ -88,7 +32,7 @@
 
             <section class="racun-kartica" aria-labelledby="podatki-naslov">
                 <header class="kartica-glava">
-                    <h2 id="podatki-naslov">Podatki o dijaku</h2>
+                    <h2 id="podatki-naslov">Podatki o uporabniku</h2>
                     <p>Ime, razred in šolski e-naslov vnese šola, zato jih ne moreš spreminjati.</p>
                 </header>
                 <dl class="profil-podatki">
@@ -106,14 +50,14 @@
                 <div class="kontakt-vrstica"><span class="kontakt-avatar" aria-hidden="true">N</span><div><strong id="pomoc-razrednik">Ni podatka</strong><span>Razrednik</span></div></div>
                 <a class="kontakt-vrstica kontakt-povezava" href="mailto:tajnistvo@sola.si"><span class="kontakt-avatar tajnistvo-avatar" aria-hidden="true">T</span><div><strong>Tajništvo</strong><span>tajnistvo@sola.si</span></div></a>
             </section>
-            <p class="racun-status" id="racun-status" role="status" aria-live="polite"></p>
+            <div class="dejanja-vrstice"><button type="button" class="gumb" id="spremeni-geslo">Spremeni geslo</button><a class="gumb" href="/logout">Odjava</a></div><p class="racun-status" id="racun-status" role="status" aria-live="polite"></p>
         </div>
     </main>
 
     <dialog class="racun-dialog" id="telefon-dialog" aria-labelledby="telefon-dialog-naslov" aria-describedby="telefon-dialog-opis">
         <button class="zapri" type="button" data-zapri-dialog aria-label="Zapri">×</button>
         <h2 id="telefon-dialog-naslov">Uredi telefonsko številko</h2>
-        <p id="telefon-dialog-opis">Shranjevanje spremembe telefona še ni omogočeno.</p>
+        <p id="telefon-dialog-opis">Telefon lahko spremeniš sam.</p>
         <form id="telefon-obrazec" method="dialog">
             <label class="obrazec-polje" for="telefon-nov">Telefonska številka
                 <input id="telefon-nov" name="telefon" type="tel" inputmode="tel" autocomplete="tel" maxlength="32" aria-describedby="telefon-napaka" required>
@@ -122,8 +66,9 @@
             <div class="dialog-dejanja"><button class="gumb" type="button" data-zapri-dialog>Prekliči</button><button class="gumb gumb-glavni" type="submit">Shrani</button></div>
         </form>
     </dialog>
-    <script src="/ucenec/racun.js"></script>
-    <script src="/ucenec/profil.js"></script>
+    
+    
+<script src="/profil.js"></script>
 </body>
 
 </html>

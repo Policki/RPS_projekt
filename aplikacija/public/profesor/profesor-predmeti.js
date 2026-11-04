@@ -1,5 +1,5 @@
 async function naloziPredmete() {
-    const uporabnik = preberiUporabnika();
+    const uporabnik = await preberiUporabnika();
     if (!uporabnik || !uporabnik.email) return;
 
     try {
@@ -11,8 +11,8 @@ async function naloziPredmete() {
             `Poučujete ${n} ${sklanjaj(n, ["predmet", "predmeta", "predmete", "predmetov"])} (${m} ${sklanjaj(m, ["razred", "razreda", "razrede", "razredov"])}).`);
         prikaziPredmete(d.predmeti);
     } catch (napaka) {
-        console.error(napaka);
+        API.napaka(napaka);
     }
 }
 
-document.addEventListener("DOMContentLoaded", naloziPredmete);
+document.addEventListener("DOMContentLoaded", () => naloziPredmete().catch(API.napaka));

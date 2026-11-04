@@ -1,0 +1,61 @@
+services:
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      aplikacija:
+        condition: service_healthy
+    restart: unless-stopped
+  aplikacija:
+    build: ./aplikacija
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DB_HOST: baza
+      DB_PORT: 3306
+      DB_NAME: ${DB_NAME:-sola_is}
+      DB_USER: ${DB_USER:-sola}
+      DB_PASSWORD: ${DB_PASSWORD:?Nastavite DB_PASSWORD}
+      SESSION_SECRET: ${SESSION_SECRET:?Nastavite SESSION_SECRET}
+      DB_DUMP_BIN: mariadb-dump
+      UPLOAD_DIR: /app/podatki/datoteke
+      BACKUP_DIR: /app/backup
+    expose:
+      - "3000"
+    volumes:
+      - datoteke:/app/podatki/datoteke
+      - kopije:/app/backup
+    depends_on:
+      baza:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 5
+    restart: unless-stopped
+  baza:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Nastavite DB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${DB_NAME:-sola_is}
+      MARIADB_USER: ${DB_USER:-sola}
+      MARIADB_PASSWORD: ${DB_PASSWORD:?Nastavite DB_PASSWORD}
+    volumes:
+      - baza_podatki:/var/lib/mysql
+      - ./baza/struktura.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+volumes:
+  baza_podatki:
+  datoteke:
+  kopije:

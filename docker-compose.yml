@@ -6,11 +6,20 @@ services:
     env_file:
       - .env
     depends_on:
-      - baza
+      baza:
+        condition: service_healthy
+    volumes:
+      - datoteke:/app/podatki/datoteke
+      - kopije:/app/backup
 
   baza:
     image: mariadb:11
     container_name: rps-baza
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
 
     environment:
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
@@ -27,3 +36,5 @@ services:
 
 volumes:
   baza_podatki:
+  datoteke:
+  kopije:

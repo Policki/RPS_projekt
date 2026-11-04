@@ -4,35 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nastavitve</title>
-<link href="admin-nastavitve.css" rel="stylesheet">
+<link href="/admin/admin-nastavitve.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/skupno/skupno.css">
+<script src="/skupno/api.js" defer></script>
+<script src="/skupno/navigacija.js" defer></script>
+<script src="/admin/admin.js" defer></script>
+<link rel="stylesheet" href="/skupno/navigacija.css">
 </head>
 <body>
 
-<nav class="sidebar" aria-label="Glavni meni">
-    <a class="icon" href="admin-dashboard.html" aria-label="Nadzorna plošča" title="Nadzorna plošča">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-    </a>
-    <a class="icon" href="admin_uporabniki.html" aria-label="Uporabniki" title="Uporabniki">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2c2.6.3 4.5 2.2 4.5 5.3"/></svg>
-    </a>
-    <a class="icon" href="admin-predmeti.html" aria-label="Predmeti" title="Predmeti">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3V4z"/><path d="M5 17a3 3 0 0 1 3-3h11"/></svg>
-    </a>
-    <a class="icon" href="admin-statistika.html" aria-label="Statistika" title="Statistika">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 20v-7"/><path d="M12 20V5"/><path d="M17 20v-10"/></svg>
-    </a>
-    <a class="icon" href="#" aria-label="Koledar" title="Koledar">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18"/><path d="M8 3v4"/><path d="M16 3v4"/></svg>
-    </a>
-    <div class="spacer"></div>
-    <a class="icon active" href="admin-nastavitve.html" aria-label="Nastavitve" aria-current="page" title="Nastavitve">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10"/><path d="M18 7h2"/><path d="M4 17h2"/><path d="M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg>
-    </a>
-    <a class="icon" href="admin-profil.html" aria-label="Moj profil" title="Moj profil">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.2 18.2c1.2-2.2 3.2-3.2 5.8-3.2s4.6 1 5.8 3.2"/></svg>
-    </a>
-</nav>
+<nav class="sidebar" aria-label="Glavna navigacija">
+        <div class="icon" title="Nadzorna plošča"><a href="/admin-dashboard" aria-label="Nadzorna plošča"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></a></div>
+        <div class="icon" title="Uporabniki"><a href="/admin/admin_uporabniki.html" aria-label="Uporabniki"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><circle cx="17.5" cy="9" r="2.5"/><path d="M17 14.2c2.6.3 4.5 2.2 4.5 5.3"/></svg></a></div>
+        <div class="icon" title="Predmeti"><a href="/admin/admin-predmeti.html" aria-label="Predmeti"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></a></div>
+        <div class="icon" title="Koledar"><a href="/admin/admin-koledar.html" aria-label="Koledar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></a></div>
+        <div class="spacer"></div>
+        <div class="icon" title="Profil"><a href="/profil" aria-label="Profil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></a></div>
+        <div class="icon active" title="Nastavitve"><a href="/admin/admin-nastavitve.html" aria-label="Nastavitve" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m9 3 1-1h4l1 3 3 1 3 1v4l-2 2v3l-2 3-3-1-3 2-3-2-3-1v-4l-2-2V7l3-1 1-3z"/></svg></a></div>
+    </nav>
 
 <main class="content">
 
@@ -200,113 +190,7 @@
     </div>
 </main>
 
-<script>
-const DEFAULTS = {
-    ime: '',
-    mail: '',
-    leto: '2026/2027',
-    cas: 'Europe/Ljubljana',
-    seja: '30 minut',
-    freq: 'dnevno',
-    auto: true,
-    rocnaPotrditev: true,
-    starsi: true,
-    novaPrijava: false
-};
-let saved = { ...DEFAULTS };
-let state = { ...DEFAULTS };
 
-const $ = (id) => document.getElementById(id);
-const FREQ_HINT = {
-    dnevno: 'Kopija vsak dan ob 7:00.',
-    tedensko: 'Kopija vsak ponedeljek ob 7:00.'
-};
-
-function render() {
-    document.querySelectorAll('[data-setting]').forEach((el) => {
-        el.value = state[el.dataset.setting];
-    });
-    document.querySelectorAll('.switch').forEach((el) => {
-        el.setAttribute('aria-checked', String(state[el.dataset.key]));
-    });
-    document.querySelectorAll('#freq button').forEach((el) => {
-        el.setAttribute('aria-pressed', String(el.dataset.freq === state.freq));
-    });
-    $('freqHint').textContent = FREQ_HINT[state.freq];
-}
-
-let statusTimer;
-function flash(text) {
-    $('saveStatus').textContent = text;
-    clearTimeout(statusTimer);
-    statusTimer = setTimeout(() => { $('saveStatus').textContent = ''; }, 3000);
-}
-
-document.querySelectorAll('[data-setting]').forEach((el) => {
-    el.addEventListener('input', () => { state[el.dataset.setting] = el.value; });
-});
-document.querySelectorAll('.switch').forEach((el) => {
-    el.addEventListener('click', () => {
-        state[el.dataset.key] = !state[el.dataset.key];
-        render();
-    });
-});
-$('freq').addEventListener('click', (e) => {
-    const btn = e.target.closest('button[data-freq]');
-    if (!btn) return;
-    state.freq = btn.dataset.freq;
-    render();
-});
-
-$('save').addEventListener('click', () => {
-    saved = { ...state };
-    console.log('Shrani nastavitve:', saved);
-    /* Tukaj pošlji na strežnik, npr.:
-       await fetch('/api/nastavitve', {
-           method: 'PUT',
-           headers: { 'Content-Type': 'application/json' },
-           body: JSON.stringify(saved)
-       });
-    */
-    flash('Nastavitve so shranjene.');
-});
-$('reset').addEventListener('click', () => {
-    state = { ...saved };
-    render();
-    flash('Spremembe so razveljavljene.');
-});
-
-$('backupNow').addEventListener('click', () => {
-    /* Tukaj pokliči strežnik, da naredi kopijo. */
-    const now = new Date();
-    const hh = now.getHours();
-    const mm = String(now.getMinutes()).padStart(2, '0');
-    $('lastBackup').textContent = `Danes, ${hh}:${mm}`;
-    flash('Kopija je narejena.');
-});
-$('export').addEventListener('click', () => {
-    flash('Izvoz se pripravlja.');
-});
-$('archive').addEventListener('click', () => {
-    if (confirm('Res želiš arhivirati šolsko leto? Dejanja ni mogoče preklicati.')) {
-        /* Tukaj pokliči strežnik za arhiviranje. */
-        flash('Šolsko leto je arhivirano.');
-    }
-});
-
-const links = [...document.querySelectorAll('#subnav a')];
-const sections = links.map((a) => document.querySelector(a.getAttribute('href')));
-function markActive() {
-    let current = 0;
-    sections.forEach((s, i) => {
-        if (s.getBoundingClientRect().top < window.innerHeight * 0.35) current = i;
-    });
-    links.forEach((a, i) => a.classList.toggle('active', i === current));
-}
-window.addEventListener('scroll', markActive, { passive: true });
-markActive();
-
-render();
-</script>
+<script src="/admin/admin-nastavitve.js"></script>
 </body>
 </html>

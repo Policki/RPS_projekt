@@ -4,7 +4,8 @@
   "description": "",
   "main": "server/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node test/datoteke.js",
+    "test:api": "node test/api.js",
     "start": "node server/server.js"
   },
   "keywords": [],
@@ -14,7 +15,16 @@
   "dependencies": {
     "bcrypt": "^6.0.0",
     "express": "^5.3.0",
+    "express-mysql-session": "^3.0.3",
+    "express-rate-limit": "^8.7.3",
     "express-session": "^1.19.0",
+    "helmet": "^8.3.0",
+    "multer": "^2.5.0",
     "mysql2": "^3.24.6"
+  },
+  "overrides": {
+    "express-mysql-session": {
+      "mysql2": "$mysql2"
+    }
   }
 }

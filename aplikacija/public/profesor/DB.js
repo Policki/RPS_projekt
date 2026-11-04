@@ -1,95 +1,12 @@
-const DB_CONFIG = {
-    api: "api/api.php",
-    prijava: "prijava/index.html",
-    stolpci: {
-        ime: "ime",
-        eposta: "eposta",
-        telefon: "telefon",
-        predmeti: "predmeti"
-    },
-    stolpciNastavitve: {
-        tedenski_povzetek: "tedenski_povzetek",
-        opomnik_rok: "opomnik_rok",
-        novi_vpisi: "novi_vpisi"
-    }
-};
-
-function naslovApi(akcija, eposta, dodatno = "") {
-    return DB_CONFIG.api + "?akcija=" + encodeURIComponent(akcija) + "&email=" + encodeURIComponent(eposta || "") + dodatno;
-}
-
-async function klicApi(akcija, eposta, podatki = null) {
-    const naslov = naslovApi(akcija, eposta);
-    let moznosti = {};
-
-    if (podatki instanceof FormData) {
-        moznosti = { method: "POST", body: podatki };
-    } else if (podatki) {
-        moznosti = {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(podatki)
-        };
-    }
-
-    const odgovor = await fetch(naslov, moznosti);
-    const rezultat = await odgovor.json();
-
-    // seja je potekla ali uporabnik ni prijavljen
-    if (odgovor.status === 401 && akcija !== "prijava") {
-        sessionStorage.removeItem("prijavljenUporabnik");
-        localStorage.removeItem("prijavljenUporabnik");
-        window.location.href = DB_CONFIG.prijava;
-    }
-
-    if (!odgovor.ok || (rezultat && rezultat.napaka)) {
-        throw new Error((rezultat && rezultat.napaka) || "Napaka strežnika");
-    }
-    return rezultat;
-}
-
-const Odjava = {
-    izvedi: () => klicApi("odjava", "", {})
-};
-
-const Profil = {
-    preberi: eposta => klicApi("profil", eposta),
-    shrani: (eposta, podatki) => klicApi("profil_shrani", eposta, podatki)
-};
-
-const Nastavitve = {
-    preberi: eposta => klicApi("nastavitve", eposta),
-    shrani: (eposta, podatki) => klicApi("nastavitve_shrani", eposta, podatki)
-};
-
-const Dashboard = {
-    preberi: eposta => klicApi("dashboard", eposta)
-};
-
-const Predmeti = {
-    preberi: eposta => klicApi("predmeti", eposta)
-};
-
-const Naloge = {
-    preberi: eposta => klicApi("naloge", eposta)
-};
-
+const DB_CONFIG = { prijava: '/', stolpciNastavitve: { tedenski_povzetek:'tedenski_povzetek',opomnik_rok:'opomnik_rok',novi_vpisi:'novi_vpisi' } };
+const Odjava = { izvedi: async () => location.assign('/logout') };
+const Nastavitve = { preberi: () => API.klic('/api/nastavitve'), shrani: (eposta,podatki) => API.klic('/api/nastavitve','PATCH',podatki) };
+const Dashboard = { preberi: () => API.klic('/api/profesor/dashboard') };
+const Predmeti = { preberi: () => API.klic('/api/profesor/predmeti') };
+const Naloge = { preberi: () => API.klic('/api/profesor/naloge') };
 const Gradiva = {
-    preberi: eposta => klicApi("gradiva", eposta),
-    naslovDatoteke: (eposta, id) => naslovApi("gradivo_odpri", eposta, "&id=" + encodeURIComponent(id)),
-    dodajDatoteko: (eposta, izvedbaId, datoteka) => {
-        const podatki = new FormData();
-        podatki.append("izvedba_id", izvedbaId);
-        podatki.append("datoteka", datoteka);
-        return klicApi("gradivo_dodaj", eposta, podatki);
-    },
-    dodajPovezavo: (eposta, izvedbaId, naziv, url) => {
-        return klicApi("gradivo_dodaj", eposta, { izvedba_id: izvedbaId, naziv: naziv, url: url });
-    }
-};
-
-const Dogodki = {
-    preberi: eposta => klicApi("dogodki", eposta),
-    dodaj: (eposta, podatki) => klicApi("dogodek_dodaj", eposta, podatki),
-    odstrani: (eposta, id) => klicApi("dogodek_odstrani", eposta, { id: id })
+    preberi: () => API.klic('/api/profesor/gradiva'),
+    naslovDatoteke: (eposta,id) => '/api/datoteke/'+id,
+    dodajDatoteko: (eposta,id,datoteka) => { const podatki=new FormData();podatki.append('datoteka',datoteka);return API.klic('/api/profesor/izvedbe/'+id+'/gradiva','POST',podatki); },
+    dodajPovezavo: (eposta,id,naslov,url) => API.klic('/api/profesor/izvedbe/'+id+'/gradiva','POST',{naslov:naslov || url,url})
 };

@@ -7,7 +7,7 @@ function zberiNastavitve() {
 }
 
 async function naloziNastavitveIzBaze() {
-    const uporabnik = preberiUporabnika();
+    const uporabnik = await preberiUporabnika();
     if (!uporabnik || !uporabnik.email) return;
 
     try {
@@ -15,17 +15,17 @@ async function naloziNastavitveIzBaze() {
         if (!vrstica) return;
 
         document.querySelectorAll("input[data-nastavitev]").forEach(polje => {
-            const vrednost = vrstica[DB_CONFIG.stolpciNastavitve[polje.dataset.nastavitev]];
+        const vrednost = vrstica[polje.dataset.nastavitev];
             if (typeof vrednost === "boolean") polje.checked = vrednost;
         });
     } catch (napaka) {
-        console.error(napaka);
+        API.napaka(napaka);
     }
 }
 
 async function shraniNastavitve(dogodek) {
     const polje = dogodek.target;
-    const uporabnik = preberiUporabnika();
+    const uporabnik = await preberiUporabnika();
 
     if (!uporabnik || !uporabnik.email) {
         polje.checked = !polje.checked;
@@ -35,31 +35,35 @@ async function shraniNastavitve(dogodek) {
     try {
         await Nastavitve.shrani(uporabnik.email, zberiNastavitve());
     } catch (napaka) {
-        console.error(napaka);
+        API.napaka(napaka);
         polje.checked = !polje.checked;
     }
 }
 
-function naloziLokalnaStikala() {
+async function naloziLokalnaStikala() {
+    const uporabnik=await preberiUporabnika();
     document.querySelectorAll("input[data-lokalno]").forEach(polje => {
+        if(polje.dataset.lokalno==='zacni_dashboard') { polje.checked=true;polje.disabled=true;return; }
+        const kljuc='profesor-'+uporabnik.id+'-'+polje.dataset.lokalno;
         try {
-            polje.checked = localStorage.getItem("profesor-" + polje.dataset.lokalno) === "1";
+            polje.checked = localStorage.getItem(kljuc) === "1";
         } catch (napaka) {
-            console.error(napaka);
+            API.napaka(napaka);
         }
         polje.addEventListener("change", () => {
             try {
-                localStorage.setItem("profesor-" + polje.dataset.lokalno, polje.checked ? "1" : "0");
+                localStorage.setItem(kljuc, polje.checked ? "1" : "0");
+                document.body.classList.toggle('zgosceni-prikaz',polje.checked);
             } catch (napaka) {
-                console.error(napaka);
+                API.napaka(napaka);
             }
         });
     });
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    naloziLokalnaStikala();
+    naloziLokalnaStikala().catch(API.napaka);
     const poljaNastavitev = document.querySelectorAll("input[data-nastavitev]");
-    naloziNastavitveIzBaze();
+    naloziNastavitveIzBaze().catch(API.napaka);
     poljaNastavitev.forEach(polje => polje.addEventListener("change", shraniNastavitve));
 });

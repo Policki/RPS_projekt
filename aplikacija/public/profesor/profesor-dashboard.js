@@ -1,5 +1,5 @@
 async function naloziDashboard() {
-    const uporabnik = preberiUporabnika();
+    const uporabnik = await preberiUporabnika();
     if (!uporabnik || !uporabnik.email) return;
 
     try {
@@ -31,13 +31,14 @@ async function naloziDashboard() {
         } else {
             nastaviBesedilo("rok-predmet", "Ni rokov");
             nastaviBesedilo("rok-datum", "/");
+            const crta=document.getElementById('rok-crta');if(crta)crta.style.width='0%';
         }
 
         nastaviObroc(d.teden_oddano, d.teden_pregledano);
         prikaziPredmete(d.predmeti);
     } catch (napaka) {
-        console.error(napaka);
+        API.napaka(napaka);
     }
 }
 
-document.addEventListener("DOMContentLoaded", naloziDashboard);
+document.addEventListener("DOMContentLoaded", () => naloziDashboard().catch(API.napaka));

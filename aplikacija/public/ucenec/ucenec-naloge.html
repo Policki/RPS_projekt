@@ -10,69 +10,22 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Alegreya:wght@400;500;600;700&display=swap" rel="stylesheet">
     <title>Naloge</title>
+<link rel="stylesheet" href="/skupno/skupno.css">
+<script src="/skupno/api.js" defer></script>
+<script src="/skupno/navigacija.js" defer></script>
+<link rel="stylesheet" href="/skupno/navigacija.css">
 </head>
 
 <body>
     <nav class="sidebar" aria-label="Glavna navigacija">
-        <div class="icon" title="Nadzorna plošča">
-            <a href="/ucenec-dasboard">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="7" height="7" rx="1.5" />
-                    <rect x="14" y="3" width="7" height="7" rx="1.5" />
-                    <rect x="3" y="14" width="7" height="7" rx="1.5" />
-                    <rect x="14" y="14" width="7" height="7" rx="1.5" />
-                </svg>
-            </a>
-        </div>
-        <div class="icon" title="Predmeti">
-            <a href="/ucenec/ucenec-predmeti.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-                </svg>
-            </a>
-        </div>
-        <div class="icon active" title="Naloge">
-            <a href="/ucenec/ucenec-naloge.html" aria-current="page">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2" />
-                    <path d="M8 12l2.5 2.5L16 9" />
-                </svg>
-            </a>
-        </div>
-        <div class="icon" title="Gradiva">
-            <a href="/ucenec/ucenec-gradiva.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" />
-                </svg>
-            </a>
-        </div>
-        <div class="icon" title="Koledar">
-            <a href="/ucenec/usenec-koledar.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="4" width="18" height="18" rx="2" />
-                    <path d="M3 9h18M8 2v4M16 2v4" />
-                </svg>
-            </a>
-        </div>
+        <div class="icon" title="Nadzorna plošča"><a href="/ucenec-dasboard" aria-label="Nadzorna plošča"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></a></div>
+        <div class="icon" title="Predmeti"><a href="/ucenec/ucenec-predmeti.html" aria-label="Predmeti"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></a></div>
+        <div class="icon active" title="Naloge"><a href="/ucenec/ucenec-naloge.html" aria-label="Naloge" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m8 12 2.5 2.5L16 9"/></svg></a></div>
+        <div class="icon" title="Gradiva"><a href="/ucenec/ucenec-gradiva.html" aria-label="Gradiva"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/></svg></a></div>
+        <div class="icon" title="Koledar"><a href="/ucenec/usenec-koledar.html" aria-label="Koledar"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></a></div>
         <div class="spacer"></div>
-        <div class="icon" title="Profil">
-            <a href="/ucenec/profil.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="8" r="4" />
-                    <path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" />
-                </svg>
-            </a>
-        </div>
-        <div class="icon" title="Nastavitve">
-            <a href="/ucenec/nastavitve.html">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="3" />
-                    <path
-                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-                </svg>
-            </a>
-        </div>
+        <div class="icon" title="Profil"><a href="/profil" aria-label="Profil"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></a></div>
+        <div class="icon" title="Nastavitve"><a href="/ucenec/nastavitve.html" aria-label="Nastavitve"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="m9 3 1-1h4l1 3 3 1 3 1v4l-2 2v3l-2 3-3-1-3 2-3-2-3-1v-4l-2-2V7l3-1 1-3z"/></svg></a></div>
     </nav>
     <main class="naloge" id="glavna-vsebina">
         <header class="naloge-glava">
@@ -102,80 +55,9 @@
             </label>
         </div>
 
-        <div id="seznam-nalog">
-            <section class="naloge-skupina" aria-labelledby="ta-teden">
-                <h2 id="ta-teden">Ta teden <span class="stevilo">3</span></h2>
-                <div class="naloge-seznam">
-                    <article class="naloga matematika" data-status="odprte" data-kmalu="true" data-rok="2026-09-14" data-predmet="Matematika" data-povezava="matematika">
-                        <div class="naloga-predmet">
-                            <span class="naloga-ikona" aria-hidden="true">∑</span>
-                            <div><h3>Algebrske enačbe</h3><p>Matematika · Prof. Kovač</p></div>
-                        </div>
-                        <p class="naloga-opis">Reši naloge 1–8 iz delovnega lista in priloži postopek reševanja.</p>
-                        <div class="naloga-rok"><time datetime="2026-09-14">14. sep.</time><span>čez 4 dni</span></div>
-                        <div class="naloga-dejanje"><button class="gumb gumb-glavni" type="button" data-odpri>Oddaj<span class="sr-only">: Algebrske enačbe</span></button></div>
-                    </article>
-                    <article class="naloga informatika" data-status="odprte" data-kmalu="true" data-rok="2026-09-14" data-predmet="Informatika" data-povezava="informatika">
-                        <div class="naloga-predmet">
-                            <span class="naloga-ikona" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/></svg></span>
-                            <div><h3>SQL poizvedbe</h3><p>Informatika · Prof. Novak</p></div>
-                        </div>
-                        <p class="naloga-opis">Napiši tri poizvedbe nad podano bazo in oddaj datoteko .sql.</p>
-                        <div class="naloga-rok"><time datetime="2026-09-14">14. sep.</time><span>čez 4 dni</span></div>
-                        <div class="naloga-dejanje"><button class="oznaka oznaka-kmalu" type="button" data-odpri>Rok kmalu<span class="sr-only">: SQL poizvedbe</span></button></div>
-                    </article>
-                    <article class="naloga fizika" data-status="odprte" data-rok="2026-09-16" data-predmet="Fizika" data-povezava="fizika">
-                        <div class="naloga-predmet">
-                            <span class="naloga-ikona" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></span>
-                            <div><h3>Gibalna energija – poročilo</h3><p>Fizika · Prof. Zupan</p></div>
-                        </div>
-                        <p class="naloga-opis">Kratko poročilo o eksperimentu iz laboratorijskih vaj (1 stran).</p>
-                        <div class="naloga-rok"><time datetime="2026-09-16">16. sep.</time><span>čez 6 dni</span></div>
-                        <div class="naloga-dejanje"><button class="gumb" type="button" data-odpri>Odpri<span class="sr-only">: Gibalna energija – poročilo</span></button></div>
-                    </article>
-                </div>
-            </section>
-
-            <section class="naloge-skupina" aria-labelledby="naslednji-teden">
-                <h2 id="naslednji-teden">Naslednji teden <span class="stevilo">1</span></h2>
-                <div class="naloge-seznam">
-                    <article class="naloga slovenscina" data-status="odprte" data-rok="2026-09-18" data-predmet="Slovenščina" data-povezava="slovenscina">
-                        <div class="naloga-predmet">
-                            <span class="naloga-ikona" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 3h9l3 3v15H6zM15 3v4h3M9 12h6M9 16h6"/></svg></span>
-                            <div><h3>Esej: Cankar</h3><p>Slovenščina · Prof. Rižnar</p></div>
-                        </div>
-                        <p class="naloga-opis">Analiza izbranega dela Ivana Cankarja, 500–700 besed.</p>
-                        <div class="naloga-rok"><time datetime="2026-09-18">18. sep.</time><span>čez 8 dni</span></div>
-                        <div class="naloga-dejanje"><button class="gumb" type="button" data-odpri>Odpri<span class="sr-only">: Esej: Cankar</span></button></div>
-                    </article>
-                </div>
-            </section>
-
-            <section class="naloge-skupina" aria-labelledby="nedavno-oddane">
-                <h2 id="nedavno-oddane">Nedavno oddane <span class="stevilo">2</span></h2>
-                <div class="naloge-seznam">
-                    <article class="naloga informatika naloga-oddana" data-status="oddane" data-rok="2026-09-06" data-predmet="Informatika" data-povezava="informatika">
-                        <div class="naloga-predmet">
-                            <span class="naloga-ikona" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/></svg></span>
-                            <div><h3>Podatkovni model – vaja 3</h3><p>Informatika · Prof. Novak</p></div>
-                        </div>
-                        <p class="naloga-opis">Oddano 6. sep., ocenjeno: 9/10 točk.</p>
-                        <div class="naloga-rok"><time datetime="2026-09-06">6. sep.</time><span>oddano</span></div>
-                        <div class="naloga-dejanje"><button class="oznaka oznaka-oddano" type="button" data-odpri>Oddano<span class="sr-only">: Podatkovni model – vaja 3</span></button></div>
-                    </article>
-                    <article class="naloga matematika naloga-oddana" data-status="oddane" data-rok="2026-09-05" data-predmet="Matematika" data-povezava="matematika">
-                        <div class="naloga-predmet">
-                            <span class="naloga-ikona" aria-hidden="true">∑</span>
-                            <div><h3>Linearne funkcije</h3><p>Matematika · Prof. Kovač</p></div>
-                        </div>
-                        <p class="naloga-opis">Oddano 5. sep., čaka na pregled.</p>
-                        <div class="naloga-rok"><time datetime="2026-09-05">5. sep.</time><span>oddano</span></div>
-                        <div class="naloga-dejanje"><button class="oznaka oznaka-oddano" type="button" data-odpri>Oddano<span class="sr-only">: Linearne funkcije</span></button></div>
-                    </article>
-                </div>
-            </section>
-        </div>
-        <p class="header-text" id="naloge-prazno" role="status" hidden>Ni vzorčnih nalog za izbrani prikaz.</p>
+        <div id="seznam-nalog"></div>
+        <p id="oddaja-sporocilo" role="status" aria-live="polite"></p>
+        <p class="header-text" id="naloge-prazno" role="status" hidden>Ni nalog za izbrani prikaz.</p>
         <p class="sr-only" id="rezultati-filtra" role="status" aria-live="polite"></p>
     </main>
 
@@ -186,6 +68,15 @@
         <p id="podrobnosti-opis"></p>
         <p class="podrobnosti-rok" id="podrobnosti-rok"></p>
         <a class="gumb gumb-glavni" id="podrobnosti-povezava" href="/ucenec/ucenec-predmeti.html">Odpri predmet <span aria-hidden="true">→</span></a>
+        <div id="trenutna-oddaja"></div>
+        <p id="oddaja-zaprta"></p>
+        <form id="oddaja-obrazec">
+            <label for="oddaja-datoteka">Datoteka<input id="oddaja-datoteka" name="datoteka" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.xlsx,.txt,.sql,.zip,.png,.jpg,.jpeg" required></label>
+            <p id="oddaja-omejitev"></p>
+            <label for="oddaja-komentar">Komentar (neobvezno)<textarea id="oddaja-komentar" name="komentar" maxlength="5000" rows="3"></textarea></label>
+            <p id="oddaja-napaka" role="alert"></p>
+            <button type="submit" class="gumb gumb-glavni" id="oddaja-poslji">Oddaj datoteko</button>
+        </form>
     </dialog>
     <script src="/ucenec/racun.js"></script>
     <script src="/ucenec/ucenec-naloge.js"></script>

@@ -1,0 +1,36 @@
+services:
+  aplikacija:
+    build: ..
+    volumes:
+      - ../server:/app/server:ro
+      - ../public:/app/public:ro
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DB_HOST: baza
+      DB_PORT: 3306
+      DB_NAME: sola_is
+      DB_USER: test
+      DB_PASSWORD: lokalni-preizkus-baze
+      SESSION_SECRET: lokalni-preizkus-seje-ki-ima-vec-kot-32-znakov
+    ports:
+      - "127.0.0.1:13000:3000"
+    depends_on:
+      baza:
+        condition: service_healthy
+  baza:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: lokalni-preizkus-root
+      MARIADB_DATABASE: sola_is
+      MARIADB_USER: test
+      MARIADB_PASSWORD: lokalni-preizkus-baze
+    tmpfs:
+      - /var/lib/mysql
+    volumes:
+      - ../../baza/SQL.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 3s
+      timeout: 3s
+      retries: 30

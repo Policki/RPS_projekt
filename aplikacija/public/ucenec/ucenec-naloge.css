@@ -86,6 +86,14 @@ button:focus-visible, select:focus-visible, a:focus-visible {
 .naloga-podrobnosti p { line-height: 1.6; }
 .naloga-podrobnosti .podrobnosti-predmet { margin: 0; color: var(--priguseno); font-size: 13px; }
 .podrobnosti-rok { color: var(--priguseno); }
+#oddaja-obrazec { display:grid; gap:12px; margin-top:20px; }
+#oddaja-obrazec label { display:grid; gap:7px; }
+#oddaja-obrazec input,#oddaja-obrazec textarea { box-sizing:border-box; width:100%; min-width:0; padding:10px; border:1px solid var(--crta); border-radius:10px; background:#fffefd; font:inherit; }
+#oddaja-omejitev { margin:0; color:var(--priguseno); font-size:12px; }
+#oddaja-napaka { margin:0; color:#a84d30; }
+#trenutna-oddaja a { color:var(--besedilo); overflow-wrap:anywhere; }
+#oddaja-sporocilo { color:#66794b; }
+.gumb:disabled { opacity:.6; cursor:wait; }
 .naloga-podrobnosti .gumb { margin-top: 12px; }
 .zapri { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: var(--priguseno); font-size: 25px; }
 .zapri:hover { background: #eee8dd; }
