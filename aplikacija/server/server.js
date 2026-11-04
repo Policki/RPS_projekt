@@ -316,7 +316,6 @@ app.get('/logout', (req, res, next) => {
 app.use(
     '/api',
     prijava,
-    csrf,
     require('./routes/skupno')
 );
 
