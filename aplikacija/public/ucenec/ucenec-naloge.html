@@ -9,14 +9,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Alegreya:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="/ucenec/ucenec-naloge.js" defer></script>
     <title>Naloge</title>
 </head>
 
 <body>
     <nav class="sidebar" aria-label="Glavna navigacija">
         <div class="icon" title="Nadzorna plošča">
-            <a href="/ucenec/ucenec-dasboard.html">
+            <a href="/ucenec-dasboard">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="3" y="3" width="7" height="7" rx="1.5" />
                     <rect x="14" y="3" width="7" height="7" rx="1.5" />
@@ -82,8 +81,8 @@
                 <p>Vse naloge iz tvojih predmetov na enem mestu</p>
             </div>
             <div class="naloge-statistika" aria-label="Pregled nalog">
-                <div><strong id="stevilo-odprtih">4</strong><span>Odprte</span></div>
-                <div><strong id="stevilo-oddanih">2</strong><span>Oddane</span></div>
+                <div><strong id="stevilo-odprtih">?</strong><span>Odprte</span></div>
+                <div><strong id="stevilo-oddanih">?</strong><span>Oddane</span></div>
             </div>
         </header>
 
@@ -176,6 +175,7 @@
                 </div>
             </section>
         </div>
+        <p class="header-text" id="naloge-prazno" role="status" hidden>Ni vzorčnih nalog za izbrani prikaz.</p>
         <p class="sr-only" id="rezultati-filtra" role="status" aria-live="polite"></p>
     </main>
 
@@ -187,6 +187,8 @@
         <p class="podrobnosti-rok" id="podrobnosti-rok"></p>
         <a class="gumb gumb-glavni" id="podrobnosti-povezava" href="/ucenec/ucenec-predmeti.html">Odpri predmet <span aria-hidden="true">→</span></a>
     </dialog>
+    <script src="/ucenec/racun.js"></script>
+    <script src="/ucenec/ucenec-naloge.js"></script>
 </body>
 
 </html>

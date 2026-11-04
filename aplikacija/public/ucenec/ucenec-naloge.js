@@ -1,84 +1,89 @@
-const filters = document.querySelectorAll('[data-filter]');
-const groups = document.querySelectorAll('.naloge-skupina');
-const tasks = [...document.querySelectorAll('.naloga')];
-const sort = document.getElementById('razvrsti');
-const dialog = document.querySelector('.naloga-podrobnosti');
-const collator = new Intl.Collator('sl');
-let activeFilter = 'vse';
-
-document.getElementById('stevilo-odprtih').textContent = tasks.filter(task => task.dataset.status === 'odprte').length;
-document.getElementById('stevilo-oddanih').textContent = tasks.filter(task => task.dataset.status === 'oddane').length;
-
-function updateTasks() {
-    let visibleCount = 0;
-
-    groups.forEach(group => {
-        const list = group.querySelector('.naloge-seznam');
-        const groupTasks = [...list.querySelectorAll('.naloga')];
-
-        groupTasks.sort((a, b) => {
-            if (sort.value === 'naslov') {
-                return collator.compare(a.querySelector('h3').textContent, b.querySelector('h3').textContent);
-            }
-            if (sort.value === 'predmet') {
-                return collator.compare(a.dataset.predmet, b.dataset.predmet);
-            }
-            // Submitted work is shown with the most recent submission first.
-            const direction = a.dataset.status === 'oddane' ? -1 : 1;
-            return direction * a.dataset.rok.localeCompare(b.dataset.rok);
+﻿async function pripraviNaloge() {
+    const seznam = document.querySelector('#seznam-nalog');
+    const razvrsti = document.querySelector('#razvrsti');
+    const okno = document.querySelector('.naloga-podrobnosti');
+    const skupine = [...document.querySelectorAll('.naloge-skupina')];
+    const filtri = [...document.querySelectorAll('[data-filter]')];
+    if (!seznam) return;
+    seznam.hidden = true;
+    try {
+        const uporabnik = await pridobiUporabnika();
+        if (!uporabnik) return;
+        const predmeti = await pridobiPredmete();
+        if (!predmeti) return;
+        const izbran = izbranaIzvedba(predmeti);
+        const naloge = [...seznam.querySelectorAll('.naloga')];
+        let izbraniFilter = 'vse';
+        const primerjava = new Intl.Collator('sl');
+        const dovoljeni = izbran ? [izbran] : predmeti;
+        const predmetNaloge = naloga => dovoljeni.find(predmet => normaliziraj(predmet.naziv) === normaliziraj(naloga.dataset.predmet));
+        naloge.forEach(naloga => {
+            const predmet = predmetNaloge(naloga);
+            if (predmet) naloga.style.setProperty('--barva', barvaPredmeta(predmet));
         });
-
-        let groupCount = 0;
-        groupTasks.forEach(task => {
-            const matches = activeFilter === 'vse'
-                || task.dataset.status === activeFilter
-                || (activeFilter === 'kmalu' && task.dataset.kmalu === 'true');
-            task.hidden = !matches;
-            if (matches) groupCount++;
-            list.append(task);
+        nastaviBesedilo('.naloge-glava p', izbran ? 'Vzorčni prikaz nalog: ' + izbran.naziv : 'Vzorčni prikaz nalog. Dejanske naloge še niso povezane.');
+        nastaviBesedilo('#stevilo-odprtih', naloge.filter(naloga => predmetNaloge(naloga) && naloga.dataset.status === 'odprte').length);
+        nastaviBesedilo('#stevilo-oddanih', naloge.filter(naloga => predmetNaloge(naloga) && naloga.dataset.status === 'oddane').length);
+        const prazno = document.querySelector('#naloge-prazno');
+        function prikaziNaloge() {
+            let stevilo = 0;
+            skupine.forEach(skupina => {
+                const vrstice = skupina.querySelector('.naloge-seznam');
+                if (!vrstice) return;
+                const urejene = [...vrstice.querySelectorAll('.naloga')];
+                urejene.sort((prva, druga) => {
+                    if (razvrsti?.value === 'naslov') return primerjava.compare(prva.querySelector('h3')?.textContent || '', druga.querySelector('h3')?.textContent || '');
+                    if (razvrsti?.value === 'predmet') return primerjava.compare(prva.dataset.predmet, druga.dataset.predmet);
+                    const smer = prva.dataset.status === 'oddane' ? -1 : 1;
+                    return smer * String(prva.dataset.rok || '').localeCompare(druga.dataset.rok || '');
+                });
+                let steviloSkupine = 0;
+                urejene.forEach(naloga => {
+                    const ustreza = izbraniFilter === 'vse' || naloga.dataset.status === izbraniFilter
+                        || (izbraniFilter === 'kmalu' && naloga.dataset.kmalu === 'true');
+                    naloga.hidden = !predmetNaloge(naloga) || !ustreza;
+                    if (!naloga.hidden) steviloSkupine++;
+                    vrstice.append(naloga);
+                });
+                skupina.hidden = steviloSkupine === 0;
+                const oznaka = skupina.querySelector('.stevilo');
+                if (oznaka) oznaka.textContent = steviloSkupine;
+                stevilo += steviloSkupine;
+            });
+            if (prazno) prazno.hidden = stevilo !== 0;
+            nastaviBesedilo('#rezultati-filtra', 'Število prikazanih vzorčnih nalog: ' + stevilo + '.');
+        }
+        filtri.forEach(gumb => gumb.addEventListener('click', () => {
+            izbraniFilter = gumb.dataset.filter;
+            filtri.forEach(filter => {
+                const aktiven = filter === gumb;
+                filter.classList.toggle('active', aktiven);
+                filter.setAttribute('aria-pressed', String(aktiven));
+            });
+            prikaziNaloge();
+        }));
+        if (razvrsti) razvrsti.addEventListener('change', prikaziNaloge);
+        pripraviOkna();
+        seznam.addEventListener('click', dogodek => {
+            const gumb = dogodek.target.closest('[data-odpri]');
+            const naloga = gumb?.closest('.naloga');
+            if (!naloga || !okno || naloga.hidden) return;
+            const predmet = predmetNaloge(naloga);
+            if (!predmet) return;
+            nastaviBesedilo('#podrobnosti-naslov', naloga.querySelector('h3')?.textContent || 'Naloga');
+            nastaviBesedilo('#podrobnosti-predmet', predmet.naziv);
+            nastaviBesedilo('#podrobnosti-opis', naloga.querySelector('.naloga-opis')?.textContent || '');
+            const oddana = naloga.dataset.status === 'oddane';
+            nastaviBesedilo('#podrobnosti-rok', (oddana ? 'Oddano: ' : 'Rok oddaje: ') + (naloga.querySelector('time')?.textContent || 'Ni podatka'));
+            const povezava = document.querySelector('#podrobnosti-povezava');
+            if (povezava) povezava.href = povezavaPredmeta(predmet);
+            okno.showModal();
         });
-
-        group.hidden = groupCount === 0;
-        group.querySelector('.stevilo').textContent = groupCount;
-        visibleCount += groupCount;
-    });
-
-    document.getElementById('rezultati-filtra').textContent = `Število prikazanih nalog: ${visibleCount}.`;
+        seznam.hidden = false;
+        prikaziNaloge();
+    } catch (napaka) {
+        prikaziNapako(napaka.message);
+    }
 }
 
-filters.forEach(button => {
-    button.addEventListener('click', () => {
-        activeFilter = button.dataset.filter;
-        filters.forEach(filter => {
-            const active = filter === button;
-            filter.classList.toggle('active', active);
-            filter.setAttribute('aria-pressed', String(active));
-        });
-        updateTasks();
-    });
-});
-
-sort.addEventListener('change', updateTasks);
-
-document.getElementById('seznam-nalog').addEventListener('click', event => {
-    const button = event.target.closest('[data-odpri]');
-    if (!button) return;
-    const task = button.closest('.naloga');
-    document.getElementById('podrobnosti-naslov').textContent = task.querySelector('h3').textContent;
-    document.getElementById('podrobnosti-predmet').textContent = task.querySelector('.naloga-predmet p').textContent;
-    document.getElementById('podrobnosti-opis').textContent = task.querySelector('.naloga-opis').textContent;
-    const submitted = task.dataset.status === 'oddane';
-    document.getElementById('podrobnosti-rok').textContent = `${submitted ? 'Oddano' : 'Rok oddaje'}: ${task.querySelector('time').textContent}`;
-    document.getElementById('podrobnosti-povezava').href = `/ucenec/predmeti/${task.dataset.povezava}.html`;
-    dialog.showModal();
-});
-
-dialog.addEventListener('click', event => {
-    const bounds = dialog.getBoundingClientRect();
-    if (event.target === dialog && (event.clientX < bounds.left || event.clientX > bounds.right
-        || event.clientY < bounds.top || event.clientY > bounds.bottom)) {
-        dialog.close();
-    }
-});
-
-updateTasks();
+pripraviNaloge();

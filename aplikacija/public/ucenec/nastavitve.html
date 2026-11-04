@@ -10,14 +10,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Alegreya:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="/ucenec/racun.js" defer></script>
     <title>Nastavitve</title>
 </head>
 
 <body>
     <nav class="sidebar" aria-label="Glavna navigacija">
         <div class="icon" title="Nadzorna plošča">
-            <a href="/ucenec/ucenec-dasboard.html">
+            <a href="/ucenec-dasboard">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <rect x="3" y="3" width="7" height="7" rx="1.5" />
                     <rect x="14" y="3" width="7" height="7" rx="1.5" />
@@ -116,7 +115,7 @@
                     <div><h2 id="sola-naslov">Določa šola</h2><p>Teh podatkov ne moreš spreminjati.</p></div>
                     <span class="oznaka-branje"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>Samo za branje</span>
                 </header>
-                <div class="nastavitve-vrstica"><div class="nastavitev-opis"><strong>Šolski e-naslov</strong><small>enej.vidmar@sola.si</small></div></div>
+                <div class="nastavitve-vrstica"><div class="nastavitev-opis"><strong>Šolski e-naslov</strong><small id="solski-email">Ni podatka</small></div></div>
                 <div class="nastavitve-vrstica"><div class="nastavitev-opis"><strong>Dostop do predmetov</strong><small>Določa vpis v razred.</small></div></div>
             </section>
         </div>
@@ -130,6 +129,8 @@
         <div class="dialog-kontakt"><span class="kontakt-avatar tajnistvo-avatar" aria-hidden="true">T</span><div><strong>Tajništvo</strong><a href="mailto:tajnistvo@sola.si">tajnistvo@sola.si</a></div></div>
         <div class="dialog-dejanja"><button class="gumb" type="button" data-zapri-dialog>Zapri</button><a class="gumb gumb-glavni" href="mailto:tajnistvo@sola.si?subject=Sprememba%20gesla">Piši tajništvu</a></div>
     </dialog>
+    <script src="/ucenec/racun.js"></script>
+    <script src="/ucenec/nastavitve.js"></script>
 </body>
 
 </html>

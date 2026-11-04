@@ -3,6 +3,10 @@ body {
     margin: 0;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 .sidebar {
     box-sizing: border-box;
     width: 70px;

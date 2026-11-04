@@ -1,104 +1,163 @@
-const notificationKey = 'ucenec-nastavitve-obvestila-v1';
-const phoneKey = 'ucenec-profil-telefon-v1';
-const notificationInputs = [...document.querySelectorAll('[data-obvestilo]')];
-const phoneValue = document.getElementById('profil-telefon');
-const phoneInput = document.getElementById('telefon-nov');
-const phoneForm = document.getElementById('telefon-obrazec');
-const phoneError = document.getElementById('telefon-napaka');
-const status = document.getElementById('racun-status');
-
-function showStatus(message, error = false) {
-    status.textContent = message;
-    status.dataset.napaka = String(error);
-}
-
-function isValidPhone(value) {
-    const digits = value.replace(/\D/g, '');
-    return /^\+?[\d\s()-]+$/.test(value) && digits.length >= 7 && digits.length <= 15;
-}
-
-if (notificationInputs.length) {
+﻿async function preberiApi(pot, sporocilo) {
+    const krmilnik = new AbortController();
+    const casovnik = setTimeout(() => krmilnik.abort(), 10000);
     try {
-        const stored = JSON.parse(localStorage.getItem(notificationKey) || '{}');
-        if (stored && typeof stored === 'object' && !Array.isArray(stored)) {
-            notificationInputs.forEach(input => {
-                if (typeof stored[input.dataset.obvestilo] === 'boolean') {
-                    input.checked = stored[input.dataset.obvestilo];
-                }
-            });
+        const odgovor = await fetch(pot, { credentials: 'same-origin', signal: krmilnik.signal });
+        if (odgovor.status === 401) {
+            window.location.href = '/';
+            return null;
         }
+        if (odgovor.status === 403) {
+            prikaziZavrnitev();
+            return null;
+        }
+        if (!odgovor.ok) throw new Error(sporocilo);
+        return await odgovor.json();
     } catch {
-        // Keep the default choices if browser storage is unavailable or invalid.
+        throw new Error(sporocilo);
+    } finally {
+        clearTimeout(casovnik);
     }
-
-    notificationInputs.forEach(input => input.addEventListener('change', () => {
-        const choices = Object.fromEntries(notificationInputs.map(toggle => [toggle.dataset.obvestilo, toggle.checked]));
-        try {
-            localStorage.setItem(notificationKey, JSON.stringify(choices));
-            showStatus('Izbire obvestil so shranjene v tem brskalniku.');
-        } catch {
-            showStatus('Izbire ni mogoče shraniti. Sprememba velja le do osvežitve strani.', true);
-        }
-    }));
 }
 
-if (phoneValue) {
+async function pridobiUporabnika() {
+    const podatki = await preberiApi('/api/uporabnik', 'Podatkov uporabnika ni mogoče pridobiti. Poskusi znova pozneje.');
+    if (!podatki) return null;
+    const uporabnik = podatki.uporabnik;
+    if (!uporabnik || typeof uporabnik !== 'object' || Array.isArray(uporabnik)) {
+        throw new Error('Podatki uporabnika niso v pravilni obliki.');
+    }
+    if (uporabnik.vloga !== 'dijak') {
+        prikaziZavrnitev();
+        return null;
+    }
+    return uporabnik;
+}
+
+async function pridobiPredmete() {
+    const predmeti = await preberiApi('/api/moji-predmeti', 'Predmetov ni mogoče pridobiti. Poskusi znova pozneje.');
+    if (!predmeti) return null;
+    if (!Array.isArray(predmeti) || !predmeti.every(predmet => predmet && typeof predmet.naziv === 'string'
+        && predmet.naziv.trim() && predmet.id_predmet != null && predmet.id_izvedba != null)) {
+        throw new Error('Podatki predmetov niso v pravilni obliki.');
+    }
+    return predmeti;
+}
+
+function ustvariElement(oznaka, razred, besedilo) {
+    const element = document.createElement(oznaka);
+    if (razred) element.className = razred;
+    if (besedilo != null) element.textContent = besedilo;
+    return element;
+}
+
+function nastaviBesedilo(izbirnik, besedilo) {
+    const element = document.querySelector(izbirnik);
+    if (element) element.textContent = besedilo;
+}
+
+function prikaziNapako(sporocilo) {
+    const vsebina = document.querySelector('main');
+    if (!vsebina) return;
+    let obvestilo = document.querySelector('#napaka-strani');
+    if (!obvestilo) {
+        obvestilo = ustvariElement('p', 'header-text', '');
+        obvestilo.id = 'napaka-strani';
+        obvestilo.setAttribute('role', 'alert');
+        vsebina.prepend(obvestilo);
+    }
+    obvestilo.textContent = sporocilo;
+}
+
+function prikaziZavrnitev() {
+    document.querySelectorAll('dialog[open]').forEach(okno => okno.close());
+    document.querySelectorAll('button, input, select, textarea').forEach(element => { element.disabled = true; });
+    const vsebina = document.querySelector('main');
+    if (vsebina) vsebina.replaceChildren();
+    prikaziNapako('Za ogled te strani nimaš dovoljenja. Prijavi se z računom dijaka.');
+}
+
+function normaliziraj(besedilo) {
+    return String(besedilo || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLocaleLowerCase('sl');
+}
+
+function oznakaPredmeta(predmet) {
+    return normaliziraj(predmet.naziv).replace(/[^a-z0-9]/g, '');
+}
+
+function barvaPredmeta(predmet) {
+    return /^#[0-9a-f]{6}$/i.test(predmet.barva || '') ? predmet.barva : '#7b9058';
+}
+
+function povezavaPredmeta(predmet) {
+    const oznaka = oznakaPredmeta(predmet);
+    const strani = ['matematika', 'informatika', 'fizika', 'slovenscina', 'anglescina', 'zgodovina'];
+    const pot = strani.includes(oznaka) ? '/ucenec/predmeti/' + oznaka + '.html' : '/ucenec/ucenec-predmeti.html';
+    return pot + '?id_izvedba=' + encodeURIComponent(predmet.id_izvedba);
+}
+
+function izbranaIzvedba(predmeti) {
+    const oznaka = new URLSearchParams(window.location.search).get('id_izvedba');
+    if (!oznaka) return null;
+    const predmet = predmeti.find(predmet => String(predmet.id_izvedba) === oznaka);
+    if (!predmet) throw new Error('Izbrani predmet ni med tvojimi predmeti.');
+    return predmet;
+}
+
+function pripraviOkna() {
+    document.querySelectorAll('[data-odpri-dialog]').forEach(gumb => {
+        gumb.addEventListener('click', () => {
+            const okno = document.getElementById(gumb.dataset.odpriDialog);
+            if (okno && !okno.open) okno.showModal();
+        });
+    });
+    document.querySelectorAll('[data-zapri-dialog]').forEach(gumb => {
+        gumb.addEventListener('click', () => {
+            const okno = gumb.closest('dialog');
+            if (okno) okno.close();
+        });
+    });
+    document.querySelectorAll('dialog').forEach(okno => {
+        okno.addEventListener('click', dogodek => {
+            const rob = okno.getBoundingClientRect();
+            if (dogodek.target === okno && (dogodek.clientX < rob.left || dogodek.clientX > rob.right
+                || dogodek.clientY < rob.top || dogodek.clientY > rob.bottom)) okno.close();
+        });
+    });
+}
+
+function poveziKartico(kartica, povezava) {
+    kartica.tabIndex = 0;
+    kartica.setAttribute('role', 'link');
+    kartica.addEventListener('click', () => { window.location.href = povezava; });
+    kartica.addEventListener('keydown', dogodek => {
+        if (dogodek.key === 'Enter') window.location.href = povezava;
+    });
+}
+
+async function pripraviPredmet(naziv) {
     try {
-        const stored = localStorage.getItem(phoneKey);
-        if (stored && stored.length <= 32 && isValidPhone(stored)) phoneValue.textContent = stored;
-    } catch {
-        // Keep the displayed example when browser storage is unavailable.
+        const uporabnik = await pridobiUporabnika();
+        if (!uporabnik) return;
+        const predmeti = await pridobiPredmete();
+        if (!predmeti) return;
+        const izbran = izbranaIzvedba(predmeti);
+        const predmet = izbran || predmeti.find(predmet => normaliziraj(predmet.naziv) === normaliziraj(naziv));
+        if (!predmet || normaliziraj(predmet.naziv) !== normaliziraj(naziv)) {
+            throw new Error('Ta predmet ni med tvojimi predmeti.');
+        }
+        nastaviBesedilo('#naslov-predmeta', predmet.naziv);
+        nastaviBesedilo('#opis-predmeta', predmet.opis || 'Opis predmeta še ni na voljo.');
+        nastaviBesedilo('#sifra-predmeta', predmet.sifra || '');
+        document.title = predmet.naziv + ' | Moji predmeti';
+        for (const vrsta of ['naloge', 'gradiva']) {
+            const povezava = document.querySelector('#predmet-' + vrsta);
+            if (povezava) povezava.href = '/ucenec/ucenec-' + vrsta + '.html?id_izvedba=' + encodeURIComponent(predmet.id_izvedba);
+        }
+        const povezave = document.querySelector('#povezave-predmeta');
+        if (povezave) povezave.hidden = false;
+    } catch (napaka) {
+        nastaviBesedilo('#opis-predmeta', 'Podatki predmeta trenutno niso na voljo.');
+        prikaziNapako(napaka.message);
     }
-
-    phoneInput.addEventListener('input', () => {
-        phoneError.textContent = '';
-        phoneInput.removeAttribute('aria-invalid');
-    });
-
-    phoneForm.addEventListener('submit', event => {
-        event.preventDefault();
-        const value = phoneInput.value.trim();
-        if (!isValidPhone(value)) {
-            phoneError.textContent = 'Vnesi veljavno telefonsko številko s 7–15 števkami.';
-            phoneInput.setAttribute('aria-invalid', 'true');
-            phoneInput.focus();
-            return;
-        }
-
-        phoneValue.textContent = value;
-        try {
-            localStorage.setItem(phoneKey, value);
-            showStatus('Telefonska številka je shranjena v tem brskalniku.');
-        } catch {
-            showStatus('Številke ni mogoče shraniti. Sprememba velja le do osvežitve strani.', true);
-        }
-        document.getElementById('telefon-dialog').close();
-    });
 }
-
-document.querySelectorAll('[data-odpri-dialog]').forEach(button => {
-    button.addEventListener('click', () => {
-        const dialog = document.getElementById(button.dataset.odpriDialog);
-        if (dialog.id === 'telefon-dialog') {
-            phoneInput.value = phoneValue.textContent;
-            phoneError.textContent = '';
-            phoneInput.removeAttribute('aria-invalid');
-        }
-        dialog.showModal();
-        if (dialog.id === 'telefon-dialog') phoneInput.focus();
-    });
-});
-
-document.querySelectorAll('[data-zapri-dialog]').forEach(button => {
-    button.addEventListener('click', () => button.closest('dialog').close());
-});
-
-document.querySelectorAll('dialog').forEach(dialog => {
-    dialog.addEventListener('click', event => {
-        const bounds = dialog.getBoundingClientRect();
-        if (event.target === dialog && (event.clientX < bounds.left || event.clientX > bounds.right
-            || event.clientY < bounds.top || event.clientY > bounds.bottom)) {
-            dialog.close();
-        }
-    });
-});

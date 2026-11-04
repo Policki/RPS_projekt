@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700&family=Alegreya:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="koledar.js" defer></script>
     <title>Koledar | Učenec</title>
 </head>
 
@@ -17,7 +16,7 @@
     <div class="all-content">
         <nav class="sidebar" aria-label="Glavna navigacija">
             <div class="icon" title="Nadzorna plošča">
-                <a href="/ucenec/ucenec-dasboard.html">
+                <a href="/ucenec-dasboard">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="3" y="3" width="7" height="7" rx="1.5" />
                         <rect x="14" y="3" width="7" height="7" rx="1.5" />
@@ -117,15 +116,11 @@
 
                         <label for="event-category">Predmet / barva</label>
                         <select id="event-category" name="category">
-                            <option value="matematika">Matematika</option>
-                            <option value="informatika">Informatika</option>
-                            <option value="fizika">Fizika</option>
-                            <option value="slovenscina">Slovenščina</option>
-                            <option value="anglescina">Angleščina</option>
-                            <option value="zgodovina">Zgodovina</option>
+                            <option value="">Brez predmeta</option>
                         </select>
                         <button class="add-event-button" type="submit">+ Dodaj dogodek</button>
                     </form>
+                    <p class="header-text" id="koledar-status" role="status" aria-live="polite">Dogodki se shranjujejo v tem brskalniku.</p>
 
                     <section class="selected-events" aria-live="polite">
                         <h3 id="selected-date-title">Dogodki na izbran dan</h3>
@@ -135,6 +130,8 @@
             </div>
         </main>
     </div>
+    <script src="/ucenec/racun.js"></script>
+    <script src="/ucenec/usenec-koledar.js"></script>
 </body>
 
 </html>

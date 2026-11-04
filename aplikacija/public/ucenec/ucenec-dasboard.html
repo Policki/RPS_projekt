@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sl">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Nadzorna plošča</title>
     <link rel="stylesheet" href="/ucenec/ucenec-dashboard.css">
     <link rel="stylesheet" href="/ucenec/nav.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,7 +22,7 @@
 
         <nav class="sidebar" aria-label="Glavna navigacija">
             <div class="icon active" title="Nadzorna plošča">
-                <a href="/ucenec/ucenec-dasboard.html" aria-current="page">
+                <a href="/ucenec-dasboard" aria-current="page">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="3" y="3" width="7" height="7" rx="1.5" />
                         <rect x="14" y="3" width="7" height="7" rx="1.5" />
@@ -83,10 +83,10 @@
         </nav>
         <main class="main-container">
             <div class="header">
-                <h2 class="header-title">Dobro jutro, </h2>
-                <h2 class="header-name"> Enej!</h2>
+                <h2 class="header-title">Pozdravljen, </h2>
+                <h2 class="header-name"> —</h2>
             </div>
-            <p class="header-text">Danes imaš 2 nalogi za oddajo in za predelati 3 nove snovi.</p>
+            <p class="header-text">Nalagam tvoje predmete …</p>
             <hr>
             <div class="pregled-vrstica">
                 <section class="dnevni-pregled">
@@ -98,8 +98,8 @@
                                 <img src="/ucenec/slike/chechkbox.png" alt="">
                             </div>
                             <div class="pregled-besedilo">
-                                <p class="pregled-vrstica-naslov">2 nalogi za oddajo</p>
-                                <p class="pregled-vrstica-opis">Matematika in Fizika</p>
+                                <p class="pregled-vrstica-naslov">Pregled nalog</p>
+                                <p class="pregled-vrstica-opis">Odpri seznam nalog</p>
                             </div>
                         </div>
                         <div class="nova-gradiva">
@@ -107,8 +107,8 @@
                                 <img src="/ucenec/slike/folder.png" alt="">
                             </div>
                             <div class="pregled-besedilo">
-                                <p class="pregled-vrstica-naslov">3 nova gradiva</p>
-                                <p class="pregled-vrstica-opis">Objavljena ta teden</p>
+                                <p class="pregled-vrstica-naslov">Pregled gradiv</p>
+                                <p class="pregled-vrstica-opis">Učna gradiva predmetov</p>
                             </div>
                         </div>
                         <div class="prihajajoci-roki">
@@ -116,8 +116,8 @@
                                 <img src="/ucenec/slike/clock.png" alt="">
                             </div>
                             <div class="pregled-besedilo">
-                                <p class="pregled-vrstica-naslov">1 prihajajoči rok</p>
-                                <p class="pregled-vrstica-opis">Algebrske enačbe · 14. sep.</p>
+                                <p class="pregled-vrstica-naslov">Koledar</p>
+                                <p class="pregled-vrstica-opis">Osebni dogodki in obveznosti</p>
                             </div>
                         </div>
                     </div>
@@ -125,24 +125,24 @@
                 <div class="rok-obveznosti">
                     <section class="naslednji-rok">
                         <h2 class="naslednji-rok-naslov">Naslednji rok</h2>
-                        <p class="predmet-naslednji-rok">Matematika</p>
-                        <p class="opis-naslednji-rok">Algebrske enačbe</p>
+                        <p class="predmet-naslednji-rok">—</p>
+                        <p class="opis-naslednji-rok">Roki še niso povezani.</p>
                         <p class="datum-naslednji-rok">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                 <rect x="3" y="5" width="18" height="16" rx="2" />
                                 <path d="M16 3v4M8 3v4M3 10h18" />
                             </svg>
-                            14. september
+                            —
                         </p>
                     </section>
                     <section class="opravljene-obveznosti">
-                        <div class="tedenski-krog" aria-label="4 od 6 opravljenih obveznosti">
-                            <span>4/6</span>
+                        <div class="tedenski-krog" aria-label="Podatki o obveznostih še niso na voljo">
+                            <span>—</span>
                         </div>
                         <div class="tedensko-besedilo">
                             <h2>Ta teden</h2>
-                            <p class="tedensko-stanje"><strong>4 / 6</strong> opravljenih obveznosti</p>
-                            <p class="tedensko-opis">Dober tempo, še malo do konca tedna.</p>
+                            <p class="tedensko-stanje"><strong>—</strong> opravljenih obveznosti</p>
+                            <p class="tedensko-opis">Podatki še niso na voljo.</p>
                         </div>
                     </section>
                 </div>
@@ -214,6 +214,8 @@
             </section>
         </main>
     </div>
+    <script src="/ucenec/racun.js"></script>
+    <script src="/ucenec/ucenec-dasboard.js"></script>
 </body>
 
 </html>
